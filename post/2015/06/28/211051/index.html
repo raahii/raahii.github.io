@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 
+			
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://pbs.twimg.com/profile_images/827176747825127424/bhC-16VB_400x400.jpg" />
+      
+  
+  
+  <meta name="twitter:title" content="Pythonの日本語文字列"/>
+  <meta name="twitter:description" content=" 「研究者流コーディングの極意」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして2つ目で詰まった(早い)。 使っている言語はPythonで、使い始めたばかりなのですが、そもそもプ"/>
+  
+    <meta name="twitter:site" content="@piyo56_net"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@raahii"/>
+  
+
+
+
+		
+		<meta name="author" content="raahii">
+		<meta name="description" content="blog">
+		<meta name="generator" content="Hugo 0.37" />
+		<title>Pythonの日本語文字列 &middot; raahii&#39;s blog</title>
+		<link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
+		<link rel="stylesheet" href="https://raahii.github.io/css/style.css">
+		<link rel="stylesheet" href="https://raahii.github.io/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://raahii.github.io/css/font-awesome.min.css">
+		
+
+		
+		<link href="https://raahii.github.io/index.xml" rel="alternate" type="application/rss+xml" title="raahii&#39;s blog" />
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://raahii.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://raahii.github.io/posts'>Archive</a>
+	<a href='https://raahii.github.io/tags'>Tags</a>
+	<a href='https://raahii.github.io/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://raahii.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Pythonの日本語文字列
+                    </h1>
+                    <h2 class="headline">
+                    Jun 28, 2015 21:10
+                    · 829 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://raahii.github.io/tags/python">Python</a>
+                          
+                              <a href="https://raahii.github.io/tags/%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86100%E6%9C%AC%E3%83%8E%E3%83%83%E3%82%AF">言語処理100本ノック</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    <p><body>
+<p>「<a href="http://www.chokkan.org/publication/coding-for-researchers.pdf">研究者流コーディングの極意</a>」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして2つ目で詰まった(早い)。<br>
+使っている言語は<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>で、使い始めたばかりなのですが、そもそもプログラミングがダメダメです。</p>
+<p>まず、その問題ですが、</p></p>
+
+<pre><code>&lt;blockquote&gt;
+    &lt;p&gt;01. 「パタトクカシーー」&lt;br&gt;
+</code></pre>
+
+<p>「パタトクカシーー」という文字列の1,3,5,7文字目を取り出して連結した文字列を得よ．</p></p>
+
+<pre><code>&lt;/blockquote&gt;
+</code></pre>
+
+<p><p>です。</p>
+<p>まず私が考えたのは、こんな感じです。なんの疑問もなくこれでいけるだろうと思ってました笑。</p>
+<pre class="code lang-python" data-lang="python" data-unlink> string=&ldquo;パタトクカシーー&rdquo;
+rev=&ldquo;&rdquo;
+for i in [1,3,5,7]:
+   　rev+=string[i]
+print rev</p>
+
+<p></pre>
+<p>一方結果は、</p>
+<pre class="code" data-lang="" data-unlink> % python 01.「パタトクカシーー」.py
+�㿃
+</pre>
+<p>なんか文字化けしてる…。<br>
+それもそのはずで、「パタトクカシーー」は全て全角文字なのでひとひねり必要です。一般に半角は1byte、全角は2byteに符号化されているので、配列のお部屋と1:1対応にならないのが原因。<br>
+そして<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>の場合、通常のstr型の全角文字は3byteに符号化されている（お部屋3つに対応している）みたいです。</p>
+<pre class="code" data-lang="" data-unlink> &gt;&gt;&gt; &lsquo;あ&rsquo;[0]
+&lsquo;\xe3&rsquo;
+&gt;&gt;&gt; &lsquo;あ&rsquo;[1]
+&lsquo;\x81&rsquo;
+&gt;&gt;&gt; &lsquo;あ&rsquo;[2]
+&lsquo;\x82&rsquo;
+&gt;&gt;&gt; &lsquo;あ&rsquo;[3]
+Traceback (most recent call last):
+  File &ldquo;&lt;stdin&gt;&rdquo;, line 1, in &lt;module&gt;
+IndexError: string index out of range
+</pre>
+<p>この記事が参考になりました。<iframe src="//hatenablog-parts.com/embed?url=http%3A%2F%2Fqiita.com%2Fyubessy%2Fitems%2F9e13af05a295bbb59c25" title="Python2のstr/unicodeとencode/decode - Qiita" class="embed-card embed-webcard" scrolling="no" frameborder="0" style="display: block; width: 100%; height: 155px; max-width: 500px; margin: 10px 0px;"></iframe><cite class="hatena-citation"><a href="http://qiita.com/yubessy/items/9e13af05a295bbb59c25">qiita.com</a></cite></p>
+<p>これを知ったうえで愚直に書き換えると、</p>
+<pre class="code lang-python" data-lang="python" data-unlink> string=&ldquo;パタトクカシーー&rdquo;
+rev=&ldquo;&rdquo;
+for i in [1,3,5,7]:
+    for j in range(3):#全角なので
+        rev+=string[3*i+j]
+print rev</p>
+
+<p></pre>
+<pre class="code" data-lang="" data-unlink> % python 01.「パタトクカシーー」.py
+タクシー
+</pre>
+<p>うまくいったー！！</p>
+<p>また、<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>には全角文字でもお部屋と1:1対応してくれる便利な型があります。「<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%E6%A5%CB%A5%B3%A1%BC%A5%C9">ユニコード</a>文字列」です。</p>
+<pre class="code lang-python" data-lang="python" data-unlink> string=u&rdquo;パタトクカシーー&rdquo;
+rev=&ldquo;&rdquo;
+for i in [1,3,5,7]:
+    rev+=string[i]
+print rev</p>
+
+<p></pre>
+<p>これでもできます。便利。<br>
+超基礎的な文字列処理ですが、<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>で鍛え直します…。</p>
+</body></p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2fpost%2f2015%2f06%2f28%2f211051%2f - Python%e3%81%ae%e6%97%a5%e6%9c%ac%e8%aa%9e%e6%96%87%e5%ad%97%e5%88%97 by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'raahii'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/piyo56">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/piyo56_net">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> raahii
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://raahii.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://raahii.github.io/js/main.js"></script>
+<script src="https://raahii.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-86522604-4', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>

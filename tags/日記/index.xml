@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>日記 on raahii&#39;s blog</title>
+    <link>https://raahii.github.io/tags/%E6%97%A5%E8%A8%98/</link>
+    <description>Recent content in 日記 on raahii&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sat, 04 Feb 2017 00:51:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/tags/%E6%97%A5%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HoloLensを軽く触ってみた印象</title>
+      <link>https://raahii.github.io/post/2017/02/04/005134/</link>
+      <pubDate>Sat, 04 Feb 2017 00:51:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/02/04/005134/</guid>
+      <description>大学の授業でオムニバス形式の授業があり、そこでたまたまHoloLensを触る機会があったので少し思ったことを書く。 ただ実際には授業中の講師の</description>
+    </item>
+    
+  </channel>
+</rss>

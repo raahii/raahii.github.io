@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chrome on raahii&#39;s blog</title>
+    <link>https://raahii.github.io/tags/chrome/</link>
+    <description>Recent content in Chrome on raahii&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 12 Aug 2016 00:21:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Chrome extensionに入門した</title>
+      <link>https://raahii.github.io/post/2016/08/12/002118/</link>
+      <pubDate>Fri, 12 Aug 2016 00:21:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/08/12/002118/</guid>
+      <description>http://dotinstall.com/lessons/basic_chrome_v2dotinstall.com 前回の記事でスターをつけてくださった方のブログを眺めていたらChromeの拡張機能を作っていて、Chromeの拡張機能ってHTML/CSS</description>
+    </item>
+    
+  </channel>
+</rss>
