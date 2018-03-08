@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>読書 on raahii&#39;s blog</title>
+    <link>https://raahii.github.io/tags/%E8%AA%AD%E6%9B%B8/</link>
+    <description>Recent content in 読書 on raahii&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Thu, 08 Mar 2018 14:04:10 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/tags/%E8%AA%AD%E6%9B%B8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>『スタンフォード式　最高の睡眠』を読んだ</title>
+      <link>https://raahii.github.io/post/2018/stanford-awesome-sleep-method/</link>
+      <pubDate>Thu, 08 Mar 2018 14:04:10 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2018/stanford-awesome-sleep-method/</guid>
+      <description>TL;DR 睡眠の質を最大限に高めるために、最初の90分の睡眠の質を高めることを心がけることが大事。 そのために具体的に何をすべきかというと、 寝る前はで</description>
+    </item>
+    
+  </channel>
+</rss>
