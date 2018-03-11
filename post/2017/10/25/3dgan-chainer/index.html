@@ -108,7 +108,7 @@
 
 <p>Generatorは以下の図（論文より引用）のようなネットワークで、Discriminatorはこれを反転したようなモデルになっている。最適化手法はAdamで、論文ではDiscriminatorがバッチを8割以上正しく分類できた場合はパラメータを更新しないようにしたとあった。</p>
 
-<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024233301.png" alt="f:id:bonhito:20171024233301p:plain" title="f:id:bonhito:20171024233301p:plain" class="hatena-fotolife" itemprop="image"></span></p>
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024233301.png" alt="f🆔bonhito:20171024233301p:plain" title="f🆔bonhito:20171024233301p:plain" class="hatena-fotolife" itemprop="image"></span></p>
 
 <h1>3Dモデル</h1>
 
@@ -118,7 +118,7 @@
 
 <p>ShapeNet-v2に収録されているデータのサンプルを示す。</p>
 
-<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234729.png" alt="f:id:bonhito:20171024234729p:plain:w350" title="f:id:bonhito:20171024234729p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234743.png" alt="f:id:bonhito:20171024234743p:plain:w350" title="f:id:bonhito:20171024234743p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234801.png" alt="f:id:bonhito:20171024234801p:plain:w350" title="f:id:bonhito:20171024234801p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234823.png" alt="f:id:bonhito:20171024234823p:plain:w350" title="f:id:bonhito:20171024234823p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span></p>
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234729.png" alt="f🆔bonhito:20171024234729p:plain:w350" title="f🆔bonhito:20171024234729p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234743.png" alt="f🆔bonhito:20171024234743p:plain:w350" title="f🆔bonhito:20171024234743p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234801.png" alt="f🆔bonhito:20171024234801p:plain:w350" title="f🆔bonhito:20171024234801p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234823.png" alt="f🆔bonhito:20171024234823p:plain:w350" title="f🆔bonhito:20171024234823p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span></p>
 
 <h1>実装</h1>
 
@@ -195,7 +195,7 @@
 
 <p><a class="keyword" href="http://d.hatena.ne.jp/keyword/GCP">GCP</a>は最初はどのタイプのマシンを使えば良いか慣れなかったので<a class="keyword" href="http://d.hatena.ne.jp/keyword/GPU">GPU</a>を使えるようにする環境構築を<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%B7%A5%A7%A5%EB%A5%B9%A5%AF%A5%EA%A5%D7%A5%C8">シェルスクリプト</a>で自動化した。またGANは生成結果が重要なので、Chainerのextensionとしてエポック毎に<code>生成結果を.binvoxで保存</code>、<code>生成結果を.pngで保存</code>、<code>生成結果(.png)をslackで通知</code>するようにして、手元の<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%B9%A5%DE%A5%DB">スマホ</a>で確認するようにしていた。特に生成結果を画像で保存する場合はmatplotlibの描画の処理にかなり時間がかかるため、そこで学習が止まらないように<code>subprocess</code>を使って別プロセスで非同期でやるようにしたところが楽しかった。</p>
 
-<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171025/20171025201323.png" alt="f:id:bonhito:20171025201323p:plain:w350" title="f:id:bonhito:20171025201323p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span></p>
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171025/20171025201323.png" alt="f🆔bonhito:20171025201323p:plain:w350" title="f🆔bonhito:20171025201323p:plain:w350" class="hatena-fotolife" style="width:350px" itemprop="image"></span></p>
 
 <p><p>おしまい。</p>
 </body></p>
