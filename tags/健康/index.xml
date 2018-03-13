@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>健康 on raahii&#39;s blog</title>
+    <link>https://raahii.github.io/tags/%E5%81%A5%E5%BA%B7/</link>
+    <description>Recent content in 健康 on raahii&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 03 Jan 2017 10:14:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/tags/%E5%81%A5%E5%BA%B7/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>「ヘルシープログラマ」を読んだ感想</title>
+      <link>https://raahii.github.io/post/2017/01/03/101418/</link>
+      <pubDate>Tue, 03 Jan 2017 10:14:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/01/03/101418/</guid>
+      <description>ヘルシープログラマ ―プログラミングを楽しく続けるための健康Hack 作者: Joe Kutner,Sky株式会社玉川竜司 出版社/メーカー: オライリージ</description>
+    </item>
+    
+  </channel>
+</rss>

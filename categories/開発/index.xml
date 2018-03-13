@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>開発 on raahii&#39;s blog</title>
+    <link>https://raahii.github.io/categories/%E9%96%8B%E7%99%BA/</link>
+    <description>Recent content in 開発 on raahii&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Thu, 04 May 2017 01:03:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/categories/%E9%96%8B%E7%99%BA/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ruby(Rails)でGoogle Analytics APIを使う</title>
+      <link>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</link>
+      <pubDate>Thu, 04 May 2017 01:03:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</guid>
+      <description>今回RubyでGoogle Analytics APIを利用する機会があったのですが、思ったより情報が少ない上、必要な鍵ファイルやトークンがよくわからず時間を取</description>
+    </item>
+    
+    <item>
+      <title>最近の開発環境におけるTips</title>
+      <link>https://raahii.github.io/post/2016/09/30/020223/</link>
+      <pubDate>Fri, 30 Sep 2016 02:02:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/09/30/020223/</guid>
+      <description>近況 夏休みが今週いっぱいで終わる 今週rubyとrailsに入門した 開発環境 ruby、railsは現在チュートリアルをやってるような感じで特に</description>
+    </item>
+    
+    <item>
+      <title>imgcatコマンドで遊ぶ</title>
+      <link>https://raahii.github.io/post/2016/09/21/231012/</link>
+      <pubDate>Wed, 21 Sep 2016 23:10:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/09/21/231012/</guid>
+      <description>近況 インターンに行ってJavaを用いたWebアプリケーション開発を経験してきました。 もともとサーバーサイドの方の知識は0に近く、データベース</description>
+    </item>
+    
+    <item>
+      <title>Chrome extensionに入門した</title>
+      <link>https://raahii.github.io/post/2016/08/12/002118/</link>
+      <pubDate>Fri, 12 Aug 2016 00:21:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/08/12/002118/</guid>
+      <description>http://dotinstall.com/lessons/basic_chrome_v2dotinstall.com 前回の記事でスターをつけてくださった方のブログを眺めていたらChromeの拡張機能を作っていて、Chromeの拡張機能ってHTML/CSS</description>
+    </item>
+    
+    <item>
+      <title>Google Maps APIを使った標高の可視化</title>
+      <link>https://raahii.github.io/post/2016/07/24/155027/</link>
+      <pubDate>Sun, 24 Jul 2016 15:50:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/07/24/155027/</guid>
+      <description>タイトルの通りGoogle Maps APIを使って、出発地点から目的地点までの高低差を可視化する簡単なサイトを作ってみました。 ルートに沿った標高の可</description>
+    </item>
+    
+    <item>
+      <title>外部モニターで動画を見ると辛い</title>
+      <link>https://raahii.github.io/post/2016/06/23/172816/</link>
+      <pubDate>Thu, 23 Jun 2016 17:28:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/06/23/172816/</guid>
+      <description>こんにちは。EURO2016盛り上がってますね。みなさん見ていますか。明後日からはトーナメントが始まりますが僕の予想はコレです。 フランス優勝</description>
+    </item>
+    
+    <item>
+      <title>Macならできること　ぱーと１</title>
+      <link>https://raahii.github.io/post/2016/06/05/234239/</link>
+      <pubDate>Sun, 05 Jun 2016 23:42:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/06/05/234239/</guid>
+      <description>飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手にスマホを持ちながらみたいなのは嫌だという方． まず</description>
+    </item>
+    
+    <item>
+      <title>Wordで上下の余白が消えてしまった時</title>
+      <link>https://raahii.github.io/post/2016/05/30/102550/</link>
+      <pubDate>Mon, 30 May 2016 10:25:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2016/05/30/102550/</guid>
+      <description>昨日Word (2016 for Mac)を開いたら画像のように余白が消えて見えなくなってしまっている。 一応余白自体は存在しているらしいが上にスクロールできず</description>
+    </item>
+    
+    <item>
+      <title>Pythonの日本語文字列</title>
+      <link>https://raahii.github.io/post/2015/06/28/211051/</link>
+      <pubDate>Sun, 28 Jun 2015 21:10:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2015/06/28/211051/</guid>
+      <description>「研究者流コーディングの極意」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして</description>
+    </item>
+    
+  </channel>
+</rss>

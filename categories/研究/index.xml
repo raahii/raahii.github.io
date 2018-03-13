@@ -20,5 +20,32 @@
       <description>はじめに 卒研でRGB-Dデータを使う研究をやっていたので、その時に調べた内容について軽くまとめます。 タイトルでは&amp;rdquo;Kinectを</description>
     </item>
     
+    <item>
+      <title>3DGANをchainerで実装した</title>
+      <link>https://raahii.github.io/post/2017/10/25/3dgan-chainer/</link>
+      <pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/10/25/3dgan-chainer/</guid>
+      <description>タイトルの通り、3DGANのchainer実装をgithubに上げた。当初はkerasで書いていたが良い結果が得られず、ソースコードの間違い</description>
+    </item>
+    
+    <item>
+      <title>3Dオブジェクト（ボクセルデータ）を描画するツールを作った</title>
+      <link>https://raahii.github.io/post/2017/10/09/voxel/</link>
+      <pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/10/09/voxel/</guid>
+      <description>最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で</description>
+    </item>
+    
+    <item>
+      <title>LaTeXiTで数式が表示されない問題</title>
+      <link>https://raahii.github.io/post/2017/07/01/231213/</link>
+      <pubDate>Sat, 01 Jul 2017 23:12:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/post/2017/07/01/231213/</guid>
+      <description>LaTeXiTはTeX数式を画像に変換できるツールですが、ついさっき使ったらプレビューに数式が表示されず、というか数式画像の生成自体に失敗し</description>
+    </item>
+    
   </channel>
 </rss>
