@@ -13,37 +13,37 @@
     
     <item>
       <title>Rubyの文法のミニメモ</title>
-      <link>https://raahii.github.io/post/2016/12/22/011842/</link>
+      <link>https://raahii.github.io/2016/12/011842/</link>
       <pubDate>Thu, 22 Dec 2016 01:18:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/12/22/011842/</guid>
+      <guid>https://raahii.github.io/2016/12/011842/</guid>
       <description>Railsでサービス作ってみたは良いものの、Rubyに関する理解が結構おろそかになっている。なので、今回は基本的だけど未だに理解できていない</description>
     </item>
     
     <item>
       <title>Fashion Shop Mapというwebサービスをつくった</title>
-      <link>https://raahii.github.io/post/2016/11/26/013603/</link>
+      <link>https://raahii.github.io/2016/11/013603/</link>
       <pubDate>Sat, 26 Nov 2016 01:36:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/11/26/013603/</guid>
+      <guid>https://raahii.github.io/2016/11/013603/</guid>
       <description>タイトルの通りwebサービス作りました。またしてもGoogle Mapを使ってしまった。 https://fashion-shop-map.herokuapp.com/ サービス概要 今回作ったものは、ファッションのショップ</description>
     </item>
     
     <item>
       <title>ロゴの利用について少し調べて学んだこと</title>
-      <link>https://raahii.github.io/post/2016/11/17/204148/</link>
+      <link>https://raahii.github.io/2016/11/204148/</link>
       <pubDate>Thu, 17 Nov 2016 20:41:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/11/17/204148/</guid>
+      <guid>https://raahii.github.io/2016/11/204148/</guid>
       <description>はじめに 今作っているちんけなwebサービスがほとんど出来上がって久しいきたのですが、よし公開するかと思った矢先、「サービスにメーカーのロゴが</description>
     </item>
     
     <item>
       <title>find | xargs grep を知る</title>
-      <link>https://raahii.github.io/post/2016/10/26/111052/</link>
+      <link>https://raahii.github.io/2016/10/111052/</link>
       <pubDate>Wed, 26 Oct 2016 11:10:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/10/26/111052/</guid>
+      <guid>https://raahii.github.io/2016/10/111052/</guid>
       <description>はじめに 今回は頻繁につかうのに理解していないスクリプトがあるのでそれについて簡単に書こうと思います。そのスクリプトがコレです。 find . -name &#34;*.py&#34; -print0 | xargs</description>
     </item>
     

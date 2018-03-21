@@ -13,10 +13,10 @@
     
     <item>
       <title>3Dオブジェクト（ボクセルデータ）を描画するツールを作った</title>
-      <link>https://raahii.github.io/post/2017/10/09/voxel/</link>
+      <link>https://raahii.github.io/2017/10/voxel/</link>
       <pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/10/09/voxel/</guid>
+      <guid>https://raahii.github.io/2017/10/voxel/</guid>
       <description>最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で</description>
     </item>
     

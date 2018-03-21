@@ -13,10 +13,10 @@
     
     <item>
       <title>Ruby(Rails)でGoogle Analytics APIを使う</title>
-      <link>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</link>
+      <link>https://raahii.github.io/2017/05/rails_google_analytics/</link>
       <pubDate>Thu, 04 May 2017 01:03:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</guid>
+      <guid>https://raahii.github.io/2017/05/rails_google_analytics/</guid>
       <description>今回RubyでGoogle Analytics APIを利用する機会があったのですが、思ったより情報が少ない上、必要な鍵ファイルやトークンがよくわからず時間を取</description>
     </item>
     

@@ -13,10 +13,10 @@
     
     <item>
       <title>Kinectを用いたRGB-Dデータセットのまとめ</title>
-      <link>https://raahii.github.io/post/2018/kinect-rgbd-dataset/</link>
+      <link>https://raahii.github.io/2018/03/kinect-rgbd-dataset/</link>
       <pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2018/kinect-rgbd-dataset/</guid>
+      <guid>https://raahii.github.io/2018/03/kinect-rgbd-dataset/</guid>
       <description>はじめに 卒研でRGB-Dデータを使う研究をやっていたので、その時に調べた内容について軽くまとめます。 タイトルでは&amp;rdquo;Kinectを</description>
     </item>
     

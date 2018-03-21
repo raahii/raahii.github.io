@@ -13,235 +13,235 @@
     
     <item>
       <title>『イノベーション・オブ・ライフ』を読んだ</title>
-      <link>https://raahii.github.io/post/2018/innovation-of-life/</link>
+      <link>https://raahii.github.io/2018/03/innovation-of-life/</link>
       <pubDate>Tue, 13 Mar 2018 16:00:38 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2018/innovation-of-life/</guid>
+      <guid>https://raahii.github.io/2018/03/innovation-of-life/</guid>
       <description>TL;DR 『イノベーション・オブ・ライフ』を読んだので感想と読書メモを残しておく。 感想 友人に勧められて本書を読むことにしたが、個人的には今後も振り返</description>
     </item>
     
     <item>
       <title>『スタンフォード式　最高の睡眠』を読んだ</title>
-      <link>https://raahii.github.io/post/2018/stanford-awesome-sleep-method/</link>
+      <link>https://raahii.github.io/2018/03/stanford-awesome-sleep-method/</link>
       <pubDate>Thu, 08 Mar 2018 14:04:10 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2018/stanford-awesome-sleep-method/</guid>
+      <guid>https://raahii.github.io/2018/03/stanford-awesome-sleep-method/</guid>
       <description>TL;DR 『スタンフォード式 最高の睡眠』を読んだ。睡眠の質を最大限に高めるためには、最初の90分の睡眠の質を高めることを心がけることが大事。 そのため</description>
     </item>
     
     <item>
       <title>Kinectを用いたRGB-Dデータセットのまとめ</title>
-      <link>https://raahii.github.io/post/2018/kinect-rgbd-dataset/</link>
+      <link>https://raahii.github.io/2018/03/kinect-rgbd-dataset/</link>
       <pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2018/kinect-rgbd-dataset/</guid>
+      <guid>https://raahii.github.io/2018/03/kinect-rgbd-dataset/</guid>
       <description>はじめに 卒研でRGB-Dデータを使う研究をやっていたので、その時に調べた内容について軽くまとめます。 タイトルでは&amp;rdquo;Kinectを</description>
     </item>
     
     <item>
       <title>3DGANをchainerで実装した</title>
-      <link>https://raahii.github.io/post/2017/10/25/3dgan-chainer/</link>
+      <link>https://raahii.github.io/2017/10/3dgan-chainer/</link>
       <pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/10/25/3dgan-chainer/</guid>
+      <guid>https://raahii.github.io/2017/10/3dgan-chainer/</guid>
       <description>タイトルの通り、3DGANのchainer実装をgithubに上げた。当初はkerasで書いていたが良い結果が得られず、ソースコードの間違い</description>
     </item>
     
     <item>
       <title>3Dオブジェクト（ボクセルデータ）を描画するツールを作った</title>
-      <link>https://raahii.github.io/post/2017/10/09/voxel/</link>
+      <link>https://raahii.github.io/2017/10/voxel/</link>
       <pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/10/09/voxel/</guid>
+      <guid>https://raahii.github.io/2017/10/voxel/</guid>
       <description>最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で</description>
     </item>
     
     <item>
       <title>LaTeXiTで数式が表示されない問題</title>
-      <link>https://raahii.github.io/post/2017/07/01/231213/</link>
+      <link>https://raahii.github.io/2017/07/231213/</link>
       <pubDate>Sat, 01 Jul 2017 23:12:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/07/01/231213/</guid>
+      <guid>https://raahii.github.io/2017/07/231213/</guid>
       <description>LaTeXiTはTeX数式を画像に変換できるツールですが、ついさっき使ったらプレビューに数式が表示されず、というか数式画像の生成自体に失敗し</description>
     </item>
     
     <item>
       <title>Ruby(Rails)でGoogle Analytics APIを使う</title>
-      <link>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</link>
+      <link>https://raahii.github.io/2017/05/rails_google_analytics/</link>
       <pubDate>Thu, 04 May 2017 01:03:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/rails_google_analytics/rails_google_analytics/</guid>
+      <guid>https://raahii.github.io/2017/05/rails_google_analytics/</guid>
       <description>今回RubyでGoogle Analytics APIを利用する機会があったのですが、思ったより情報が少ない上、必要な鍵ファイルやトークンがよくわからず時間を取</description>
     </item>
     
     <item>
       <title>HoloLensを軽く触ってみた印象</title>
-      <link>https://raahii.github.io/post/2017/02/04/005134/</link>
+      <link>https://raahii.github.io/2017/02/005134/</link>
       <pubDate>Sat, 04 Feb 2017 00:51:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/02/04/005134/</guid>
+      <guid>https://raahii.github.io/2017/02/005134/</guid>
       <description>大学の授業でオムニバス形式の授業があり、そこでたまたまHoloLensを触る機会があったので少し思ったことを書く。 ただ実際には授業中の講師の</description>
     </item>
     
     <item>
       <title>「ヘルシープログラマ」を読んだ感想</title>
-      <link>https://raahii.github.io/post/2017/01/03/101418/</link>
+      <link>https://raahii.github.io/2017/01/101418/</link>
       <pubDate>Tue, 03 Jan 2017 10:14:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/01/03/101418/</guid>
+      <guid>https://raahii.github.io/2017/01/101418/</guid>
       <description>ヘルシープログラマ ―プログラミングを楽しく続けるための健康Hack 作者: Joe Kutner,Sky株式会社玉川竜司 出版社/メーカー: オライリージ</description>
     </item>
     
     <item>
       <title>昨年買った睡眠に関わるアイテムの感想メモ</title>
-      <link>https://raahii.github.io/post/2017/01/01/003255/</link>
+      <link>https://raahii.github.io/2017/01/003255/</link>
       <pubDate>Sun, 01 Jan 2017 00:32:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2017/01/01/003255/</guid>
+      <guid>https://raahii.github.io/2017/01/003255/</guid>
       <description>こんばんは。だらだら書いていたら新年が明けてしまいました。あけましておめでとうございます。 本記事では今年買った少しテックな2つのアイテ厶につ</description>
     </item>
     
     <item>
       <title>Rubyの文法のミニメモ</title>
-      <link>https://raahii.github.io/post/2016/12/22/011842/</link>
+      <link>https://raahii.github.io/2016/12/011842/</link>
       <pubDate>Thu, 22 Dec 2016 01:18:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/12/22/011842/</guid>
+      <guid>https://raahii.github.io/2016/12/011842/</guid>
       <description>Railsでサービス作ってみたは良いものの、Rubyに関する理解が結構おろそかになっている。なので、今回は基本的だけど未だに理解できていない</description>
     </item>
     
     <item>
       <title>Fashion Shop Mapというwebサービスをつくった</title>
-      <link>https://raahii.github.io/post/2016/11/26/013603/</link>
+      <link>https://raahii.github.io/2016/11/013603/</link>
       <pubDate>Sat, 26 Nov 2016 01:36:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/11/26/013603/</guid>
+      <guid>https://raahii.github.io/2016/11/013603/</guid>
       <description>タイトルの通りwebサービス作りました。またしてもGoogle Mapを使ってしまった。 https://fashion-shop-map.herokuapp.com/ サービス概要 今回作ったものは、ファッションのショップ</description>
     </item>
     
     <item>
       <title>ロゴの利用について少し調べて学んだこと</title>
-      <link>https://raahii.github.io/post/2016/11/17/204148/</link>
+      <link>https://raahii.github.io/2016/11/204148/</link>
       <pubDate>Thu, 17 Nov 2016 20:41:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/11/17/204148/</guid>
+      <guid>https://raahii.github.io/2016/11/204148/</guid>
       <description>はじめに 今作っているちんけなwebサービスがほとんど出来上がって久しいきたのですが、よし公開するかと思った矢先、「サービスにメーカーのロゴが</description>
     </item>
     
     <item>
       <title>find | xargs grep を知る</title>
-      <link>https://raahii.github.io/post/2016/10/26/111052/</link>
+      <link>https://raahii.github.io/2016/10/111052/</link>
       <pubDate>Wed, 26 Oct 2016 11:10:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/10/26/111052/</guid>
+      <guid>https://raahii.github.io/2016/10/111052/</guid>
       <description>はじめに 今回は頻繁につかうのに理解していないスクリプトがあるのでそれについて簡単に書こうと思います。そのスクリプトがコレです。 find . -name &#34;*.py&#34; -print0 | xargs</description>
     </item>
     
     <item>
       <title>最近の開発環境におけるTips</title>
-      <link>https://raahii.github.io/post/2016/09/30/020223/</link>
+      <link>https://raahii.github.io/2016/09/020223/</link>
       <pubDate>Fri, 30 Sep 2016 02:02:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/09/30/020223/</guid>
+      <guid>https://raahii.github.io/2016/09/020223/</guid>
       <description>近況 夏休みが今週いっぱいで終わる 今週rubyとrailsに入門した 開発環境 ruby、railsは現在チュートリアルをやってるような感じで特に</description>
     </item>
     
     <item>
       <title>imgcatコマンドで遊ぶ</title>
-      <link>https://raahii.github.io/post/2016/09/21/231012/</link>
+      <link>https://raahii.github.io/2016/09/231012/</link>
       <pubDate>Wed, 21 Sep 2016 23:10:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/09/21/231012/</guid>
+      <guid>https://raahii.github.io/2016/09/231012/</guid>
       <description>近況 インターンに行ってJavaを用いたWebアプリケーション開発を経験してきました。 もともとサーバーサイドの方の知識は0に近く、データベース</description>
     </item>
     
     <item>
       <title>Chrome extensionに入門した</title>
-      <link>https://raahii.github.io/post/2016/08/12/002118/</link>
+      <link>https://raahii.github.io/2016/08/002118/</link>
       <pubDate>Fri, 12 Aug 2016 00:21:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/08/12/002118/</guid>
+      <guid>https://raahii.github.io/2016/08/002118/</guid>
       <description>http://dotinstall.com/lessons/basic_chrome_v2dotinstall.com 前回の記事でスターをつけてくださった方のブログを眺めていたらChromeの拡張機能を作っていて、Chromeの拡張機能ってHTML/CSS</description>
     </item>
     
     <item>
       <title>Google Maps APIを使った標高の可視化</title>
-      <link>https://raahii.github.io/post/2016/07/24/155027/</link>
+      <link>https://raahii.github.io/2016/07/155027/</link>
       <pubDate>Sun, 24 Jul 2016 15:50:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/07/24/155027/</guid>
+      <guid>https://raahii.github.io/2016/07/155027/</guid>
       <description>タイトルの通りGoogle Maps APIを使って、出発地点から目的地点までの高低差を可視化する簡単なサイトを作ってみました。 ルートに沿った標高の可</description>
     </item>
     
     <item>
       <title>外部モニターで動画を見ると辛い</title>
-      <link>https://raahii.github.io/post/2016/06/23/172816/</link>
+      <link>https://raahii.github.io/2016/06/172816/</link>
       <pubDate>Thu, 23 Jun 2016 17:28:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/06/23/172816/</guid>
+      <guid>https://raahii.github.io/2016/06/172816/</guid>
       <description>こんにちは。EURO2016盛り上がってますね。みなさん見ていますか。明後日からはトーナメントが始まりますが僕の予想はコレです。 フランス優勝</description>
     </item>
     
     <item>
       <title>Macならできること　ぱーと１</title>
-      <link>https://raahii.github.io/post/2016/06/05/234239/</link>
+      <link>https://raahii.github.io/2016/06/234239/</link>
       <pubDate>Sun, 05 Jun 2016 23:42:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/06/05/234239/</guid>
+      <guid>https://raahii.github.io/2016/06/234239/</guid>
       <description>飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手にスマホを持ちながらみたいなのは嫌だという方． まず</description>
     </item>
     
     <item>
       <title>Wordで上下の余白が消えてしまった時</title>
-      <link>https://raahii.github.io/post/2016/05/30/102550/</link>
+      <link>https://raahii.github.io/2016/05/102550/</link>
       <pubDate>Mon, 30 May 2016 10:25:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/05/30/102550/</guid>
+      <guid>https://raahii.github.io/2016/05/102550/</guid>
       <description>昨日Word (2016 for Mac)を開いたら画像のように余白が消えて見えなくなってしまっている。 一応余白自体は存在しているらしいが上にスクロールできず</description>
     </item>
     
     <item>
       <title>MBA購入と感じたこと</title>
-      <link>https://raahii.github.io/post/2016/04/28/012527/</link>
+      <link>https://raahii.github.io/2016/04/012527/</link>
       <pubDate>Thu, 28 Apr 2016 01:25:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/04/28/012527/</guid>
+      <guid>https://raahii.github.io/2016/04/012527/</guid>
       <description>スペック 前回エントリでは若干Macの購入を渋っていたものの、某フリマで格安で落ちていたため4月頭に購入。スペックは以下の通り。 MacBook Air 2013 cpu i7 memory 8GB</description>
     </item>
     
     <item>
       <title>リーダブル・コード(1)</title>
-      <link>https://raahii.github.io/post/2016/03/04/135442/</link>
+      <link>https://raahii.github.io/2016/03/135442/</link>
       <pubDate>Fri, 04 Mar 2016 13:54:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2016/03/04/135442/</guid>
+      <guid>https://raahii.github.io/2016/03/135442/</guid>
       <description>私は現在，人に自分のコードを見てもらう機会はそう多くありません．しかし，今年度は卒業研究を行ったため，作ったプログラムを研究室に残す必要があ</description>
     </item>
     
     <item>
       <title>人工知能とは</title>
-      <link>https://raahii.github.io/post/2015/11/14/174743/</link>
+      <link>https://raahii.github.io/2015/11/174743/</link>
       <pubDate>Sat, 14 Nov 2015 17:47:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2015/11/14/174743/</guid>
+      <guid>https://raahii.github.io/2015/11/174743/</guid>
       <description>動機付け 最近、機械学習やディープラーンニングといった手法で人工知能研究が話題を集めている。特に今年学校で卒業研究が始まり、音声信号処理っぽい</description>
     </item>
     
     <item>
       <title>Pythonの日本語文字列</title>
-      <link>https://raahii.github.io/post/2015/06/28/211051/</link>
+      <link>https://raahii.github.io/2015/06/211051/</link>
       <pubDate>Sun, 28 Jun 2015 21:10:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/post/2015/06/28/211051/</guid>
+      <guid>https://raahii.github.io/2015/06/211051/</guid>
       <description>「研究者流コーディングの極意」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://raahii.github.io/post/2018/week-summary/0304/</link>
+      <link>https://raahii.github.io/1/01/0304/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://raahii.github.io/post/2018/week-summary/0304/</guid>
+      <guid>https://raahii.github.io/1/01/0304/</guid>
       <description>https://note.mu/konpyu/n/n9d3e3195b673 なぜ美女やイケメンは生涯収入が高いのか 自信を持つことの重要性について，チェスの元世界チャンピオン、ガルリ・カスパロフの例を基に書いている．</description>
     </item>
     
