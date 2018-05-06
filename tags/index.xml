@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on raahii&#39;s blog</title>
+    <title>Tags on Code is Fun</title>
     <link>https://raahii.github.io/tags/</link>
-    <description>Recent content in Tags on raahii&#39;s blog</description>
+    <description>Recent content in Tags on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Wed, 25 Oct 2017 20:14:00 +0900</lastBuildDate>
@@ -219,6 +219,15 @@
     </item>
     
     <item>
+      <title>メモ</title>
+      <link>https://raahii.github.io/tags/%E3%83%A1%E3%83%A2/</link>
+      <pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/tags/%E3%83%A1%E3%83%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>ライフハック</title>
       <link>https://raahii.github.io/tags/%E3%83%A9%E3%82%A4%E3%83%95%E3%83%8F%E3%83%83%E3%82%AF/</link>
       <pubDate>Thu, 08 Mar 2018 14:04:10 +0900</pubDate>
@@ -320,7 +329,7 @@
     <item>
       <title>研究</title>
       <link>https://raahii.github.io/tags/%E7%A0%94%E7%A9%B6/</link>
-      <pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate>
+      <pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate>
       
       <guid>https://raahii.github.io/tags/%E7%A0%94%E7%A9%B6/</guid>
       <description></description>
@@ -341,6 +350,15 @@
       <pubDate>Thu, 12 Apr 2018 00:05:28 +0900</pubDate>
       
       <guid>https://raahii.github.io/tags/%E8%AA%AD%E6%9B%B8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>論文</title>
+      <link>https://raahii.github.io/tags/%E8%AB%96%E6%96%87/</link>
+      <pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/tags/%E8%AB%96%E6%96%87/</guid>
       <description></description>
     </item>
     
