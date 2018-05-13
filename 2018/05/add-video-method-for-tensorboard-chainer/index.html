@@ -13,8 +13,8 @@
     
   
   
-  <meta name="twitter:title" content="Macならできること　ぱーと１"/>
-  <meta name="twitter:description" content=" 飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手にスマホを持ちながらみたいなのは嫌だという方．   まず，必要に応じてイヤホンをしましょう．  読みたい記事のテキストを選択しクリップボードにコピー"/>
+  <meta name="twitter:title" content="tensorboard-chainerにビデオを記録するためのPRを出した"/>
+  <meta name="twitter:description" content="機械学習における可視化ツールの1つにTensorBoardがある。これはTensorflowに付属しているソフトウェアで、学習時のlossや"/>
   
     <meta name="twitter:site" content="@piyo56_net"/>
   
@@ -32,7 +32,7 @@
     <meta name="generator" content="Hugo 0.40.3" />
     <title>
       
-        Macならできること　ぱーと１ | Code is Fun
+        tensorboard-chainerにビデオを記録するためのPRを出した | Code is Fun
       </title>
     <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
     <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
@@ -71,19 +71,13 @@
             <article>
                 <header>
                     <h1>
-                        Macならできること　ぱーと１
+                        tensorboard-chainerにビデオを記録するためのPRを出した
                     </h1>
                     <h2 class="headline">
-                    Jun 5, 2016 23:42
-                    · 259 words
-                    · 1 minute read
+                    May 13, 2018 21:37
+                    · 551 words
+                    · 2 minute read
                       <span class="tags">
-                      
-                      
-                          
-                              <a href="https://raahii.github.io/tags/%E5%B0%8F%E3%83%8D%E3%82%BF">小ネタ</a>
-                          
-                      
                       
                       </span>
                     </h2>
@@ -92,31 +86,31 @@
                   
                 
                 <section id="post-body">
-                    <p><body>
-<h2>飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手に<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%B9%A5%DE%A5%DB">スマホ</a>を持ちながらみたいなのは嫌だという方．</h2></p>
+                    <p>機械学習における可視化ツールの1つに<a href="https://www.tensorflow.org/programmers_guide/summaries_and_tensorboard">TensorBoard</a>がある。これはTensorflowに付属しているソフトウェアで、学習時のlossやaccuracy、重みのヒストグラムなどを記録することができる。加えて、画像や音声などのデータも記録出来るので、生成モデルの学習でも便利に使える。</p>
 
-<ol>
-<li>まず，必要に応じてイヤホンをしましょう．</li>
-<li>読みたい記事のテキストを選択し<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%AF%A5%EA%A5%C3%A5%D7%A5%DC%A1%BC%A5%C9">クリップボード</a>にコピーしましょう．</li>
-<li>ターミナルで<code>pbpaste | say</code>とタイプしましょう．</li>
-<li>以上です．高品質な<a class="keyword" href="http://d.hatena.ne.jp/keyword/%B2%BB%C0%BC%B9%E7%C0%AE">音声合成</a>技術に感謝しましょう．</li>
-</ol>
+<p>自分は普段Chainerで書いていてそのままではtensorboardは使えないので<a href="https://github.com/neka-nat/tensorboard-chainer">tensorboard-chainer</a>を使わせてもらっている。これとてもありがたい。</p>
 
-<p>[補足]</p>
+<p>ただ、研究テーマが動画生成なので、動画も記録できれば便利なのに…とずっと思っていた。最近真面目にどうにか出来ないかと思って調べたら<code>.gif</code>の記録は元々できるらしいことがわかった。</p>
 
 <ul>
-<li>読み上げ時の声質を変更したい方はそういったことも可能です．</li>
-<li>ちょっと打つのがめんどくさいなという人は<code>echo 'alias yomiage="pbpaste | say"' &gt;&gt; ~/.zshrc</code>などしましょう．</li>
-<li>そう<a class="keyword" href="http://d.hatena.ne.jp/keyword/Mac">Mac</a>なら，ね．</li>
+<li><a href="https://github.com/tensorflow/tensorboard/issues/39">Video summary support · Issue #39 · tensorflow/tensorboard · GitHub</a></li>
 </ul>
 
-<p></body></p>
+<p>ということで、動画を記録できるメソッドを実装してプルリクエストを出した。初めて出したのだけれど、カバレッジやコード規約をチェックしてくれるツールに初めて触れた。外からだとテストが通らなかった理由がいまいちわからないので若干困ったけど、慣れれば便利そう。とりあえずマージはされたので良かったです。</p>
+
+<ul>
+<li><a href="https://github.com/neka-nat/tensorboard-chainer/pull/2">add method &ldquo;add_video&rdquo; to SummaryWriter by raahii · Pull Request #2 · neka-nat/tensorboard-chainer · GitHub</a></li>
+</ul>
+
+<p>ということでtensorboard-chainerの<code>add_video</code>メソッドで動画記録できます。fpsも指定できます。便利。</p>
+
+<video style="max-width: 100%;" src="http://localhost:51332/videos/2018/add-video-for-tensorboard-chainer/tensoboard_video.mp4" autoplay loop></video>
 
                 </section>
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2016%2f06%2f234239%2f - Mac%e3%81%aa%e3%82%89%e3%81%a7%e3%81%8d%e3%82%8b%e3%81%93%e3%81%a8%e3%80%80%e3%81%b1%e3%83%bc%e3%81%a8%ef%bc%91 by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2018%2f05%2fadd-video-method-for-tensorboard-chainer%2f - tensorboard-chainer%e3%81%ab%e3%83%93%e3%83%87%e3%82%aa%e3%82%92%e8%a8%98%e9%8c%b2%e3%81%99%e3%82%8b%e3%81%9f%e3%82%81%e3%81%aePR%e3%82%92%e5%87%ba%e3%81%97%e3%81%9f by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(
