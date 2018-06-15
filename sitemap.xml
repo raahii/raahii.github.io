@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://raahii.github.io/2018/06/cvpr2018-papers/</loc>
+    <lastmod>2018-06-05T23:56:09+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://raahii.github.io/2018/05/add-video-method-for-tensorboard-chainer/</loc>
     <lastmod>2018-05-13T21:37:27+09:00</lastmod>
   </url>
@@ -196,7 +201,7 @@
   
   <url>
     <loc>https://raahii.github.io/</loc>
-    <lastmod>2018-05-13T21:37:27+09:00</lastmod>
+    <lastmod>2018-06-05T23:56:09+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -232,7 +237,7 @@
   
   <url>
     <loc>https://raahii.github.io/post/</loc>
-    <lastmod>2018-05-13T21:37:27+09:00</lastmod>
+    <lastmod>2018-06-05T23:56:09+09:00</lastmod>
     <priority>0</priority>
   </url>
   
