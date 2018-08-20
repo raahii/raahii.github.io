@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Code is Fun</title>
+    <title>Categories on Code is Fun</title>
     <link>https://raahii.github.io/categories/</link>
-    <description>Recent content on Code is Fun</description>
+    <description>Recent content in Categories on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Sun, 06 May 2018 23:46:20 +0900</lastBuildDate>
@@ -12,39 +12,75 @@
     
     
     <item>
-      <title>TeXShopでバックスラッシュが円マークになる問題</title>
-      <link>https://raahii.github.io/2018/05/texshop-yen-mark-problem/</link>
+      <title></title>
+      <link>https://raahii.github.io/categories/</link>
       <pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate>
       
-      <guid>https://raahii.github.io/2018/05/texshop-yen-mark-problem/</guid>
-      <description>これまでTeX資料はTeXShopで書いていたのだけど、最近になってoverleaf (v2)を使うようになった。そこで、TeXShopから文</description>
+      <guid>https://raahii.github.io/categories/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>『MEDIA MAKERS』を読んだ</title>
-      <link>https://raahii.github.io/2018/04/media-makers/</link>
-      <pubDate>Thu, 12 Apr 2018 00:05:28 +0900</pubDate>
+      <title>Tech</title>
+      <link>https://raahii.github.io/categories/tech/</link>
+      <pubDate>Thu, 22 Dec 2016 01:18:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/2018/04/media-makers/</guid>
-      <description>TL;DR 『MEDIA MAKERS―社会が動く「影響力」の正体』を読んだので読書メモと感想を残しておく。本書はメディアについて書かれた本で、最近スタ</description>
+      <guid>https://raahii.github.io/categories/tech/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>『イシューから始めよ』を読んだ</title>
-      <link>https://raahii.github.io/2018/04/start-from-the-issue/</link>
-      <pubDate>Mon, 09 Apr 2018 01:30:57 +0900</pubDate>
+      <title>サーベイ</title>
+      <link>https://raahii.github.io/categories/%E3%82%B5%E3%83%BC%E3%83%99%E3%82%A4/</link>
+      <pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate>
       
-      <guid>https://raahii.github.io/2018/04/start-from-the-issue/</guid>
-      <description>TL;DR 『イシューから始めよ』を読んだ。 メモ 仕事の価値 価値のある仕事は、解の質とイシュー度（取り組む問題の質）の2軸で捉えることができ。る。良い仕</description>
+      <guid>https://raahii.github.io/categories/%E3%82%B5%E3%83%BC%E3%83%99%E3%82%A4/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>草津温泉へ行った</title>
-      <link>https://raahii.github.io/2018/04/kusatsu-onsen/</link>
-      <pubDate>Sun, 01 Apr 2018 12:13:45 +0900</pubDate>
+      <title>テクノロジー</title>
+      <link>https://raahii.github.io/categories/%E3%83%86%E3%82%AF%E3%83%8E%E3%83%AD%E3%82%B8%E3%83%BC/</link>
+      <pubDate>Sun, 01 Jan 2017 00:32:00 +0900</pubDate>
       
-      <guid>https://raahii.github.io/2018/04/kusatsu-onsen/</guid>
-      <description>初めて草津温泉に行った。草津は群馬県吾妻郡にある。適当に浦和辺りまで出て、特急草津号で長野原草津口（2時間くらい）まで出て、最後はバス（20</description>
+      <guid>https://raahii.github.io/categories/%E3%83%86%E3%82%AF%E3%83%8E%E3%83%AD%E3%82%B8%E3%83%BC/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>メモ</title>
+      <link>https://raahii.github.io/categories/%E3%83%A1%E3%83%A2/</link>
+      <pubDate>Sat, 04 Feb 2017 00:51:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E3%83%A1%E3%83%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>研究</title>
+      <link>https://raahii.github.io/categories/%E7%A0%94%E7%A9%B6/</link>
+      <pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E7%A0%94%E7%A9%B6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>読書</title>
+      <link>https://raahii.github.io/categories/%E8%AA%AD%E6%9B%B8/</link>
+      <pubDate>Tue, 13 Mar 2018 16:00:38 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E8%AA%AD%E6%9B%B8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>開発</title>
+      <link>https://raahii.github.io/categories/%E9%96%8B%E7%99%BA/</link>
+      <pubDate>Thu, 04 May 2017 01:03:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E9%96%8B%E7%99%BA/</guid>
+      <description></description>
     </item>
     
   </channel>
