@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+    
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://raahii.github.io/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Conditional Batch Normalizationについて"/>
+  <meta name="twitter:description" content="Batch Normalization Batch Normalization(BN)は，内部共変量シフトを軽減することで学習を効率化する手法である．特に学習の初期段階において，前段の層"/>
+  
+    <meta name="twitter:site" content="@piyo56_net"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@raahii"/>
+  
+
+
+
+    
+    <meta name="author" content="raahii">
+    <meta name="description" content="blog">
+    <meta name="generator" content="Hugo 0.52" />
+    <title>
+      
+        Conditional Batch Normalizationについて | Code is Fun
+      </title>
+    <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
+    <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
+    <link rel="stylesheet" href="https://raahii.github.io/css/highlight.css">
+
+    
+    <link rel="stylesheet" href="https://raahii.github.io/css/font-awesome.min.css">
+    
+
+    
+    <link href="https://raahii.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Code is Fun" />
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+  </head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://raahii.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://raahii.github.io/archive'>Archive</a>
+	<a href='https://raahii.github.io/tags'>Tags</a>
+	<a href='https://raahii.github.io/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://raahii.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Conditional Batch Normalizationについて
+                    </h1>
+                    <h2 class="headline">
+                    Dec 12, 2018 15:31
+                    · 1772 words
+                    · 4 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://raahii.github.io/tags/"></a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#batch-normalization">Batch Normalization</a></li>
+<li><a href="#conditional-batch-normalization">Conditional Batch Normalization</a></li>
+<li><a href="#なにが嬉しいのか">なにが嬉しいのか</a></li>
+<li><a href="#実装">実装</a></li>
+<li><a href="#所感">所感</a></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    
+
+<h1 id="batch-normalization">Batch Normalization</h1>
+
+<p>Batch Normalization(BN)は，内部共変量シフトを軽減することで学習を効率化する手法である．特に学習の初期段階において，前段の層の出力分布が変化すると，後段の層はその変化自体に対応する必要がでてくるため，本質的な非線形関数の学習が阻害されてしまうという問題がある．この問題は層を増やせば増やすほど深刻となる．BNは各層の出力をミニバッチごとに正規化することにより分布の変化を抑制する．また重みの初期値への依存度を下げ，正則化を行う効果もある．</p>
+
+<p>具体的には，入力バッチ $\mathcal{B}= {x_1,\cdot\cdot\cdot,x_m }$ に対して</p>
+
+<p>$$\mu_{\mathcal{B}} \leftarrow \frac{1}{m} \sum_{i=0}^{m} x_i$$</p>
+
+<p>$$\sigma^2_{\mathcal{B}} \leftarrow \frac{1}{m}\sum_{i=1}^{m}x_i$$</p>
+
+<p>$$\hat{x}_i \leftarrow \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma_{\mathcal{B}}^2+\epsilon}}$$</p>
+
+<p>$$y_i \leftarrow \gamma\hat{x}_i + \beta$$</p>
+
+<p>のように，標準化を施し，アフィン変換を行う（新たに平均$\beta$と分散$\gamma^2$を与えるとも言える?）．この$\beta$と$\gamma$がBNの学習パラメータである．また通常，上記の操作は入力特徴マップのチャネルごとに行う．よってパラメータ$\beta$と$\gamma$は長さチャネル数のベクトルとなる．</p>
+
+<h1 id="conditional-batch-normalization">Conditional Batch Normalization</h1>
+
+<p>Conditional Batch Normalization(CBN)[^cbn]の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．</p>
+
+<p><img src="/Users/naka/Desktop/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202018-12-10%202.35.56.png" alt="スクリーンショット 2018-12-10 2.35.56" /></p>
+
+<p>具体的には，入力データのラベルベクトル$c$があったとき，</p>
+
+<p>$$ \Delta\mathcal{B} = MLP(c),\ \ \ \Delta \gamma = MLP(c) $$</p>
+
+<p>のようにクラスラベルをBNのパラメータのチャネル数に合うようにMLPで変換し，</p>
+
+<p>$$ \hat{\beta} = \beta + \Delta\mathcal{B},\ \ \ \hat{\gamma} = \gamma + \Delta\mathcal{\gamma},$$</p>
+
+<p>のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN<sup class="footnote-ref" id="fnref:sngan"><a href="#fn:sngan">1</a></sup>などではクラスラベルの1-of-Kベクタを用いているはず．</p>
+
+<h1 id="なにが嬉しいのか">なにが嬉しいのか</h1>
+
+<p>このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN<sup class="footnote-ref" id="fnref:sagan"><a href="#fn:sagan">2</a></sup>，BigGAN<sup class="footnote-ref" id="fnref:biggan"><a href="#fn:biggan">3</a></sup>でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．</p>
+
+<p>また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．</p>
+
+<p>一方，DCGAN<sup class="footnote-ref" id="fnref:dcgan"><a href="#fn:dcgan">4</a></sup>でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．</p>
+
+<h1 id="実装">実装</h1>
+
+<p>BigGANsのPyTorchによる再現実装にそのコードがあります．標準のBN実装に+αすることでとてもシンプルになっています．</p>
+
+<ul>
+<li><a href="https://github.com/AaronLeong/BigGAN-pytorch/blob/4cbad24f7b49bf55f2b1b6aa8451b2db495b707c/model_resnet.py#L123">BigGAN-pytorch/model_resnet.py at master · AaronLeong/BigGAN-pytorch</a></li>
+</ul>
+
+<p>またChainerではSNGANの公式実装でコードがあります．CategoricalConditionalBatchNormalizationという名前になっており，このクラスがConditionalBatchNormalizationクラスを継承するという実装になっているのが若干confusingですが…．</p>
+
+<ul>
+<li><a href="https://github.com/pfnet-research/sngan_projection/blob/e84b1a5f604de5fec268f37c3f26478e80b7f475/source/links/categorical_conditional_batch_normalization.py#L16">sngan_projection/categorical_conditional_batch_normalization.py at master · pfnet-research/sngan_projection</a></li>
+</ul>
+
+<h1 id="所感">所感</h1>
+
+<p>実際に研究で使ってみているが，CBN導入で$D$ の学習が早く進みすぎてしまって，モードコラプスになってしまう…．もともと$D$が強めで不安定なのだけど，こういう場合に銀の弾がほぼないのが残念．</p>
+
+<p>大体の場合，$D$の学習を遅らせるために，</p>
+
+<ul>
+<li>$D$の学習率を減らす</li>
+<li>PatchGAN導入している場合，$D$の出力の特徴マップのW, Hを大きくする（層を減らす）</li>
+</ul>
+
+<p>などをして対応するが，かなりケースバイケースなので職人芸感が強くなる…．何か知見が溜まったらまた書きたい．</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:sngan">Miyato, Takeru, and Masanori Koyama. &ldquo;cGANs with projection discriminator.&rdquo; <em>arXiv preprint arXiv:1802.05637</em> (2018).
+ <a class="footnote-return" href="#fnref:sngan"><sup>[return]</sup></a></li>
+<li id="fn:sagan">Zhang, Han, et al. &ldquo;Self-Attention Generative Adversarial Networks.&rdquo; <em>arXiv preprint arXiv:1805.08318</em> (2018).
+ <a class="footnote-return" href="#fnref:sagan"><sup>[return]</sup></a></li>
+<li id="fn:biggan">Brock, Andrew, Jeff Donahue, and Karen Simonyan. &ldquo;Large scale gan training for high fidelity natural image synthesis.&rdquo; <em>arXiv preprint arXiv:1809.11096</em>(2018).
+ <a class="footnote-return" href="#fnref:biggan"><sup>[return]</sup></a></li>
+<li id="fn:dcgan">Radford, Alec, Luke Metz, and Soumith Chintala. &ldquo;Unsupervised representation learning with deep convolutional generative adversarial networks.&rdquo; <em>arXiv preprint arXiv:1511.06434</em> (2015).
+ <a class="footnote-return" href="#fnref:dcgan"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2018%2f12%2fconditional-batch-normalization%2f - Conditional%20Batch%20Normalization%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6 by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'raahii'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    <script>
+      renderMathInElement(document.body,
+        {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+            ]
+        }
+      );
+
+      var inlineMathArray = document.querySelectorAll("script[type='math/tex']");
+      for (var i = 0; i < inlineMathArray.length; i++) {
+        var inlineMath = inlineMathArray[i];
+        var tex = inlineMath.innerText || inlineMath.textContent;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex, {displayMode: false});
+        inlineMath.parentNode.replaceChild(replaced, inlineMath);
+      }
+
+      var displayMathArray = document.querySelectorAll("script[type='math/tex; mode=display']");
+      for (var i = 0; i < displayMathArray.length; i++) {
+        var displayMath = displayMathArray[i];
+        var tex = displayMath.innerHTML;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+        displayMath.parentNode.replaceChild(replaced, displayMath);
+      }
+    </script>
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="">
+        <i class="fa fa-displaymath"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/raahii">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/piyo56_net">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> raahii
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://raahii.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://raahii.github.io/js/main.js"></script>
+<script src="https://raahii.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-86522604-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</html>

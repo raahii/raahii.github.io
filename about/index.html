@@ -25,7 +25,7 @@
     
     <meta name="author" content="raahii">
     <meta name="description" content="blog">
-    <meta name="generator" content="Hugo 0.51" />
+    <meta name="generator" content="Hugo 0.52" />
     <title>
       
         about | Code is Fun
@@ -43,6 +43,9 @@
     
 
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
   </head>
 
 <body>
@@ -115,7 +118,7 @@
 
 <ul>
 <li>中平有樹, 川本一彦, RGB-D動画生成のためのGAN，情報処理学会研究報告. Vol. 2018-CVIM-212, No.28, pp.1-7, 2018. (M1)</li>
-<li>Yuki Nakahira and Kazuhiko Kawamoto, Generative adversarial networks for generating RGB-D videos, Proc. of Asia-Pacific Signal and Information Processing, Association Annual Summit and Conference, pp.1276-1281, 2018.</li>
+<li>Yuki Nakahira and Kazuhiko Kawamoto, Generative adversarial networks for generating RGB-D videos, Proc. of Asia-Pacific Signal and Information Processing, Association Annual Summit and Conference, pp.1276-1281, 2018. (M1)</li>
 <li>中平有樹, 川本一彦, デプスからカラーへのドメイン変換を用いたGANによる動画生成, 情報処理学会研究報告. Vol. 2018-CVIM-213, No.32, pp.1-7, 2018. <span style="color:red; font-style: italic; font-weight: bold;">(奨励賞受賞)</span> (M1)</li>
 </ul>
 
@@ -232,11 +235,43 @@
     
 
     <footer id="footer">
+    <script>
+      renderMathInElement(document.body,
+        {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+            ]
+        }
+      );
+
+      var inlineMathArray = document.querySelectorAll("script[type='math/tex']");
+      for (var i = 0; i < inlineMathArray.length; i++) {
+        var inlineMath = inlineMathArray[i];
+        var tex = inlineMath.innerText || inlineMath.textContent;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex, {displayMode: false});
+        inlineMath.parentNode.replaceChild(replaced, inlineMath);
+      }
+
+      var displayMathArray = document.querySelectorAll("script[type='math/tex; mode=display']");
+      for (var i = 0; i < displayMathArray.length; i++) {
+        var displayMath = displayMathArray[i];
+        var tex = displayMath.innerHTML;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+        displayMath.parentNode.replaceChild(replaced, displayMath);
+      }
+    </script>
     
         <div id="social">
 
 	
 	
+    <a class="symbol" href="">
+        <i class="fa fa-displaymath"></i>
+    </a>
+    
     <a class="symbol" href="https://www.github.com/raahii">
         <i class="fa fa-github-square"></i>
     </a>
