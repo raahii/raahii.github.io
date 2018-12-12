@@ -78,7 +78,7 @@
                     </h1>
                     <h2 class="headline">
                     Dec 12, 2018 15:31
-                    · 1772 words
+                    · 1800 words
                     · 4 minute read
                       <span class="tags">
                       
@@ -129,7 +129,7 @@
 
 <h1 id="conditional-batch-normalization">Conditional Batch Normalization</h1>
 
-<p>Conditional Batch Normalization(CBN)[^cbn]の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．</p>
+<p>Conditional Batch Normalization<sup class="footnote-ref" id="fnref:cbn"><a href="#fn:cbn">1</a></sup>(CBN)の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．</p>
 
 <p><br>
 <center>
@@ -148,15 +148,15 @@
 
 <p>$$ \hat{\beta} = \beta + \Delta\mathcal{B},\ \ \ \hat{\gamma} = \gamma + \Delta\mathcal{\gamma},$$</p>
 
-<p>のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN<sup class="footnote-ref" id="fnref:sngan"><a href="#fn:sngan">1</a></sup>などではクラスラベルの1-of-Kベクタを用いているはず．</p>
+<p>のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN<sup class="footnote-ref" id="fnref:sngan"><a href="#fn:sngan">2</a></sup>などではクラスラベルの1-of-Kベクタを用いているはず．</p>
 
 <h1 id="なにが嬉しいのか">なにが嬉しいのか</h1>
 
-<p>このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN<sup class="footnote-ref" id="fnref:sagan"><a href="#fn:sagan">2</a></sup>，BigGAN<sup class="footnote-ref" id="fnref:biggan"><a href="#fn:biggan">3</a></sup>でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．</p>
+<p>このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN<sup class="footnote-ref" id="fnref:sagan"><a href="#fn:sagan">3</a></sup>，BigGAN<sup class="footnote-ref" id="fnref:biggan"><a href="#fn:biggan">4</a></sup>でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．</p>
 
 <p>また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．</p>
 
-<p>一方，DCGAN<sup class="footnote-ref" id="fnref:dcgan"><a href="#fn:dcgan">4</a></sup>でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．</p>
+<p>一方，DCGAN<sup class="footnote-ref" id="fnref:dcgan"><a href="#fn:dcgan">5</a></sup>でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．</p>
 
 <h1 id="実装">実装</h1>
 
@@ -189,6 +189,8 @@
 <hr />
 
 <ol>
+<li id="fn:cbn">Vries, Harm de et al. “Modulating early visual processing by language.” <em>NIPS</em> (2017).
+ <a class="footnote-return" href="#fnref:cbn"><sup>[return]</sup></a></li>
 <li id="fn:sngan">Miyato, Takeru, and Masanori Koyama. &ldquo;cGANs with projection discriminator.&rdquo; <em>arXiv preprint arXiv:1802.05637</em> (2018).
  <a class="footnote-return" href="#fnref:sngan"><sup>[return]</sup></a></li>
 <li id="fn:sagan">Zhang, Han, et al. &ldquo;Self-Attention Generative Adversarial Networks.&rdquo; <em>arXiv preprint arXiv:1805.08318</em> (2018).
