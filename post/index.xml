@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 12 Dec 2018 15:31:51 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 13 Feb 2019 00:13:24 +0900</lastBuildDate>
     
 	<atom:link href="https://raahii.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>dotfilesを整備した</title>
+      <link>https://raahii.github.io/2019/02/update-dotfiles/</link>
+      <pubDate>Wed, 13 Feb 2019 00:13:24 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/02/update-dotfiles/</guid>
+      <description>最近インターンが始まり、そのとき開発環境の構築に手間取ったので「やらねば…」となった。正直始まる前にやっとけやという感じなので反省。 前々から</description>
+    </item>
     
     <item>
       <title>Conditional Batch Normalizationについて</title>
