@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>競プロ on Code is Fun</title>
+    <link>https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD/</link>
+    <description>Recent content in 競プロ on Code is Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 12 Mar 2019 17:50:37 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Union FindのメモとGoによる実装</title>
+      <link>https://raahii.github.io/2019/03/union-find/</link>
+      <pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/03/union-find/</guid>
+      <description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ． 問題 以下，問題ページ（D: Decayed Bridges）より</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+    
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://raahii.github.io/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Union FindのメモとGoによる実装"/>
+  <meta name="twitter:description" content="AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ． 問題 以下，問題ページ（D: Decayed Bridges）より"/>
+  
+    <meta name="twitter:site" content="@piyo56_net"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@raahii"/>
+  
+
+
+
+    
+    <meta name="author" content="raahii">
+    <meta name="description" content="blog">
+    <meta name="generator" content="Hugo 0.53" />
+    <title>
+      
+        Union FindのメモとGoによる実装 | Code is Fun
+      </title>
+    <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
+    <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
+    <link rel="stylesheet" href="https://raahii.github.io/css/highlight.css">
+
+    
+    <link rel="stylesheet" href="https://raahii.github.io/css/font-awesome.min.css">
+    
+
+    
+    <link href="https://raahii.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Code is Fun" />
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+  </head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://raahii.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://raahii.github.io/archive'>Archive</a>
+	<a href='https://raahii.github.io/tags'>Tags</a>
+	<a href='https://raahii.github.io/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://raahii.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Union FindのメモとGoによる実装
+                    </h1>
+                    <h2 class="headline">
+                    Mar 12, 2019 17:50
+                    · 1774 words
+                    · 4 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD">競プロ</a>
+                          
+                              <a href="https://raahii.github.io/tags/go">Go</a>
+                          
+                              <a href="https://raahii.github.io/tags/%E5%AE%9F%E8%A3%85">実装</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#問題">問題</a></li>
+<li><a href="#全探索による解法">全探索による解法</a></li>
+<li><a href="#代表頂点を使ってグループを管理する">代表頂点を使ってグループを管理する</a></li>
+<li><a href="#union-find">Union Find</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    
+
+<p><a href="https://atcoder.jp/contests/abc120/tasks">AtCoder Beginners Content 120</a>のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．</p>
+
+<h1 id="問題">問題</h1>
+
+<p>以下，<a href="https://atcoder.jp/contests/abc120/tasks/abc120_d">問題ページ（D: Decayed Bridges）</a>より引用．</p>
+
+<p><strong>問題文</strong>:</p>
+
+<blockquote>
+<p>$N$ 個の島と $M$ 本の橋があります。</p>
+
+<p>$i$ 番目の橋は $A_i$ 番目の島と $B_i$ 番目の島を繋いでおり、双方向に行き来可能です。</p>
+
+<p>はじめ、どの 2 つの島についてもいくつかの橋を渡って互いに行き来できます。調査の結果、老朽化のためこれら $M$ 本の橋は 1 番目の橋から順に全て崩落することがわかりました。</p>
+
+<p>「いくつかの橋を渡って互いに行き来できなくなった 2 つの島の組$ (a,b) (a&lt;b) $の数」を<strong>不便さ</strong>と呼ぶことにします。</p>
+
+<p>各 $i (1\leq i \leq M)$ について、$i$ 番目の橋が崩落した直後の不便さを求めてください。</p>
+</blockquote>
+
+<p><br></p>
+
+<p><strong>制約</strong>:</p>
+
+<blockquote>
+<p>入力は全て整数である</p>
+
+<ul>
+<li>$2\leq N \leq 10^5$</li>
+<li>$1 \leq M \leq 10^5$</li>
+<li>$1 \leq A_i \lt B_i \leq N$</li>
+<li>$(A_i, B_i)$の組はすべて異なる</li>
+<li>初期状態における不便さは0である</li>
+</ul>
+</blockquote>
+
+<h1 id="全探索による解法">全探索による解法</h1>
+
+<p>今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．</p>
+
+<script src="https://gist.github.com/raahii/652851fb1f45ab0b365145cabe588c36.js"></script>
+
+<p>重要なのは新しい隣接情報が与えられたときに，隣の隣の島の情報もきちんと反映させることで，今回は一つ隣の島の隣接情報を拾う処理を$N-1$回繰り返すことでそれを実現しています．</p>
+
+<p>この方法で書くにしてももっと効率よく書けそうな気もしますが，計算量は$MN^4​$でとにかく全く間に合いません．</p>
+
+<h1 id="代表頂点を使ってグループを管理する">代表頂点を使ってグループを管理する</h1>
+
+<p>全探索では駄目なので工夫が必要なのですが，まずグラフからノードを削除していく方針ではなく，グラフを0から順に構築していくように見ていく方針を取ることでより簡単に問題が解けます．確かに，隣接している島の情報を消していく操作は，その隣接に依存している他の隣接情報を解決する必要があり筋が悪そうです．</p>
+
+<p>よって，まず不便さの初期値を$N(N-1)/2$とし，与えられた隣接情報を後ろからみて追加していくことで各不便さを求め，それを逆順に出力するようにします．</p>
+
+<p>またここで，行き来可能な島の集合というのは，グラフにおけるグループだと考えることができます．このグループ管理を各頂点が所属するグループの代表頂点の番号を保存することで行うことにします．</p>
+
+<p>こうすることで，2つの頂点が同じグループに属しているかどうかは<strong>代表頂点の相違</strong>で判断することができます．またこれは実装上，単なる配列の要素参照となり高速に実現できます．</p>
+
+<p>これを使うと，新たな橋の隣接情報が与えられた時，2つの頂点が元々同じグループであれば不便さに変化はなし，違うグループであれば2つのグループが併合することになるので<code>お互いの要素数の積</code>だけ不便さが減少することになります．</p>
+
+<script src="https://gist.github.com/raahii/930f1a6509cfdccfb99143d54e8e564b.js"></script>
+
+<p>しかしながらこの方法でも，2つのグループを併合する際に，要素の移動（$O(N)$）が発生してしまうため，全体の計算量は$O(MN)$となりTLEとなってしいます．</p>
+
+<h1 id="union-find">Union Find</h1>
+
+<p>そこでUnion Findが登場します．実はグループの管理の仕方という意味ではUnionFindの先ほどと変わりません．変更点は，先程起きたグループの併合における計算量の問題を，代表頂点の代表頂点を書き換えることによって$O(1)$で行うところにあります．</p>
+
+<p>ただし，この変更により，ある頂点の代表頂点は単に配列の要素を参照するのではなく，親の親…という風に再帰的に探索する必要がでてきます．これは特に要素1のグループが1つの階層構造を持ってしまった場合（全グループが縦に並ぶイメージ）に，探索が$O(N)​$かかってしまうため結局問題となります．よって，以下の2つを行うことでこれを解決します．</p>
+
+<ul>
+<li>代表頂点の探索処理と同時に，その処理に関わった全てのノードを直接根につなぎ直す（多段になっている階層構造を解消する）</li>
+<li>2つのグループを併合する時に，要素数の大きい側に少ない側を併合するようにする．</li>
+</ul>
+
+<p>これにより，Union Findの計算量は少なくとも$O(\text{log}N)$未満となるようです．重要な制約として，グループの併合はできても分割はできないことが挙げられます．最終的なコードは以下の通りになります．</p>
+
+<script src="https://gist.github.com/raahii/f456ddf6109b2121dfd6f451d0476d6c.js"></script>
+
+<h1 id="参考">参考</h1>
+
+<ul>
+<li><a href="https://qiita.com/ofutonfuton/items/c17dfd33fc542c222396">Union-Find木の解説と例題 - Qiita</a></li>
+
+<li><p><a href="https://atc001.contest.atcoder.jp/tasks/unionfind_a">B: Union Find - AtCoder Typical Contest 001 | AtCoder</a></p></li>
+
+<li><p><a href="https://www.kumilog.net/entry/union-find">Union Find - kumilog.net</a></p></li>
+</ul>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2019%2f03%2funion-find%2f - Union%20Find%e3%81%ae%e3%83%a1%e3%83%a2%e3%81%a8Go%e3%81%ab%e3%82%88%e3%82%8b%e5%ae%9f%e8%a3%85 by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'raahii'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    <script>
+      renderMathInElement(document.body,
+        {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+            ]
+        }
+      );
+
+      var inlineMathArray = document.querySelectorAll("script[type='math/tex']");
+      for (var i = 0; i < inlineMathArray.length; i++) {
+        var inlineMath = inlineMathArray[i];
+        var tex = inlineMath.innerText || inlineMath.textContent;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex, {displayMode: false});
+        inlineMath.parentNode.replaceChild(replaced, inlineMath);
+      }
+
+      var displayMathArray = document.querySelectorAll("script[type='math/tex; mode=display']");
+      for (var i = 0; i < displayMathArray.length; i++) {
+        var displayMath = displayMathArray[i];
+        var tex = displayMath.innerHTML;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+        displayMath.parentNode.replaceChild(replaced, displayMath);
+      }
+    </script>
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="">
+        <i class="fa fa-displaymath"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/raahii">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/piyo56_net">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2019 <i class="fa fa-heart" aria-hidden="true"></i> raahii
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://raahii.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://raahii.github.io/js/main.js"></script>
+<script src="https://raahii.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-86522604-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</html>

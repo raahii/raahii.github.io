@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://raahii.github.io/2019/03/union-find/</loc>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://raahii.github.io/2019/02/update-dotfiles/</loc>
     <lastmod>2019-02-13T00:13:24+09:00</lastmod>
   </url>
@@ -206,13 +211,19 @@
   
   <url>
     <loc>https://raahii.github.io/</loc>
-    <lastmod>2019-02-13T00:13:24+09:00</lastmod>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://raahii.github.io/tags/gan/</loc>
     <lastmod>2017-10-25T20:14:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/tags/go/</loc>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -242,7 +253,7 @@
   
   <url>
     <loc>https://raahii.github.io/post/</loc>
-    <lastmod>2019-02-13T00:13:24+09:00</lastmod>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -410,7 +421,7 @@
   
   <url>
     <loc>https://raahii.github.io/tags/%E5%AE%9F%E8%A3%85/</loc>
-    <lastmod>2017-10-25T20:14:00+09:00</lastmod>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -447,6 +458,12 @@
   <url>
     <loc>https://raahii.github.io/categories/%E7%A0%94%E7%A9%B6/</loc>
     <lastmod>2018-03-01T18:23:10+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD/</loc>
+    <lastmod>2019-03-12T17:50:37+09:00</lastmod>
     <priority>0</priority>
   </url>
   

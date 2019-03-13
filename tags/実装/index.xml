@@ -6,10 +6,19 @@
     <description>Recent content in 実装 on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 25 Oct 2017 20:14:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 12 Mar 2019 17:50:37 +0900</lastBuildDate>
     
 	<atom:link href="https://raahii.github.io/tags/%E5%AE%9F%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Union FindのメモとGoによる実装</title>
+      <link>https://raahii.github.io/2019/03/union-find/</link>
+      <pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/03/union-find/</guid>
+      <description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ． 問題 以下，問題ページ（D: Decayed Bridges）より</description>
+    </item>
     
     <item>
       <title>3DGANをchainerで実装した</title>

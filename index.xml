@@ -6,10 +6,19 @@
     <description>Recent content on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 13 Feb 2019 00:13:24 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 12 Mar 2019 17:50:37 +0900</lastBuildDate>
     
 	<atom:link href="https://raahii.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Union FindのメモとGoによる実装</title>
+      <link>https://raahii.github.io/2019/03/union-find/</link>
+      <pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/03/union-find/</guid>
+      <description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ． 問題 以下，問題ページ（D: Decayed Bridges）より</description>
+    </item>
     
     <item>
       <title>dotfilesを整備した</title>
