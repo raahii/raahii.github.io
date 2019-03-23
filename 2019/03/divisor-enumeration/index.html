@@ -14,7 +14,7 @@
   
   
   <meta name="twitter:title" content="約数の全列挙の高速化"/>
-  <meta name="twitter:description" content="ある整数$n​$の約数を全て探すとき，普通は$1​$から$n​$までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は$O(n)"/>
+  <meta name="twitter:description" content="ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)"/>
   
     <meta name="twitter:site" content="@piyo56_net"/>
   
@@ -78,7 +78,7 @@
                     </h1>
                     <h2 class="headline">
                     Mar 23, 2019 18:05
-                    · 306 words
+                    · 270 words
                     · 1 minute read
                       <span class="tags">
                       
@@ -99,13 +99,13 @@
                   
                 
                 <section id="post-body">
-                    <p>ある整数$n​$の約数を全て探すとき，普通は$1​$から$n​$までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は$O(n)​$であり，制約が$n \leq 10^9​$のような競プロのコンテストでは通常通らないと考える．</p>
+                    <p>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．</p>
 
-<p>しかし，$n=a \times b$ を満たすような整数ペア$a, b$を考えると，$a, b \leq \sqrt{n}$を満たすため，これを利用することで$O(\sqrt{n})$で約数を全列挙できる．</p>
+<p>しかし，  $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．</p>
 
 <script src="https://gist.github.com/raahii/da59306b9f30b9b06a59a84276b4d3a7.js"></script>
 
-<p>ちなみにこれは <a href="https://atcoder.jp/contests/abc112/tasks/abc112_d">Atcoder ABC112 D</a> で使用した．実はGoで書くと$n$が$10^9​$でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．</p>
+<p>ちなみにこれは <a href="https://atcoder.jp/contests/abc112/tasks/abc112_d">Atcoder ABC112 D</a> で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．</p>
 
 <p><blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="ja" dir="ltr">ついに同解法でGoなら通るがPythonだと駄目ってのを観測した <a href="https://t.co/Qd6V2PsGgX">pic.twitter.com/Qd6V2PsGgX</a></p>&mdash; raahii (@raahiiy) <a href="https://twitter.com/raahiiy/status/1109362308638072832?ref_src=twsrc%5Etfw">March 23, 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
