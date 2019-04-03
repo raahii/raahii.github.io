@@ -13,19 +13,8 @@
     
   
   
-  <meta name="twitter:title" content=""/>
-  <meta name="twitter:description" content="https://note.mu/konpyu/n/n9d3e3195b673
- なぜ美女やイケメンは生涯収入が高いのか
-自信を持つことの重要性について，チェスの元世界チャンピオン、ガルリ・カスパロフの例を基に書いている．自信過剰であるということは「良い意味で妄想状態」であり，過去を肯定的に解釈することにより未来を楽観的に考えることができる状態と捉えることが出来る．
- ある研究によると、「自分を欺くことは、ストレスの軽減、ポジティブな自己バイアス、苦痛への耐性強化と関連し、これらすべてが、競争的な仕事において意欲と業績を向上させる」という。
- この指摘は成功者にサイコパスが多いことと近いニュアンスのように思う．
-さらに， &gt; 自信過剰な人は、実質的に業績を上げている人より、昇進する可能性が高い。すでに述べたように、最初に口を開き、たびたび発言する――つまり自信がある態度――だけで、周りからリーダーと見なされる。
-
- 「人びとは別にナルシシストを雇いたいわけではないのだが、結果としてそうなりやすい。なぜなら、彼らは自信にあふれ、有能な印象を与えるからだ」
- のように，自信は態度となって現れることで，コミュニティでもメリットがある．自信持っていきたい．
- ワーキングマザー生活10年を（割と赤裸々に）振り返る
-子育てとキャリアの両立において1人の女性が抱えてきた事情と不満が赤裸々に書かれていてよかった．今後は，仕事と育児の両立の焦点がケア（配慮）からフェア（機会均等）へと移っていってほしいという言葉，あと，世の中は確実に良い方向に向かっていると感じるという言葉がとても良かった．
-  "/>
+  <meta name="twitter:title" content="ABC122 D - We Like AGC"/>
+  <meta name="twitter:description" content="前回のコンテスト，ABC122の復習メモを残しておく． 問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求"/>
   
     <meta name="twitter:site" content="@piyo56_net"/>
   
@@ -43,7 +32,7 @@
     <meta name="generator" content="Hugo 0.53" />
     <title>
       
-         | Code is Fun
+        ABC122 D - We Like AGC | Code is Fun
       </title>
     <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
     <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
@@ -85,12 +74,12 @@
             <article>
                 <header>
                     <h1>
-                        
+                        ABC122 D - We Like AGC
                     </h1>
                     <h2 class="headline">
-                    Jan 1, 0001 00:00
-                    · 12 words
-                    · 1 minute read
+                    Apr 3, 2019 23:43
+                    · 1088 words
+                    · 3 minute read
                       <span class="tags">
                       
                       </span>
@@ -98,46 +87,105 @@
                 </header>
                 
                   
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#問題">問題</a>
+<ul>
+<li><a href="#問題文">問題文</a></li>
+<li><a href="#制約">制約</a></li>
+</ul></li>
+<li><a href="#解法-考え方">解法（考え方）</a></li>
+<li><a href="#dpによる解法">DPによる解法</a></li>
+<li><a href="#メモ化による解法">メモ化による解法</a></li>
+<li><a href="#感想">感想</a></li>
+</ul>
+</nav>
+                    </div>
+                  
                 
                 <section id="post-body">
-                    <p><a href="https://note.mu/konpyu/n/n9d3e3195b673">https://note.mu/konpyu/n/n9d3e3195b673</a></p>
+                    
 
-<!--
-http://www.onflow.jp/cyano/archives/143
--->
+<p>前回のコンテスト，<a href="https://atcoder.jp/contests/abc122">ABC122</a>の復習メモを残しておく．</p>
+
+<h1 id="問題">問題</h1>
+
+<h2 id="問題文">問題文</h2>
+
+<p>整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求めてください。</p>
 
 <ul>
-<li><p><a href="https://t.co/cS5rtKoSEV">なぜ美女やイケメンは生涯収入が高いのか</a></p>
-
-<p>自信を持つことの重要性について，チェスの元世界チャンピオン、ガルリ・カスパロフの例を基に書いている．自信過剰であるということは「良い意味で妄想状態」であり，過去を肯定的に解釈することにより未来を楽観的に考えることができる状態と捉えることが出来る．</p>
-
-<blockquote>
-<p>ある研究によると、「自分を欺くことは、ストレスの軽減、ポジティブな自己バイアス、苦痛への耐性強化と関連し、これらすべてが、競争的な仕事において意欲と業績を向上させる」という。</p>
-</blockquote>
-
-<p>この指摘は成功者にサイコパスが多いことと近いニュアンスのように思う．</p>
-
-<p>さらに，
-&gt; 自信過剰な人は、実質的に業績を上げている人より、昇進する可能性が高い。すでに述べたように、最初に口を開き、たびたび発言する――つまり自信がある態度――だけで、周りからリーダーと見なされる。</p>
-
-<p><span></span></p>
-
-<blockquote>
-<p>「人びとは別にナルシシストを雇いたいわけではないのだが、結果としてそうなりやすい。なぜなら、彼らは自信にあふれ、有能な印象を与えるからだ」</p>
-</blockquote>
-
-<p>のように，自信は態度となって現れることで，コミュニティでもメリットがある．自信持っていきたい．</p></li>
-
-<li><p><a href="https://www.e-aidem.com/ch/listen/entry/2018/03/07/110000">ワーキングマザー生活10年を（割と赤裸々に）振り返る</a></p>
-
-<p>子育てとキャリアの両立において1人の女性が抱えてきた事情と不満が赤裸々に書かれていてよかった．今後は，仕事と育児の両立の焦点がケア（配慮）からフェア（機会均等）へと移っていってほしいという言葉，あと，世の中は確実に良い方向に向かっていると感じるという言葉がとても良かった．</p></li>
+<li><code>A</code>, <code>C</code>, <code>G</code>, <code>T</code> 以外の文字を含まない。</li>
+<li><code>AGC</code> を部分文字列として含まない。</li>
+<li>隣接する 2 文字の入れ替えを 1 回行うことで上記の条件に違反させることはできない。</li>
 </ul>
+
+<h2 id="制約">制約</h2>
+
+<ul>
+<li>$3\leq N\leq100$</li>
+</ul>
+
+<h1 id="解法-考え方">解法（考え方）</h1>
+
+<p>単純な全探索の計算量は $O(4^N)$ ．しかし「隣り合う文字列を入れ替えた時に&rdquo;AGC&rdquo;を含んではいけない」という制約は，新しくi番目の文字を決定するには<strong>直前の3文字のみが関与する</strong>ことがわかる．</p>
+
+<p>ダメなケースというのは例えば</p>
+
+<ul>
+<li><p>3文字: &ldquo;AGC&rdquo;, &ldquo;GAC&rdquo;, &ldquo;ACG&rdquo;</p></li>
+
+<li><p>4文字: &ldquo;A?GC&rdquo;, &ldquo;AG?C&rdquo;</p></li>
+</ul>
+
+<p>であるが，コツとして，文字列が制約を守っているかどうかを↑のように自分でパターンを書き出しすのではなく，プログラムしてあげるほうが良いということ（<a href="https://img.atcoder.jp/abc122/editorial.pdf">公式の解答</a>でやられている）．こういう感じ．</p>
+
+<script src="https://gist.github.com/raahii/1f5d88bda3ec4b09e26aeb55b48f3ca8.js"></script>
+
+<p>これがまた，Goだと <code>string</code> は要素の入れ替えができなくて辛い感じになるのですが笑（まぁ全角文字が入ったりすると<code>string</code>の要素はきちんと1文字に対応しないので，できない方が良いとも言える？）．</p>
+
+<p>あとはオーバーフローするので余りを取ることを忘れないようにすること．dpテーブルの構築時，最後の和を取る部分の両方で使う．</p>
+
+<h1 id="dpによる解法">DPによる解法</h1>
+
+<p>解法の方向性がわかったところで，DPで解く方法を考える．この場合，i番目に文字jを採用できる場合の数をテーブルに埋めていく．</p>
+
+<p>制約の全くない単純な数え上げをするケースをまず考えると，遷移式は</p>
+
+<p>$$
+dp[i+1][j] = \sum_{k} dp[i][k]
+$$</p>
+
+<p>のように書くことができ，コードは次のようになる．</p>
+
+<script src="https://gist.github.com/raahii/3a69a715536f5e451e9bc3c491632590.js"></script>
+
+<p>この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを<code>dp[i][j][k][l]</code>のように拡張する．添字はそれぞれ直近3番目(<code>j</code>)，直近2番目(<code>k</code>)，直近1番目(<code>l</code>)を示す．そうすると遷移式は次のようにかける．</p>
+
+<p>$$
+dp[i+1][k][l][m] = \sum<em>{j} \sum</em>{k} \sum_{l} dp[i][j][k][l]
+$$</p>
+
+<p>ここで，<code>j</code> <code>k</code> <code>l</code> <code>m</code> の4つの文字を並べたときに，先の<code>ok</code>に渡して<code>true</code>となるもののみを遷移可能として足せば良い．dpを使うことで計算量は $O(N)$ になる．for文が多くて結構つらいが完成してみると難しいところは特にない．初期値をどうするかは割と迷った．</p>
+
+<script src="https://gist.github.com/raahii/019732bf3d8bccd5a0a8f2764a5d4169.js"></script>
+
+<h1 id="メモ化による解法">メモ化による解法</h1>
+
+<p>これは模範解答のpdfと同じなので改めて説明する必要もないけれど，自分で理解する用で書いてみた．メモ化の方が再帰を使うのですっきり書ける．</p>
+
+<script src="https://gist.github.com/raahii/ea62641e1f2ba6d9cbfa6aac777914e8.js"></script>
+
+<h1 id="感想">感想</h1>
+
+<p>この手の問題は経験値な気がする．解けるようになるのは楽しいけど，きちんと各解法を理解して，何故これで高速化できるのか，どれくらい高速化されるのかを説明できなければ，実務ではかすりもしない気がする．精進．</p>
 
                 </section>
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f1%2f01%2f0304%2f -  by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2019%2f04%2fabc122%2f - ABC122%20D%20-%20We%20Like%20AGC by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(

@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Go</title>
+      <link>https://raahii.github.io/categories/go/</link>
+      <pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Tech</title>
       <link>https://raahii.github.io/categories/tech/</link>
       <pubDate>Thu, 22 Dec 2016 01:18:00 +0900</pubDate>
@@ -57,11 +66,29 @@
     </item>
     
     <item>
+      <title>実装</title>
+      <link>https://raahii.github.io/categories/%E5%AE%9F%E8%A3%85/</link>
+      <pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E5%AE%9F%E8%A3%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>研究</title>
       <link>https://raahii.github.io/categories/%E7%A0%94%E7%A9%B6/</link>
       <pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate>
       
       <guid>https://raahii.github.io/categories/%E7%A0%94%E7%A9%B6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>競プロ</title>
+      <link>https://raahii.github.io/categories/%E7%AB%B6%E3%83%97%E3%83%AD/</link>
+      <pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/categories/%E7%AB%B6%E3%83%97%E3%83%AD/</guid>
       <description></description>
     </item>
     

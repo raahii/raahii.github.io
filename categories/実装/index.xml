@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>実装 on Code is Fun</title>
+    <link>https://raahii.github.io/categories/%E5%AE%9F%E8%A3%85/</link>
+    <description>Recent content in 実装 on Code is Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Wed, 03 Apr 2019 23:43:42 +0900</lastBuildDate>
+    
+	<atom:link href="https://raahii.github.io/categories/%E5%AE%9F%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ABC122 D - We Like AGC</title>
+      <link>https://raahii.github.io/2019/04/abc122/</link>
+      <pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/04/abc122/</guid>
+      <description>前回のコンテスト，ABC122の復習メモを残しておく． 問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求</description>
+    </item>
+    
+  </channel>
+</rss>

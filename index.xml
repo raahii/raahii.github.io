@@ -6,10 +6,19 @@
     <description>Recent content on Code is Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 23 Mar 2019 18:05:02 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 03 Apr 2019 23:43:42 +0900</lastBuildDate>
     
 	<atom:link href="https://raahii.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ABC122 D - We Like AGC</title>
+      <link>https://raahii.github.io/2019/04/abc122/</link>
+      <pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/04/abc122/</guid>
+      <description>前回のコンテスト，ABC122の復習メモを残しておく． 問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求</description>
+    </item>
     
     <item>
       <title>約数の全列挙の高速化</title>
@@ -315,26 +324,6 @@
       
       <guid>https://raahii.github.io/2015/06/211051/</guid>
       <description>「研究者流コーディングの極意」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://raahii.github.io/1/01/0304/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://raahii.github.io/1/01/0304/</guid>
-      <description>https://note.mu/konpyu/n/n9d3e3195b673
- なぜ美女やイケメンは生涯収入が高いのか
-自信を持つことの重要性について，チェスの元世界チャンピオン、ガルリ・カスパロフの例を基に書いている．自信過剰であるということは「良い意味で妄想状態」であり，過去を肯定的に解釈することにより未来を楽観的に考えることができる状態と捉えることが出来る．
- ある研究によると、「自分を欺くことは、ストレスの軽減、ポジティブな自己バイアス、苦痛への耐性強化と関連し、これらすべてが、競争的な仕事において意欲と業績を向上させる」という。
- この指摘は成功者にサイコパスが多いことと近いニュアンスのように思う．
-さらに， &amp;gt; 自信過剰な人は、実質的に業績を上げている人より、昇進する可能性が高い。すでに述べたように、最初に口を開き、たびたび発言する――つまり自信がある態度――だけで、周りからリーダーと見なされる。
-
- 「人びとは別にナルシシストを雇いたいわけではないのだが、結果としてそうなりやすい。なぜなら、彼らは自信にあふれ、有能な印象を与えるからだ」
- のように，自信は態度となって現れることで，コミュニティでもメリットがある．自信持っていきたい．
- ワーキングマザー生活10年を（割と赤裸々に）振り返る
-子育てとキャリアの両立において1人の女性が抱えてきた事情と不満が赤裸々に書かれていてよかった．今後は，仕事と育児の両立の焦点がケア（配慮）からフェア（機会均等）へと移っていってほしいという言葉，あと，世の中は確実に良い方向に向かっていると感じるという言葉がとても良かった．
-  </description>
     </item>
     
   </channel>
