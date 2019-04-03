@@ -78,7 +78,7 @@
                     </h1>
                     <h2 class="headline">
                     Apr 3, 2019 23:43
-                    · 1088 words
+                    · 1072 words
                     · 3 minute read
                       <span class="tags">
                       
@@ -153,18 +153,16 @@
 
 <p>制約の全くない単純な数え上げをするケースをまず考えると，遷移式は</p>
 
-<p>$$
-dp[i+1][j] = \sum_{k} dp[i][k]
-$$</p>
+<p>$$ dp[i+1][j] = \sum_{k} dp[i][k] $$</p>
 
 <p>のように書くことができ，コードは次のようになる．</p>
 
 <script src="https://gist.github.com/raahii/3a69a715536f5e451e9bc3c491632590.js"></script>
 
-<p>この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを<code>dp[i][j][k][l]</code>のように拡張する．添字はそれぞれ直近3番目(<code>j</code>)，直近2番目(<code>k</code>)，直近1番目(<code>l</code>)を示す．そうすると遷移式は次のようにかける．</p>
+<p>この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを <code>dp[i][j][k][l]</code> のように拡張する．添字はそれぞれ直近3番目(<code>j</code>)，直近2番目(<code>k</code>)，直近1番目(<code>l</code>)を示す．そうすると遷移式は次のようにかける．</p>
 
 <p>$$
-dp[i+1][k][l][m] = \sum<em>{j} \sum</em>{k} \sum_{l} dp[i][j][k][l]
+dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l]
 $$</p>
 
 <p>ここで，<code>j</code> <code>k</code> <code>l</code> <code>m</code> の4つの文字を並べたときに，先の<code>ok</code>に渡して<code>true</code>となるもののみを遷移可能として足せば良い．dpを使うことで計算量は $O(N)$ になる．for文が多くて結構つらいが完成してみると難しいところは特にない．初期値をどうするかは割と迷った．</p>
