@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+    
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://raahii.github.io/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Goで順列（permutation）を実装する"/>
+  <meta name="twitter:description" content="配列の並び替えのパターンの列挙をする関数をgolangで書く．ABC123で必要になったので． TL;DR QuickPermを使うと良さそうです． 上記"/>
+  
+    <meta name="twitter:site" content="@piyo56_net"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@raahii"/>
+  
+
+
+
+    
+    <meta name="author" content="raahii">
+    <meta name="description" content="blog">
+    <meta name="generator" content="Hugo 0.53" />
+    <title>
+      
+        Goで順列（permutation）を実装する | Code is Fun
+      </title>
+    <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
+    <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
+    <link rel="stylesheet" href="https://raahii.github.io/css/highlight.css">
+
+    
+    <link rel="stylesheet" href="https://raahii.github.io/css/font-awesome.min.css">
+    
+
+    
+    <link href="https://raahii.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Code is Fun" />
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+  </head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://raahii.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://raahii.github.io/archive'>Archive</a>
+	<a href='https://raahii.github.io/tags'>Tags</a>
+	<a href='https://raahii.github.io/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://raahii.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Goで順列（permutation）を実装する
+                    </h1>
+                    <h2 class="headline">
+                    Apr 7, 2019 12:22
+                    · 533 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#tl-dr">TL;DR</a></li>
+<li><a href="#方法1-naive-dfs">方法1: naive dfs</a></li>
+<li><a href="#方法2-heap-algorithm">方法2: Heap Algorithm</a></li>
+<li><a href="#方法3-quickperm">方法3: QuickPerm</a></li>
+<li><a href="#方法4-おまけ-quickperm-channel">方法4（おまけ）: QuickPerm + Channel</a></li>
+<li><a href="#速度比較">速度比較</a></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    
+
+<p>配列の並び替えのパターンの列挙をする関数をgolangで書く．<a href="https://atcoder.jp/contests/abc123">ABC123</a>で必要になったので．</p>
+
+<h1 id="tl-dr">TL;DR</h1>
+
+<p>QuickPermを使うと良さそうです．</p>
+
+<script src="https://gist.github.com/raahii/6dd5f44e469f32200bd805700981a10d.js"></script>
+
+<script src="https://gist.github.com/raahii/e53932d299c38a52ad5f114ca6641e1c.js"></script>
+
+<p>上記はコピペ用でこっからはいくつか方法を試して最後に速度比較します．</p>
+
+<h1 id="方法1-naive-dfs">方法1: naive dfs</h1>
+
+<p>素直にdfsをする．前から数字を決めていって，決めたらその数字を選択肢から消して次へ行く．全部使ったら（選択肢が無くなったら）1つのパターンとして採択する．</p>
+
+<script src="https://gist.github.com/raahii/9115d1bd0592aec243f47987c4c7dc4a.js"></script>
+
+<p>上のコードで使ってるサブ関数たちです．この後の方法でも使ってるのですが面倒なので1度だけ掲載．</p>
+
+<script src="https://gist.github.com/raahii/f0f3d7e2fd8c4b8f11c7278b45e43858.js"></script>
+
+<h1 id="方法2-heap-algorithm">方法2: Heap Algorithm</h1>
+
+<p><a href="https://ja.wikipedia.org/wiki/Heap%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">Heapのアルゴリズム</a> を使う．</p>
+
+<script src="https://gist.github.com/raahii/d0fa00607fda89cb954607d188371e0e.js"></script>
+
+<h1 id="方法3-quickperm">方法3: QuickPerm</h1>
+
+<p><a href="http://www.quickperm.org/">QuickPerm</a>を使う．</p>
+
+<script src="https://gist.github.com/raahii/23e962eb81a43275445702cc0101381e.js"></script>
+
+<h1 id="方法4-おまけ-quickperm-channel">方法4（おまけ）: QuickPerm + Channel</h1>
+
+<p><a href="https://stackoverflow.com/questions/30226438/generate-all-permutations-in-go">Generate all permutations in go</a>とかを見ているとChannelを使った実装をしているので早いのか？と思って試してみた．</p>
+
+<script src="https://gist.github.com/raahii/2d6128b09895c388e223f55ffacdea7f.js"></script>
+
+<h1 id="速度比較">速度比較</h1>
+
+<p>go testでベンチマーク取ります．</p>
+
+<script src="https://gist.github.com/raahii/1186cc916e7c54531e73a82ef42de679.js"></script>
+
+<p>方法3のQuickPermが一番早そうです．方法4は非同期でやっても単に結果くるまでブロッキングしてるので，goroutineやchannelの生成の分で普通に遅そうですね．ただまだちょっとgoroutineの取扱に慣れてないのでベンチマークのコードが怪しいかもしれません．</p>
+
+<pre><code>goos: darwin
+goarch: amd64
+pkg: github.com/raahii/go-sandbox/permutations
+BenchmarkPermute1-4  2    684403978 ns/op   637542560 B/op   9895161 allocs/op
+BenchmarkPermute2-4  5    285790686 ns/op   377401424 B/op   3628802 allocs/op
+BenchmarkPermute3-4  5    216943042 ns/op   377401440 B/op   3628802 allocs/op
+BenchmarkPermute4-4  1   1215330546 ns/op   290305888 B/op   3628817 allocs/op
+PASS
+ok      github.com/raahii/go-sandbox/permutations       7.580s
+</code></pre>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2019%2f04%2fpermutations-in-go%2f - Go%e3%81%a7%e9%a0%86%e5%88%97%ef%bc%88permutation%ef%bc%89%e3%82%92%e5%ae%9f%e8%a3%85%e3%81%99%e3%82%8b by @piyo56_net"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'raahii'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    <script>
+      renderMathInElement(document.body,
+        {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+            ]
+        }
+      );
+
+      var inlineMathArray = document.querySelectorAll("script[type='math/tex']");
+      for (var i = 0; i < inlineMathArray.length; i++) {
+        var inlineMath = inlineMathArray[i];
+        var tex = inlineMath.innerText || inlineMath.textContent;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex, {displayMode: false});
+        inlineMath.parentNode.replaceChild(replaced, inlineMath);
+      }
+
+      var displayMathArray = document.querySelectorAll("script[type='math/tex; mode=display']");
+      for (var i = 0; i < displayMathArray.length; i++) {
+        var displayMath = displayMathArray[i];
+        var tex = displayMath.innerHTML;
+        var replaced = document.createElement("span");
+        replaced.innerHTML = katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+        displayMath.parentNode.replaceChild(replaced, displayMath);
+      }
+    </script>
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="">
+        <i class="fa fa-displaymath"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/raahii">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/piyo56_net">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2019 <i class="fa fa-heart" aria-hidden="true"></i> raahii
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://raahii.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://raahii.github.io/js/main.js"></script>
+<script src="https://raahii.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-86522604-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</html>
