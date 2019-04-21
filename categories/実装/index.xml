@@ -29,5 +29,14 @@
       <description>前回のコンテスト，ABC122の復習メモを残しておく． 問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求</description>
     </item>
     
+    <item>
+      <title>3DGANをchainerで実装した</title>
+      <link>https://raahii.github.io/2017/10/3dgan-chainer/</link>
+      <pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2017/10/3dgan-chainer/</guid>
+      <description>タイトルの通り，3DGANのchainer実装をgithubに上げた．当初はKerasで書いていたが良い結果が得られず，ソースコードの間違い</description>
+    </item>
+    
   </channel>
 </rss>

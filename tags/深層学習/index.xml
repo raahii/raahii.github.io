@@ -21,15 +21,6 @@
     </item>
     
     <item>
-      <title>3DGANをchainerで実装した</title>
-      <link>https://raahii.github.io/2017/10/3dgan-chainer/</link>
-      <pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate>
-      
-      <guid>https://raahii.github.io/2017/10/3dgan-chainer/</guid>
-      <description>タイトルの通り、3DGANのchainer実装をgithubに上げた。当初はkerasで書いていたが良い結果が得られず、ソースコードの間違い</description>
-    </item>
-    
-    <item>
       <title>3Dオブジェクト（ボクセルデータ）を描画するツールを作った</title>
       <link>https://raahii.github.io/2017/10/voxel/</link>
       <pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate>

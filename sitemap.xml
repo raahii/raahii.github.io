@@ -265,7 +265,7 @@
   </url>
   
   <url>
-    <loc>https://raahii.github.io/tags/3d/</loc>
+    <loc>https://raahii.github.io/categories/3d/</loc>
     <lastmod>2017-10-25T20:14:00+09:00</lastmod>
     <priority>0</priority>
   </url>
@@ -276,20 +276,38 @@
   </url>
   
   <url>
-    <loc>https://raahii.github.io/tags/gan/</loc>
+    <loc>https://raahii.github.io/categories/gan/</loc>
     <lastmod>2017-10-25T20:14:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://raahii.github.io/tags/python/</loc>
+    <loc>https://raahii.github.io/categories/python/</loc>
     <lastmod>2017-10-25T20:14:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/categories/%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92/</loc>
+    <lastmod>2017-10-25T20:14:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/tags/3d/</loc>
+    <lastmod>2017-10-09T01:32:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://raahii.github.io/2017/10/voxel/</loc>
     <lastmod>2017-10-09T01:32:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/tags/gan/</loc>
+    <lastmod>2017-10-09T01:32:00+09:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -452,6 +470,12 @@
   
   <url>
     <loc>https://raahii.github.io/tags/mac/</loc>
+    <lastmod>2016-09-21T23:10:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://raahii.github.io/tags/python/</loc>
     <lastmod>2016-09-21T23:10:00+09:00</lastmod>
     <priority>0</priority>
   </url>
