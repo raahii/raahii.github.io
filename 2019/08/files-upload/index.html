@@ -13,8 +13,8 @@
     
   
   
-  <meta name="twitter:title" content="Macならできること　ぱーと１"/>
-  <meta name="twitter:description" content=" 飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手にスマホを持ちながらみたいなのは嫌だという方．   まず，必要に応じてイヤホンをしましょう．  読みたい記事のテキストを選択しクリップボードにコピー"/>
+  <meta name="twitter:title" content="画像データをサーバーにPOSTする"/>
+  <meta name="twitter:description" content="機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ． 1枚"/>
   
     <meta name="twitter:site" content="@raahiiy"/>
   
@@ -32,7 +32,7 @@
     <meta name="generator" content="Hugo 0.55.6" />
     <title>
       
-        Macならできること　ぱーと１ | 1mmもわからん
+        画像データをサーバーにPOSTする | 1mmもわからん
       </title>
     <link rel="shortcut icon" href="https://raahii.github.io/images/favicon.ico">
     <link rel="stylesheet" href="https://raahii.github.io/css/style.css">
@@ -74,52 +74,130 @@
             <article>
                 <header>
                     <h1>
-                        Macならできること　ぱーと１
+                        画像データをサーバーにPOSTする
                     </h1>
                     <h2 class="headline">
-                    Jun 5, 2016 23:42
-                    · 259 words
-                    · 1 minute read
+                    Aug 4, 2019 04:13
+                    · 1104 words
+                    · 3 minute read
                       <span class="tags">
-                      
-                      
-                          
-                              <a href="https://raahii.github.io/tags/%E5%B0%8F%E3%83%8D%E3%82%BF">小ネタ</a>
-                          
-                      
                       
                       </span>
                     </h2>
                 </header>
                 
                   
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1枚しか送らない場合">1枚しか送らない場合</a></li>
+<li><a href="#複数枚送る場合">複数枚送る場合</a></li>
+<li><a href="#所感">所感</a></li>
+</ul></li>
+</ul>
+</nav>
+                    </div>
+                  
                 
                 <section id="post-body">
-                    <p><body>
-<h2>飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手に<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%B9%A5%DE%A5%DB">スマホ</a>を持ちながらみたいなのは嫌だという方．</h2></p>
+                    
 
-<ol>
-<li>まず，必要に応じてイヤホンをしましょう．</li>
-<li>読みたい記事のテキストを選択し<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%AF%A5%EA%A5%C3%A5%D7%A5%DC%A1%BC%A5%C9">クリップボード</a>にコピーしましょう．</li>
-<li>ターミナルで<code>pbpaste | say</code>とタイプしましょう．</li>
-<li>以上です．高品質な<a class="keyword" href="http://d.hatena.ne.jp/keyword/%B2%BB%C0%BC%B9%E7%C0%AE">音声合成</a>技術に感謝しましょう．</li>
-</ol>
+<p>機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ．</p>
 
-<p>[補足]</p>
+<h2 id="1枚しか送らない場合">1枚しか送らない場合</h2>
 
-<ul>
-<li>読み上げ時の声質を変更したい方はそういったことも可能です．</li>
-<li>ちょっと打つのがめんどくさいなという人は<code>echo 'alias yomiage="pbpaste | say"' &gt;&gt; ~/.zshrc</code>などしましょう．</li>
-<li>そう<a class="keyword" href="http://d.hatena.ne.jp/keyword/Mac">Mac</a>なら，ね．</li>
-</ul>
+<p>今の所自分はこのパターンが多いです．いくつか実現方法はあると思いますが，リクエストボディに直接画像データのバイナリを入れて送る方法がシンプルで好きです．クライアント側のコードはこんな感じ．</p>
 
-<p></body></p>
+<pre><code class="language-python">import json
+import urllib.parse
+import urllib.request
+
+# read image data
+f = open(&quot;example.jpg&quot;, &quot;rb&quot;)
+reqbody = f.read()
+f.close()
+
+# create request with urllib
+url = &quot;http://localhost:5000&quot;
+req = urllib.request.Request(
+    url,
+    reqbody,
+    method=&quot;POST&quot;,
+    headers={&quot;Content-Type&quot;: &quot;application/octet-stream&quot;},
+)
+
+# send the request and print response
+with urllib.request.urlopen(req) as res:
+    print(json.loads(res.read()))
+</code></pre>
+
+<p>注意点として Content-Type に <code>application/octet-stream</code> を指定すると良いです．このMIMEタイプは曖昧なバイナリデータを指しており，ファイル種別を特に指定しないことを意味します（ref: <a href="https://www.iana.org/assignments/media-types/application/octet-stream">MIME type: application/octet-stream</a> ）．</p>
+
+<p>urllibの場合，これを指定しないとPOSTのデフォルトのMIMEタイプである <code>application/x-www-form-urlencoded</code> となり，サーバー側で正しく受け取れないので気をつけてください．</p>
+
+<p>一方でサーバー側（flaskの場合）のコードはこのようになります．画像データをOpenCVで読んで画像のshapeをjsonで返しています．</p>
+
+<pre><code class="language-python">@app.route(&quot;/&quot;, methods=[&quot;POST&quot;])
+def example():
+    # read request body as byte array
+    _bytes = np.frombuffer(request.data, np.uint8)
+    # decode the bytes to image directly
+    img = cv2.imdecode(_bytes, flags=cv2.IMREAD_COLOR)
+
+    return jsonify(img.shape)
+</code></pre>
+
+<p>ポイントはリクエストボディのバイト列を直接OpenCVのAPIで画像として読み込んでいるところです．この部分，一度画像データをファイルに書き出してから改めて読んでいるコードをよく見かけますが，直接できます．しかもこの方法だとjpegでもpngでも関係なく画像データに落とし込めるのでとっても楽です（OpenCVが優秀なだけ？）．</p>
+
+<h2 id="複数枚送る場合">複数枚送る場合</h2>
+
+<p>バッチ処理なんかしたい場合は複数枚を同時に送りたいこともあると思います．その場合はやはり <code>multipart/form-data</code> だと思います（まぁそのためにあるので）．<code>multipart/form-data</code> は複数のファイルデータをBoundary文字列
+で区切って連結し，送信する方法です．</p>
+
+<p>ただその分，先のリクエスト方法よりも複雑なのでライブラリを使うと楽です．clientのサンプルコードです．</p>
+
+<pre><code class="language-python">import requests
+
+images = {}
+for i, f in enumerate([&quot;example.jpg&quot;, &quot;example.png&quot;]):
+    f = open(f, &quot;rb&quot;)
+    images[str(i)] = f.read()
+
+url = &quot;http://localhost:5000/multi&quot;
+res = requests.post(url, files=images)
+print(res.json())
+</code></pre>
+
+<p>この場合，送りたい画像データはただの配列なのですが，どうやらdictで渡さないといけないようなので，indexを文字列にしてkeyとしました．これを使ってサーバー側のコードで順序を保証して取り出します．</p>
+
+<pre><code class="language-python">@app.route(&quot;/&quot;, methods=[&quot;POST&quot;])
+def example():
+    # sort by key as integer
+    files = sorted(request.files.items(), key=lambda x: int(x[0]))
+
+    images = []
+    for f in files:
+        _bytes = np.frombuffer(f[1].read(), np.uint8)
+        img = cv2.imdecode(_bytes, flags=cv2.IMREAD_COLOR)
+
+        images.append(img.shape)
+
+    return jsonify(images)
+</code></pre>
+
+<p>あんまりキレイではないですが，こんな感じでできます．ちなみに，画像データ以外のjsonデータを送りたい場合なんかも同様に <code>multipart/form-data</code>を使ってできるので万能ですね．</p>
+
+<h2 id="所感">所感</h2>
+
+<p>覚えたぞ，<code>application/octet-stream</code>．</p>
 
                 </section>
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2016%2f06%2f234239%2f - Mac%e3%81%aa%e3%82%89%e3%81%a7%e3%81%8d%e3%82%8b%e3%81%93%e3%81%a8%e3%80%80%e3%81%b1%e3%83%bc%e3%81%a8%ef%bc%91 by @raahiiy"><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fraahii.github.io%2f2019%2f08%2ffiles-upload%2f - %e7%94%bb%e5%83%8f%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92%e3%82%b5%e3%83%bc%e3%83%90%e3%83%bc%e3%81%abPOST%e3%81%99%e3%82%8b by @raahiiy"><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(
@@ -139,10 +217,6 @@
 
     
     
-    
-        <li>
-            <a href="/2019/08/files-upload/">画像データをサーバーにPOSTする<aside class="dates">Aug 4 2019</aside></a>
-        </li>
     
         <li>
             <a href="/2019/04/permutations-in-go/">Goで順列（permutation）を実装する<aside class="dates">Apr 7 2019</aside></a>
@@ -178,6 +252,10 @@
     
         <li>
             <a href="/2018/04/media-makers/">『MEDIA MAKERS』を読んだ<aside class="dates">Apr 12 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/2018/04/start-from-the-issue/">『イシューから始めよ』を読んだ<aside class="dates">Apr 9 2018</aside></a>
         </li>
     
 </ul>

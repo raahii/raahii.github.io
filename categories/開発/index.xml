@@ -6,10 +6,19 @@
     <description>Recent content in 開発 on 1mmもわからん</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 04 May 2017 01:03:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2019 04:13:59 +0900</lastBuildDate>
     
 	<atom:link href="https://raahii.github.io/categories/%E9%96%8B%E7%99%BA/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>画像データをサーバーにPOSTする</title>
+      <link>https://raahii.github.io/2019/08/files-upload/</link>
+      <pubDate>Sun, 04 Aug 2019 04:13:59 +0900</pubDate>
+      
+      <guid>https://raahii.github.io/2019/08/files-upload/</guid>
+      <description>機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ． 1枚</description>
+    </item>
     
     <item>
       <title>Ruby(Rails)でGoogle Analytics APIを使う</title>
