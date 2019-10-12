@@ -1,0 +1,15 @@
+theme = "hugo-zen"
+languageCode = "ja"
+author = "raahii"
+title = "raahii's blog"
+baseurl = "https://raahii.github.io/blog"
+copyright = "raahii All rights reserved."
+googleanalytics = "UA-86522604-4"
+
+[params]
+  logo      = "/images/tabouhiyoko.png"
+  twitter   = "https://twitter.com/piyo56_net"
+  github    = "https://github.com/piyo56/"
+  email     = "piyo56.net@gmail.com"
+  # facebook  = "https://www.facebook.com/ochiishikoichiro"
+  # gitlab    = "https://gitlab.com/rakuishi/"

@@ -1,0 +1,44 @@
+baseurl = "https://raahii.github.io/"
+theme = "hugo-lithium-theme"
+languageCode = "ja-JP"
+title = "1mmもわからん"
+googleAnalytics = "UA-86522604-4"
+disqusShortname = "raahii"
+disableKinds = ["taxonomy", "taxonomyTerm", "section", "404"]
+enableEmoji = true
+
+[permalinks]
+    post = "/:year/:month/:day/:filename/"
+    page = "/:title/"
+
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+    pre = "internal"
+
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/raahii"
+    pre = "external"
+
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/raahiiy"
+    pre = "external"
+
+[params]
+    mainSections = ["post"]
+
+    description = ""
+
+    # path to the favicon, under "static"
+    favicon = "favicon.ico"
+
+    [params.logo]
+    url = "logo.png"
+    width = 50
+    height = 50
+    alt = "Logo"
+
+    [params.icon]
+    url = "favicon.ico"

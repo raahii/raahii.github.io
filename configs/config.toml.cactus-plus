@@ -1,0 +1,77 @@
+title = "1mmもわからん"
+theme = "hugo-theme-cactus-plus"
+languageCode = "ja"
+baseurl = "https://raahii.github.io/"
+googleAnalytics = "UA-86522604-4"
+hasCJKLanguage = true
+enableEmoji = true
+
+[permalinks]
+  post = "/:year/:month/:filename/"
+
+[params]
+  author = "raahii"
+  description = "blog"
+  bio = "student interested in web development, deep learning"
+  twitter = "raahiiy"
+
+  enableRSS = true
+  enableToc = true
+
+  enableRelatedPosts = true
+
+  enableDisqus = true
+  disqusShortname = "raahii"
+
+  enableSummary = true
+  # Set the value to true if use description in post front matter replace content summary
+  useDescriptionReplaceSummary = false
+
+  enableGoogleAnalytics = true
+
+  enableTwitterCard = true
+  # The url for twitter card image, default is avatar.png in static/images directory
+  # twitterCardImage = "https://pbs.twimg.com/profile_images/827176747825127424/bhC-16VB_400x400.jpg"
+
+  # Add custom assets with their paths relative to the static folder
+  customCSS = []
+  customJS  = []
+
+  # The variables below are optionally too and can be used to
+  # translate or customize each string of the theme.
+
+  # Navigation links
+  home = ""
+  about = ""
+  archive = ""
+  subscribe = ""
+
+  olderPosts = ""
+  newerPosts = ""
+  copyright = ""
+
+  # show latest posts in single page
+  showLatestPosts = true
+  readMore = ""
+
+  # Share
+  enableShare = true
+  tweet = ""
+  share = ""
+
+  # 404 page
+  title404 = ""
+  subtitle404 = ""
+
+  # Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
+  iconFont = "font-awesome"
+  # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
+  socialIconStyle = ""
+
+# Add additional social link entries underneath
+[social]
+  # facebook-square = "https://www.facebook.com/nodejh"
+  twitter-square = "https://www.twitter.com/raahiiy"
+  github-square = "https://www.github.com/raahii"
+
+  displayMath = [['$$','$$'], ['\\[','\\]']]
