@@ -47,3 +47,6 @@ pygmentsStyle = "github"
 
     [params.icon]
     url = "favicon.ico"
+
+[blackfriday]
+  hrefTargetBlank = true
