@@ -4,8 +4,13 @@ languageCode = "ja-JP"
 title = "1mmもわからん"
 googleAnalytics = "UA-86522604-4"
 disqusShortname = "raahii"
-disableKinds = ["taxonomy", "taxonomyTerm", "section", "404"]
 enableEmoji = true
+disableKinds = ["taxonomy", "taxonomyTerm", "section", "404"]
+
+# syntax highlight
+pygmentsCodefences = true
+pygmentsCodefencesGuessSyntax = true
+pygmentsStyle = "github"
 
 [permalinks]
     post = "/:year/:month/:day/:filename/"
