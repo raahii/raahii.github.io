@@ -1,7 +1,7 @@
 baseurl = "https://raahii.github.io/"
 theme = "hugo-lithium-theme"
 languageCode = "ja-JP"
-title = "1mmもわからん"
+title = "1ミリもわからん"
 googleAnalytics = "UA-86522604-4"
 disqusShortname = "raahii"
 enableEmoji = true
@@ -34,10 +34,11 @@ pygmentsStyle = "github"
 [params]
     mainSections = ["post"]
 
-    description = ""
-
     # path to the favicon, under "static"
     favicon = "favicon.ico"
+
+    # Auto math equation rendering with KaTeX
+    math = true
 
     [params.logo]
     url = "logo.png"
