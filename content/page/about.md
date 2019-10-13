@@ -20,13 +20,10 @@ draft = false
 
 - Interest:
     - Web backend ([golang](https://gopherize.me/))
-    
-- Computer Vision ([GAN](https://en.wikipedia.org/wiki/Generative_adversarial_network))
-- Football :soccer:
-- Fashion :jeans:
+    - Computer Vision ([GAN](https://en.wikipedia.org/wiki/Generative_adversarial_network))
+    - Football :soccer:
+    - Fashion :jeans:
 
-    <br>
-    
 - Recent coding status:
 
     <figure><embed src="https://wakatime.com/share/@raahii/63557f09-e149-4d04-b646-e5a6fd2c6742.svg" width="90%"></embed></figure>
@@ -37,11 +34,11 @@ draft = false
 
 ### ・ShowTime (2019 / 08, M2)
 
-<a href="https://speakerdeck.com/taigamikami/showtime-hack-u"><img src="https://user-images.githubusercontent.com/13511520/62817953-41737280-bb7a-11e9-9fee-d6d4424ac101.png"></a>
+<a href="https://speakerdeck.com/taigamikami/showtime-hack-u"><img src="https://user-images.githubusercontent.com/13511520/62817953-41737280-bb7a-11e9-9fee-d6d4424ac101.png" width="560px"></a>
 
 > "あなたのプレゼンをもっと面白く"
 
-> ShowTimeはプレゼンの際に発表者のポーズに応じてスライドを進めたり，効果音を鳴らすことで，発表にメリハリと笑い与えてくれるツールです．
+> ShowTimeはプレゼンの際に発表者のポーズに応じてスライドを進めたり，効果音を鳴らすことで，発表にメリハリと笑いを与えてくれるツールです．
 > HackU2019にて制作．発表者のポーズ認識（機械学習）の実装，及びサーバーサイドを担当．
 
 
@@ -149,13 +146,12 @@ draft = false
 
 - CVIM2018年9月研究会 [奨励賞](http://cvim.ipsj.or.jp/index.php?id=award_winner#2018) (2018 / 09)
 - JPHACKS2018 東京 [優勝](https://jphacks.com/information/jphacks-award-finalists/) (2018 / 10)
-- JPHACKS2018 全国 [ベストオーディエンスアワード](https://jphacks.com/information/result-report/) (2018 / 11)
+- JPHACKS2018 全国 [Best Audience Award](https://jphacks.com/information/result-report/) (2018 / 11)
 - HackU2019 東京 [最優秀賞](https://hacku.yahoo.co.jp/hacku2019tokyo/) (2019 / 08)
 
 
 
 # Writing
 
-- <a href="https://note.mu/raahii/n/nf9e89010133b"><span style="text-decoration: underline;">サービスの目視チェックをヘッドレスブラウザで効率化した話</span></a> <a href="http://b.hatena.ne.jp/entry/s/note.mu/raahii/n/nf9e89010133b"><span style="color:red; font-style: italic; font-weight: bold;">125 B!</span></a>
-
+- <a href="https://note.mu/raahii/n/nf9e89010133b" target="_black"><span style="text-decoration: underline;">サービスの目視チェックをヘッドレスブラウザで効率化した話</span></a> <a href="http://b.hatena.ne.jp/entry/s/note.mu/raahii/n/nf9e89010133b" target="_black"><span style="color:red; font-style: italic; font-weight: bold;">125 B!</span></a>
 
