@@ -1,10 +1,9 @@
 +++
 title = "Conditional Batch Normalizationについて"
 date = 2018-12-12T15:31:51+09:00
-tags = ["研究", "深層学習", ]
-categories = [""]
+categories = ["研究"]
+tags = ["機械学習", "深層学習", "GAN", "batch normalization"]
 draft = false
-
 +++
 
 # Batch Normalization

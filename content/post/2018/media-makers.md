@@ -1,8 +1,8 @@
 +++
 title = "『MEDIA MAKERS』を読んだ"
 date = 2018-04-12T00:05:28+09:00
-categories = [""]
-tags = ["メディア", "読書"]
+categories = ["読書"]
+tags = ["メディア"]
 draft = false
 +++
 

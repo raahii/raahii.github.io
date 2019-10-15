@@ -1,8 +1,10 @@
----
-title: "tensorboard-chainerにビデオを記録するためのPRを出した"
-date: 2018-05-13T21:37:27+09:00
-draft: false
----
++++
+title = "tensorboard-chainerにビデオを記録するためのPRを出した"
+date = 2018-05-13T21:37:27+09:00
+categories = ["技術"]
+tags = ["python", "chainer", "機械学習", "tensorboard"]
+draft = false
++++
 
 機械学習における可視化ツールの1つに[TensorBoard](https://www.tensorflow.org/programmers_guide/summaries_and_tensorboard)がある。これはTensorflowに付属しているソフトウェアで、学習時のlossやaccuracy、重みのヒストグラムなどを記録することができる。加えて、画像や音声などのデータも記録出来るので、生成モデルの学習でも便利に使える。
 

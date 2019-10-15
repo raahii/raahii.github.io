@@ -1,10 +1,9 @@
 +++
 title = "dotfilesを整備した"
 date = 2019-02-13T00:13:24+09:00
-tags = ["開発"]
-categories = [""]
+tags = ["技術"]
+categories = ["dotfile", "golang"]
 draft = false
-
 +++
 
 

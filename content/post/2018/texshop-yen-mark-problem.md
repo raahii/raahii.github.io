@@ -1,8 +1,8 @@
 +++
 title = "TeXShopでバックスラッシュが円マークになる問題"
 date = 2018-05-06T23:46:20+09:00
-tags = ["研究", "論文", "メモ"]
-categories = [""]
+categories = ["技術"]
+tags = ["論文", "TeX", "TexShop"]
 draft = false
 +++
 

@@ -1,7 +1,8 @@
 +++
 title = "約数の全列挙の高速化"
 date = 2019-03-23T18:05:02+09:00
-tags = ["競プロ", "Go", "実装"]
+categories = ["技術"]
+tags = ["高速化", "golang", "競プロ"]
 draft = false
 
 +++

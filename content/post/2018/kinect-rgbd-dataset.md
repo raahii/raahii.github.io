@@ -1,9 +1,9 @@
 +++
 title = "Kinectを用いたRGB-Dデータセットのまとめ"
 date = 2018-03-01T18:23:10+09:00
+categories = ["研究"]
+tags = ["論文", "kinect", "RGB-D", "depth"]
 draft = false
-Categories = ["研究", "サーベイ"]
-Tags = ["Kinect", "RGB-D", "データセット"]
 +++
 
 # はじめに

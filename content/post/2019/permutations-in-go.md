@@ -1,9 +1,9 @@
 +++
 title = "Goで順列（permutation）を実装する"
 date = 2019-04-07T12:22:55+09:00
-categories = ["競プロ", "実装", "Go"]
+categories = ["技術"]
+tags = ["golang", "競プロ"]
 draft = false
-
 +++
 
 

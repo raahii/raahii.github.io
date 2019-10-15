@@ -1,8 +1,8 @@
 +++
 title = "草津温泉へ行った"
 date = 2018-04-01T12:13:45+09:00
-tags = ["旅行", "写真"]
-categories = [""]
+categories = ["旅行"]
+tags = ["草津温泉", "写真"]
 draft = false
 +++
 
