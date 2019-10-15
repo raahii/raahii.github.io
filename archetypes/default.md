@@ -1,7 +1,7 @@
 +++
-title:"{{ replace .TranslationBaseName "-" " " | title }}"
-date: {{ .Date }}
-tags: [""]
-categories: [""]
-draft: true
+title = "Fill title"
+date = {{ .Date }}
+tags = [""]
+categories = [""] # 技術, 読書, 旅行
+draft = true
 +++

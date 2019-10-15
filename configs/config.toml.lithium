@@ -12,6 +12,24 @@ pygmentsCodefences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsStyle = "github"
 
+# related article
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = true
+
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+
+  [[related.indices]]
+    name = "categories"
+    weight = 20
+
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
 [permalinks]
     post = "/:year/:month/:day/:filename/"
     page = "/:title/"
