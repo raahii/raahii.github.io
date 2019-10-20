@@ -5,7 +5,6 @@ title = "1ミリもわからん"
 googleAnalytics = "UA-86522604-4"
 disqusShortname = "raahii"
 enableEmoji = true
-# disableKinds = ["taxonomy", "taxonomyTerm", "section", "404"]
 disableKinds = ["section", "404"]
 
 # syntax highlight
@@ -77,5 +76,5 @@ pygmentsStyle = "github"
   hrefTargetBlank = true
 
 [taxonomies]
-  category = "categories"
   tag = "tags"
+  category = "categories"
