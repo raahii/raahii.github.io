@@ -55,6 +55,7 @@ pygmentsStyle = "github"
     weight = 8
 
 [params]
+    description = "raahii tech blog"
     mainSections = ["post"]
 
     # path to the favicon, under "static"

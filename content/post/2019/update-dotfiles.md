@@ -4,6 +4,7 @@ date = 2019-02-13T00:13:24+09:00
 categories = ["技術"]
 tags = ["dotfile", "golang", "インターン"]
 draft = false
+description = "デフォルトシェルをfishに変えて，makefileで自動インストールできるようにdotfileを改善した"
 +++
 
 

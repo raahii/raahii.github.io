@@ -4,6 +4,7 @@ date = 2019-03-12T17:50:37+09:00
 categories = ["技術"]
 tags = ["競プロ", "golang", "データ構造"]
 draft = false
+description = "union findのまとめ"
 +++
 
 
