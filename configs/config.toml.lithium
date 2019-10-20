@@ -36,19 +36,24 @@ pygmentsStyle = "github"
     page = "/:title/"
 
 [[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 5
+
+[[menu.main]]
     name = "About"
     url = "/about/"
-    pre = "internal"
+    weight = 6
 
 [[menu.main]]
     name = "GitHub"
     url = "https://github.com/raahii"
-    pre = "external"
+    weight = 7
 
 [[menu.main]]
     name = "Twitter"
     url = "https://twitter.com/raahiiy"
-    pre = "external"
+    weight = 8
 
 [params]
     mainSections = ["post"]
