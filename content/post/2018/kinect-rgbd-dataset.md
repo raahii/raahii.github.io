@@ -2,7 +2,7 @@
 title = "Kinectを用いたRGB-Dデータセットのまとめ"
 date = 2018-03-01T18:23:10+09:00
 categories = ["研究"]
-tags = ["論文", "kinect", "RGB-D", "depth"]
+tags = ["論文", "kinect", "depth"]
 draft = false
 +++
 
