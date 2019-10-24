@@ -32,7 +32,7 @@ pygmentsStyle = "github"
 
 [permalinks]
     post = "/:year/:month/:day/:filename/"
-    page = "/:title/"
+    page = "/:filename/"
 
 [[menu.main]]
     name = "Tags"
