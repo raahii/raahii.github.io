@@ -44,8 +44,6 @@ draft = false
 
 > Links: [Github](https://github.com/pocket-dan/showtime), [Hack U 2019 TOKYO Student Hackathon - Yahoo! JAPAN](https://hacku.yahoo.co.jp/hacku2019tokyo/)
 
-  <br>
-
 
 
 ### ・ばえるーポン (2018 / 10, M1)
@@ -56,7 +54,6 @@ draft = false
 
 > Links: [Github](https://github.com/jphacks/TK_1810), [結果報告 | JPHACKS 2018](https://2018.jphacks.com/result/?fbclid=IwAR06esEhUEgm7AKqRloqswW_1VERsoxxkFW6ykdFHdW5G4sH40H8PT8eNyE)
 
-  <br>
 
 ### ・[Arxiv Equations](https://arxiv-equations.netlify.com) ( 2019 / 02, M1 )
 
@@ -66,9 +63,6 @@ draft = false
 
 > Links: [Github](https://github.com/raahii/arxiv-equations)
 
-
-
-<br>
 
 ## Deep Learning
 
@@ -81,7 +75,6 @@ draft = false
 
 > Links:  [Github](https://github.com/raahii/dcvgan)
 
-  <br>
 
 ### ・video-gans-evaluation ( 2019 / 01, M1 )
 
@@ -91,7 +84,6 @@ draft = false
 
 > Links:  [Github](https://github.com/raahii/video-gans-evaluation)
 
-  <br>
 
 ### ・mocogan-chainer ( 2017 / 12, B4)
 
@@ -101,7 +93,6 @@ draft = false
 
 > Links:  <u>[Github](https://github.com/raahii/mocogan-chainer)</u>
 
-  <br>
 
 ### ・3dgan-chainer ( 2017 / 10, B4)
 
