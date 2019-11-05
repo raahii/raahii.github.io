@@ -3,8 +3,9 @@ title = "DVDGAN - \"Adversarial Video Generation on Complex Datasets\""
 date = 2019-10-29T11:34:06+09:00
 tags = ["論文", "機械学習", "深層学習", "動画生成", "GAN"]
 categories = ["研究"]
-description = "Summaries of 'Adversarial Video Generation on Complex Datasets' called DVDGAN"
+description = "論文'Adversarial Video Generation on Complex Datasets'のまとめ"
 draft = false
+eyecatch = "/images/2019/dvdgan/samples.gif"
 +++
 
 
