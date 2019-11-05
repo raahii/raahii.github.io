@@ -1,7 +1,7 @@
 +++
 title = "Ubuntu16.04でnvidiaドライバが再起動の度に無効になる"
 date = 2019-10-16T21:58:50+09:00
-tags = ["nvidia driver", "cuda", "gpu", "機械学習", "深層学習", ""]
+tags = ["nvidia driver", "cuda", "gpu", "機械学習", "深層学習"]
 categories = ["技術"] # 技術, 読書, 旅行
 draft = false
 description = "Ubuntu16.04でnvidiaドライバが再起動の度に無効になる"

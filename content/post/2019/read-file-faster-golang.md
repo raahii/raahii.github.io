@@ -1,7 +1,7 @@
 +++
 title = "なぜioutil.ReadFileはioutil.ReadAllより速いか"
 date = 2019-10-13T00:36:12+09:00
-category = ["技術"]
+categories = ["技術"]
 tags = ["golang", "io", "benchmark", "高速化", "コードリーディング"]
 draft = false
 description = "なぜioutil.ReadFileはioutil.ReadAllより速いか"
