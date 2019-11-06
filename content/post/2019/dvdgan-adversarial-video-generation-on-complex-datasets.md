@@ -5,7 +5,8 @@ tags = ["論文", "機械学習", "深層学習", "動画生成", "GAN"]
 categories = ["研究"]
 description = "論文'Adversarial Video Generation on Complex Datasets'のまとめ"
 draft = false
-eyecatch = "/images/2019/dvdgan/samples.gif"
+images = ["/images/2019/dvdgan/arch_legend.png"]
+keywords = ["DVDGAN", "video generation", "GAN", "Generative Adversarial Network", "generative model", "deep learning", "AI"]
 +++
 
 
@@ -13,7 +14,7 @@ eyecatch = "/images/2019/dvdgan/samples.gif"
 
 
 <div style="text-align: center; margin: 30px auto;">
-  <img src="/images/2019/dvdgan/samples.gif" width="80%">
+  <img src="/images/2019/dvdgan/samples.gif" alt="generated videos" width="80%">
 </div>
 
 
@@ -27,7 +28,7 @@ DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでま
 
 
 
-# TL;DR
+## TL;DR
 
 * クラスベクトルを用いた条件付き動画生成タスクのGANを提案
 * 高解像度で長い動画（ $48\times256\times256$ ）の生成に成功
@@ -40,7 +41,7 @@ DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでま
 
 
 
-# Dual Video Discriminator GAN
+## Dual Video Discriminator GAN
 
 従来のGANによる動画生成手法は，モデルアーキテクチャ（主にgenerator）に様々な工夫を行っていました．例えば…
 
@@ -62,7 +63,7 @@ DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでま
 
 <div style="text-align: center;">
   <figure>
-    <img src="/images/2019/dvdgan/arch_legend.png" width="100%">
+    <img src="/images/2019/dvdgan/arch_legend.png" alt="mode architecture" width="100%">
 	</figure>
 </div>
 
@@ -70,7 +71,7 @@ DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでま
 
 
 
-## Generator
+### Generator
 
 DVDGANでは動画のクラス情報を使った条件付き動画生成を行います．
 
@@ -82,7 +83,7 @@ DVDGANでは動画のクラス情報を使った条件付き動画生成を行�
 
 
 
-## Discriminator
+### Discriminator
 
 最初に書いたとおり，2つの $\mathcal{D}$ を持ち，それぞれの役割に基づいて計算量を減らします．
 
@@ -100,7 +101,7 @@ DVDGANでは動画のクラス情報を使った条件付き動画生成を行�
 
 <div style="text-align: center;">
   <figure>
-		<img src="/images/2019/dvdgan/fixed_kphi.png">
+		<img src="/images/2019/dvdgan/fixed_kphi.png" alt="k and phi tuning experiment result" >
 	</figure>
 </div>
 
@@ -110,7 +111,7 @@ FIDは低いほうが，ISは高いほうがより良い指標です．$\phi(\cd
 
 
 
-## Training settings
+### Training settings
 
 GANではモデルに加えてこちらも重要ですが，ほとんどBigGANと同じ…ですかね．ロスには hinge loss [^biggan][^hinge1] を用います．
 $$
@@ -135,11 +136,11 @@ $$
 
 
 
-# Experiment
+## Experiment
 
 
 
-## UCF-101でSOTA
+### UCF-101でSOTA
 
 まず，UCF-101データセット[^ucf]で従来手法と IS(Inception Score)[^is] で比較をしています．UCF-101は本来は行動認識のためのデータセットですが，動画生成では最もよく用いらます．全101クラス，13320動画で構成されています．
 
@@ -151,7 +152,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 <div style="text-align: center;">
   <figure>
-    <img src="/images/2019/dvdgan/table2.png" width="80%">
+    <img src="/images/2019/dvdgan/table2.png" alt="inception score for ucf-101 dataset"  width="80%">
   </figure>
 </div>
 
@@ -161,7 +162,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 <div style="text-align: center;">
   <figure>
-		<img src="/images/2019/dvdgan/overfit.png" width="100%">
+		<img src="/images/2019/dvdgan/overfit.png" alt="interpolation for ucf-101 dataset" width="100%">
   </figure>
 </div>
 
@@ -169,7 +170,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 
-## Kinetics-600でベースラインを提示
+### Kinetics-600でベースラインを提示
 
 これを踏まえ，Kinetics-600[^kinetics]と呼ばれるUCF101よりもさらに大きなデータセットでも実験を行っています．これもまた行動認識のデータセットで，全600クラス・およそ50万動画と，UCF-101の6倍のクラス数・40倍のサンプル数を擁しています．各クラスには少なくとも600以上のサンプルが収録されているようです．
 
@@ -178,7 +179,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 <div style="text-align: center;">
-  <img src="/images/2019/dvdgan/table1.png" width="80%">
+  <img src="/images/2019/dvdgan/table1.png" alt="score for kinetics-600 dataset" width="80%">
 </div>
 
 
@@ -197,14 +198,14 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
   <div style="text-align: center;">
     <figure>
-      <img src="/images/2019/dvdgan/intra_interp.png" width="100%">
+      <img src="/images/2019/dvdgan/intra_interp.png" alt="a interpolation for kinetics-600 dataset" width="100%">
       <figcaption>クラスをまたぐ補間</figcaption>
     </figure>
   </div>
 
 <div style="text-align: center;">
     <figure>
-      <img src="/images/2019/dvdgan/inter_interp.png" width="100%">
+      <img src="/images/2019/dvdgan/inter_interp.png" alt="a interpolation for kinetics-600 dataset" width="100%">
       <figcaption>同クラスでの補間</figcaption>
     </figure>
 </div>
@@ -226,7 +227,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 
-# 所感
+## 所感
 
 - 特別な事前知識を使わずにデータで殴るのは正しいと思う．ただ，ここまで大規模なデータでも不自然になるということは，動きをうまく学習できる機構は未だ存在していないと言わざるを得ないと思います．
   
