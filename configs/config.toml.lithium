@@ -1,4 +1,4 @@
-baseurl = "https://raahii.github.io"
+baseurl = "https://raahii.github.io/"
 theme = "hugo-lithium-theme"
 languageCode = "ja-JP"
 title = "1ミリもわからん"
