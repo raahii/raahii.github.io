@@ -5,6 +5,7 @@ categories = ["技術"]
 tags = ["golang", "Github Actions", "Hugo"]
 draft = false
 description = "Github Actionを使って，git push時に自動でhugoのリソースをビルドして公開する方法について"
+aliases = ["/2019/10/12/automating-hugo-builds-with-github-actions", "/2019/10/automating-hugo-builds-with-github-actions"]
 +++
 
 台風が来て家に籠もるしかなくなったので，ブログのデザインをかえつつ，HugoのビルドをGithub Actionsで自動化した．公開にはGithub Pagesを使っている．

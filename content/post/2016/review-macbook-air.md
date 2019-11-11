@@ -7,6 +7,7 @@ title = "MBA購入と感じたこと"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/04/28/review-macbook-air", "/2016/04/review-macbook-air", "/2016/04/012527"]
 +++
 
 <body>

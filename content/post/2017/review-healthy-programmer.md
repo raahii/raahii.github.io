@@ -7,6 +7,7 @@ title = "「ヘルシープログラマ」を読んだ感想"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/01/03/review-healthy-programmer", "/2017/01/review-healthy-programmer"]
 +++
 
 <body>

@@ -7,6 +7,7 @@ title = "ボクセルデータを描画するツールを作った"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/10/09/tool-preview-3d-voxel-data", "/2017/10/tool-preview-3d-voxel-data", "/2017/10/voxel"]
 +++
 
 <body>

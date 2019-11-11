@@ -4,6 +4,7 @@ date = 2018-03-13T16:00:38+09:00
 categories = ["読書"]
 tags = ["生き方", "幸せ", "キャリア"]
 draft = false
+aliases = ["/2018/03/13/innovation-of-life", "/2018/03/innovation-of-life"]
 +++
 
 # TL;DR

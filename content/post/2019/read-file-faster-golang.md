@@ -5,6 +5,7 @@ categories = ["技術"]
 tags = ["golang", "io", "benchmark", "高速化", "コードリーディング"]
 draft = false
 description = "なぜioutil.ReadFileはioutil.ReadAllより速いか"
+aliases = ["/2019/10/13/read-file-faster-golang", "/2019/10/read-file-faster-golang"]
 +++
 
 

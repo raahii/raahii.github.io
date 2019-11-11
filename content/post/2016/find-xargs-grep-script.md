@@ -7,6 +7,7 @@ title = "find | xargs grep を知る"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/10/26/find-xargs-grep-script", "/2016/10/find-xargs-grep-script"]
 +++
 
 <body>

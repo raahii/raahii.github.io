@@ -7,6 +7,7 @@ title = "人工知能とは"
 author = "bonhito"
 archive = ["2015"]
 draft = false
+aliases = ["/2015/11/14/artificial-intelligent", "/2015/11/artificial-intelligent"]
 +++
 
 <body>

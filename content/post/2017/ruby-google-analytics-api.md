@@ -7,6 +7,7 @@ title = "Ruby(Rails)でGoogle Analytics APIを使う"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/05/04/ruby-google-analytics-api", "/2017/05/ruby-google-analytics-api"]
 +++
 
 <body>

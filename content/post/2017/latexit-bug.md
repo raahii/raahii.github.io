@@ -7,6 +7,7 @@ title = "LaTeXiTで数式が表示されない問題"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/07/01/latexit-bug", "/2017/07/latexit-bug", "/2017/07/231213"]
 +++
 
 <body>

@@ -7,6 +7,7 @@ title = "Pythonの日本語文字列"
 author = "bonhito"
 archive = ["2015"]
 draft = false
+aliases = ["/2015/06/28/nlp-100-knock", "/2015/06/nlp-100-knock", "/2015/06/211051"]
 +++
 
 <body>

@@ -5,6 +5,7 @@ categories = ["技術"]
 tags = ["競プロ", "golang", "データ構造"]
 draft = false
 description = "union findのまとめ"
+aliases = ["/2019/03/12/union-find", "/2019/03/union-find"]
 +++
 
 

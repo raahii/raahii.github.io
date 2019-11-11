@@ -7,6 +7,7 @@ title = "Chrome extensionに入門した"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/08/12/window-operation-chrome-extension", "/2016/08/window-operation-chrome-extension"]
 +++
 
 <body>

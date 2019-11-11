@@ -7,6 +7,7 @@ description = "論文'Adversarial Video Generation on Complex Datasets'のまと
 draft = false
 images = ["/images/2019/dvdgan/arch_legend.png"]
 keywords = ["DVDGAN", "video generation", "GAN", "Generative Adversarial Network", "generative model", "deep learning", "AI"]
+aliases = ["/2019/10/29/dvdgan-adversarial-video-generation-on-complex-datasets", "/2019/10/dvdgan-adversarial-video-generation-on-complex-datasets"]
 +++
 
 

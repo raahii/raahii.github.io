@@ -7,6 +7,7 @@ title = "Macならできること　ぱーと１"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/06/05/say-command-read-article-for-you", "/2016/06/say-command-read-article-for-you"]
 +++
 
 <body>

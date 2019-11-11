@@ -7,6 +7,7 @@ title = "リーダブル・コード(1)"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/03/04/review-readable-code", "/2016/03/review-readable-code"]
 +++
 
 <body>

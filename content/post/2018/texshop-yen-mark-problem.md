@@ -4,6 +4,7 @@ date = 2018-05-06T23:46:20+09:00
 categories = ["技術"]
 tags = ["論文", "TeX", "TexShop"]
 draft = false
+aliases = ["/2018/05/06/texshop-yen-mark-problem", "/2018/05/texshop-yen-mark-problem"]
 +++
 
 これまでTeX資料はTeXShopで書いていたのだけど、最近になって[overleaf (v2)](https://v2.overleaf.com/)を使うようになった。そこで、TeXShopから文章をコピペしてみたら`\`が`¥`に変換されるという問題が起こった。これだとoverleafに貼り付けた時に全部置換しなくてはならない。

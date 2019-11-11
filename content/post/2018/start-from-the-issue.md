@@ -4,6 +4,7 @@ date = 2018-04-09T01:30:57+09:00
 categories = ["読書"]
 tags = ["問題解決", "ハウツー"]
 draft = false
+aliases = ["/2018/04/09/start-from-the-issue", "/2018/04/start-from-the-issue"]
 +++
 
 

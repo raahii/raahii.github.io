@@ -4,6 +4,7 @@ date = 2018-03-08T14:04:10+09:00
 categories = ["読書"]
 tags = ["睡眠", "ライフハック"]
 draft = false
+aliases = ["/2018/03/08/stanford-awesome-sleep-method", "/2018/03/stanford-awesome-sleep-method"]
 +++
 
 # TL;DR

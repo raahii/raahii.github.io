@@ -7,6 +7,7 @@ title = "Wordで上下の余白が消えてしまった時"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/05/30/word-margins-disappear-bug", "/2016/05/word-margins-disappear-bug"]
 +++
 
 <body>

@@ -7,6 +7,7 @@ title = "昨年買った睡眠に関わるアイテムの感想メモ"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/01/01/gadget-review-2017", "/2017/01/gadget-review-2017"]
 +++
 
 <body>

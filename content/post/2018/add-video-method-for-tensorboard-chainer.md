@@ -4,6 +4,7 @@ date = 2018-05-13T21:37:27+09:00
 categories = ["技術"]
 tags = ["python", "chainer", "機械学習", "tensorboard"]
 draft = false
+aliases = ["/2018/05/13/add-video-method-for-tensorboard-chainer", "/2018/05/add-video-method-for-tensorboard-chainer"]
 +++
 
 機械学習における可視化ツールの1つに[TensorBoard](https://www.tensorflow.org/programmers_guide/summaries_and_tensorboard)がある。これはTensorflowに付属しているソフトウェアで、学習時のlossやaccuracy、重みのヒストグラムなどを記録することができる。加えて、画像や音声などのデータも記録出来るので、生成モデルの学習でも便利に使える。

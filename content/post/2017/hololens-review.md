@@ -7,6 +7,7 @@ title = "HoloLensを軽く触ってみた印象"
 author = "bonhito"
 archive = ["2017"]
 draft = false
+aliases = ["/2017/02/04/hololens-review", "/2017/02/hololens-review"]
 +++
 
 <body>

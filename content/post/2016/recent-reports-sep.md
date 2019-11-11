@@ -7,6 +7,7 @@ title = "最近の開発環境におけるTips"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/09/30/recent-reports-sep", "/2016/09/recent-reports-sep"]
 +++
 
 <body>

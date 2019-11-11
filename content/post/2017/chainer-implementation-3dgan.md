@@ -4,6 +4,7 @@ date = "2017-10-25T20:14:00+09:00"
 Categories = ["研究"]
 tags = ["GAN", "深層学習", "3D", "実装", "python"]
 draft = false
+aliases = ["/2017/10/25/chainer-implementation-3dgan", "/2017/10/chainer-implementation-3dgan", "/2017/10/3dgan-chainer"]
 +++
 
 

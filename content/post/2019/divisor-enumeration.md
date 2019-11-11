@@ -5,6 +5,7 @@ categories = ["技術"]
 tags = ["高速化", "golang", "競プロ"]
 draft = false
 
+aliases = ["/2019/03/23/divisor-enumeration", "/2019/03/divisor-enumeration"]
 +++
 
 

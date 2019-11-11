@@ -7,6 +7,7 @@ title = "ロゴの利用について少し調べて学んだこと"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/11/17/web-copyright-in-japan", "/2016/11/web-copyright-in-japan"]
 +++
 
 <body>

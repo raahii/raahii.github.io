@@ -7,6 +7,7 @@ title = "imgcatコマンドで遊ぶ"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/09/21/show-lgtm-using-giphy-and-imgcat", "/2016/09/show-lgtm-using-giphy-and-imgcat", "/2016/09/231012"]
 +++
 
 <body>

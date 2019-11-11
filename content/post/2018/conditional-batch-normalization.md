@@ -4,6 +4,7 @@ date = 2018-12-12T15:31:51+09:00
 categories = ["研究"]
 tags = ["機械学習", "深層学習", "GAN", "batch normalization"]
 draft = false
+aliases = ["/2018/12/12/conditional-batch-normalization", "/2018/12/conditional-batch-normalization"]
 +++
 
 # Batch Normalization

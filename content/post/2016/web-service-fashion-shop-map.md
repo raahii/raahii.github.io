@@ -7,6 +7,7 @@ title = "Fashion Shop Mapというwebサービスをつくった"
 author = "bonhito"
 archive = ["2016"]
 draft = false
+aliases = ["/2016/11/26/web-service-fashion-shop-map", "/2016/11/web-service-fashion-shop-map"]
 +++
 
 <body>
