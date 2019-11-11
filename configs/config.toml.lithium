@@ -31,7 +31,7 @@ pygmentsStyle = "github"
     weight = 10
 
 [permalinks]
-    post = "/:year/:month/:day/:filename/"
+    post = "/posts/:filename/"
     page = "/:filename/"
 
 [[menu.main]]
