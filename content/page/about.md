@@ -28,11 +28,11 @@ draft = false
 
     <figure><embed src="https://wakatime.com/share/@raahii/63557f09-e149-4d04-b646-e5a6fd2c6742.svg" width="90%"></embed></figure>
 
-# Work
+## Work
 
-## App, Web service
+### App, Web service
 
-### ・ShowTime (2019 / 08, M2)
+#### ・ShowTime (2019 / 08, M2)
 
 <a href="https://speakerdeck.com/taigamikami/showtime-hack-u"><img src="https://user-images.githubusercontent.com/13511520/62817953-41737280-bb7a-11e9-9fee-d6d4424ac101.png" width="560px"></a>
 
@@ -46,7 +46,7 @@ draft = false
 
 
 
-### ・ばえるーポン (2018 / 10, M1)
+#### ・ばえるーポン (2018 / 10, M1)
 
   <iframe width="560" height="315" src="https://www.youtube.com/embed/5-lMbg_ud0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -55,7 +55,7 @@ draft = false
 > Links: [Github](https://github.com/jphacks/TK_1810), [結果報告 | JPHACKS 2018](https://2018.jphacks.com/result/?fbclid=IwAR06esEhUEgm7AKqRloqswW_1VERsoxxkFW6ykdFHdW5G4sH40H8PT8eNyE)
 
 
-### ・[Arxiv Equations](https://arxiv-equations.netlify.com) ( 2019 / 02, M1 )
+#### ・[Arxiv Equations](https://arxiv-equations.netlify.com) ( 2019 / 02, M1 )
 
   {{< figure src="https://user-images.githubusercontent.com/13511520/52259980-d2695700-2967-11e9-841d-6b1f4822755e.gif" width="90%">}}
 
@@ -64,9 +64,9 @@ draft = false
 > Links: [Github](https://github.com/raahii/arxiv-equations)
 
 
-## Deep Learning
+### Deep Learning
 
-### ・DCVGAN: Depth Conditional Video Generation ( 2019 / 04, M2 )
+#### ・DCVGAN: Depth Conditional Video Generation ( 2019 / 04, M2 )
 
   {{< figure src="https://user-images.githubusercontent.com/13511520/57762583-baf5f300-773a-11e9-942d-858c2d834536.png" width="60%">}}
 
@@ -76,7 +76,7 @@ draft = false
 > Links:  [Github](https://github.com/raahii/dcvgan)
 
 
-### ・video-gans-evaluation ( 2019 / 01, M1 )
+#### ・video-gans-evaluation ( 2019 / 01, M1 )
 
   {{< figure src="https://user-images.githubusercontent.com/13511520/51083747-45652080-1762-11e9-880f-88139b9cc66d.png" width="100%">}}
 
@@ -85,7 +85,7 @@ draft = false
 > Links:  [Github](https://github.com/raahii/video-gans-evaluation)
 
 
-### ・mocogan-chainer ( 2017 / 12, B4)
+#### ・mocogan-chainer ( 2017 / 12, B4)
 
   {{< figure src="https://github.com/raahii/mocogan-chainer/raw/master/doc/mug/normal.gif" width="50%">}}
 
@@ -94,7 +94,7 @@ draft = false
 > Links:  <u>[Github](https://github.com/raahii/mocogan-chainer)</u>
 
 
-### ・3dgan-chainer ( 2017 / 10, B4)
+#### ・3dgan-chainer ( 2017 / 10, B4)
 
   {{< figure src="/images/aboutme/3dgan-chainer.png" width="70%">}}
 
@@ -104,7 +104,7 @@ draft = false
 
 
 
-# Internship
+## Internship
 
 - 2016 / 08: [株式会社アットウェア](https://www.atware.co.jp/) (Java, SpringBoot, Tomcat)
 - 2017 / 02 : [GMOペパボ株式会社](https://pepabo.com/) (Ruby, Rails)
@@ -112,9 +112,9 @@ draft = false
 - 2016 / 10 - 2018 / 02: [株式会社トライシージャパン](https://www.traicy.com/) (PHP, Ruby)
 - 2018 / 04 - 2018 / 07: [株式会社ピースオブケイク](https://www.pieceofcake.co.jp/) (Node, Vue.js)
 - 2019 / 04 -  : [株式会社フィックスターズ](https://www.fixstars.com/ja/) (Go, Python, Nuxt.js, AWS)
-  
 
-# Paper / Conference
+
+## Paper / Conference
 
 
 - [CVIM](http://cvim.ipsj.or.jp/index.php?id=cvim212) / Poster / Osaka (2018 / 05) | [labo](https://www.kawa-lab.org/archives/726)
@@ -127,13 +127,13 @@ draft = false
 
 - [APSIPA2018](https://apsipa2018.org/Default.asp) / Oral / Hawaii (2018 / 11) | [labo](https://www.kawa-lab.org/archives/786)
 
-    Yuki Nakahira and Kazuhiko Kawamoto, Generative adversarial networks for generating RGB-D videos, Proc. of Asia-Pacific Signal and Information Processing, Association Annual Summit and Conference, pp.1276-1281, 2018. / 
+    Yuki Nakahira and Kazuhiko Kawamoto, Generative adversarial networks for generating RGB-D videos, Proc. of Asia-Pacific Signal and Information Processing, Association Annual Summit and Conference, pp.1276-1281, 2018. /
 
 - [ICIP2019](http://2019.ieeeicip.org/) / Oral / Taiwan (2019 / 09) | [labo](https://www.kawa-lab.org/archives/1055), [github](https://github.com/raahii/dcvgan)
 
     Yuki Nakahira and Kazuhiko Kawamoto, [DCVGAN: Depth Conditional Video Generation](https://github.com/raahii/dcvgan), 2019 IEEE International Conference on Image Processing, ICIP 2019.
 
-# Awards
+## Awards
 
 - CVIM2018年9月研究会 [奨励賞](http://cvim.ipsj.or.jp/index.php?id=award_winner#2018) (2018 / 09)
 - JPHACKS2018 東京 [優勝](https://jphacks.com/information/jphacks-award-finalists/) (2018 / 10)
@@ -142,7 +142,6 @@ draft = false
 
 
 
-# Writing
+## Writing
 
 - <a href="https://note.mu/raahii/n/nf9e89010133b" target="_black"><span style="text-decoration: underline;">サービスの目視チェックをヘッドレスブラウザで効率化した話</span></a> <a href="http://b.hatena.ne.jp/entry/s/note.mu/raahii/n/nf9e89010133b" target="_black"><span style="color:red; font-style: italic; font-weight: bold;">125 B!</span></a>
-
