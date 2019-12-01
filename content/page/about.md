@@ -106,11 +106,12 @@ draft = false
 
 ## Internship
 
-- 2016 / 08: [株式会社アットウェア](https://www.atware.co.jp/) (Java, SpringBoot, Tomcat)
+- 2016 / 08 : [株式会社アットウェア](https://www.atware.co.jp/) (Java, SpringBoot, Tomcat)
+- 2016 / 10 - 2018 / 02: [株式会社トライシージャパン](https://www.traicy.com/) (PHP, Ruby)
 - 2017 / 02 : [GMOペパボ株式会社](https://pepabo.com/) (Ruby, Rails)
 - 2017 / 08 : [クックパッド株式会社](https://info.cookpad.com/) (Ruby, Rails, Java)
-- 2016 / 10 - 2018 / 02: [株式会社トライシージャパン](https://www.traicy.com/) (PHP, Ruby)
 - 2018 / 04 - 2018 / 07: [株式会社ピースオブケイク](https://www.pieceofcake.co.jp/) (Node, Vue.js)
+- 2019 / 02 : [株式会社サイバーエージェント](https://www.cyberagent.co.jp/corporate/overview/) (Go, AWS)
 - 2019 / 04 -  : [株式会社フィックスターズ](https://www.fixstars.com/ja/) (Go, Python, Nuxt.js, AWS)
 
 
