@@ -8,11 +8,13 @@ draft = false
 - Name:
     Yuki Nakahira
 
-- Master's student, [Science and Engineering](http://www.se.chiba-u.jp/) at [University of Chiba](http://www.chiba-u.ac.jp/)
-	- Previsously: [National Institute of Technology ,Tokyo College](https://www.tokyo-ct.ac.jp/)
-
 - Mail:
     [piyo56.net@gmail.com](mailto:piyo56.net@gmail.com)
+
+- Career:
+    - 2018 - : Master Degree, [Science and Engineering Dept.](http://www.se.chiba-u.jp/) at [University of Chiba](http://www.chiba-u.ac.jp/)
+    - 2016 - 2018 : Bachelor Degree, [Informatics and Imaging Systems Dept.](http://www.eng.chiba-u.ac.jp/faculty20-01.html) at [University of Chiba](http://www.chiba-u.ac.jp/)
+    - 2011 - 2016 : Associate Degree, [Computer Science Dept.](https://www.tokyo-ct.ac.jp/department/computer_science/) at [National Institute of Technology ,Tokyo College](https://www.tokyo-ct.ac.jp/))
 
 - Links:
     - [Github](https://github.com/raahii)
@@ -142,3 +144,4 @@ draft = false
 - JPHACKS2018 東京 [優勝](https://jphacks.com/information/jphacks-award-finalists/) (2018 / 10)
 - JPHACKS2018 全国 [Best Audience Award](https://jphacks.com/information/result-report/) (2018 / 11)
 - HackU2019 東京 [最優秀賞](https://hacku.yahoo.co.jp/hacku2019tokyo/) (2019 / 08)
+- HackDay2019 [最優秀賞](https://hackday.jp/2019/) (2019 / 12)

@@ -4,3 +4,5 @@ open:
 local: open
 	hugo server -w -D --disableFastRender
 
+build:
+	hugo
