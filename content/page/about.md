@@ -9,6 +9,7 @@ draft = false
     Yuki Nakahira
 
 - Master's student, [Science and Engineering](http://www.se.chiba-u.jp/) at [University of Chiba](http://www.chiba-u.ac.jp/)
+	- Previsously: [National Institute of Technology ,Tokyo College](https://www.tokyo-ct.ac.jp/)
 
 - Mail:
     [piyo56.net@gmail.com](mailto:piyo56.net@gmail.com)
@@ -51,7 +52,6 @@ draft = false
 #### ・ばえるーポン (2018 / 10, M1)
 
   <iframe width="560" height="315" src="https://www.youtube.com/embed/5-lMbg_ud0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 > SNSにアップされた写真のインスタ映え度を深層学習で判定し，そのスコアに応じて割引クーポンなどの報酬を付与するサービス．[JPHACKS2018](https://2018.jphacks.com/)で開発．東京会場優勝．全国147チーム中2位（相当）．サーバーサイド全般と深層学習を用いてインスタ映え度推定のための食べ物検出を担当（動画40秒あたり）．
 
 > Links: [Github](https://github.com/jphacks/TK_1810), [結果報告 | JPHACKS 2018](https://2018.jphacks.com/result/?fbclid=IwAR06esEhUEgm7AKqRloqswW_1VERsoxxkFW6ykdFHdW5G4sH40H8PT8eNyE)

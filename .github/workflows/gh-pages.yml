@@ -9,13 +9,17 @@ jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
       with:
         ref: source
         submodules: recursive
 
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2.2.2
+      with:
+        hugo-version: '0.58.3'
+        # extended: true
 
     - name: Build
       run: hugo --gc --minify --cleanDestinationDir
