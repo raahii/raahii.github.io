@@ -3,11 +3,10 @@ title = "Google HomeとNature Remoでエアコンのタイマーを快適にセ�
 date = 2019-12-26T09:52:39+09:00
 categories = ["技術"] # 技術, 研究, 読書, レビュー, 旅行
 tags = ["nature remo", "google home", "home automation", "aws"]
-images = [""]
+images = ["https://raahii.github.io/images/2019/aircon/thumb.jpg"]
 keywords = ["Nature Remo", "Google Home", "エアコンタイマー"]
 description = "Google HomeとNature Remoを活用してエアコンの入タイマーをかんたんに設定する"
-draft = true
-
+draft = false
 +++
 
 
