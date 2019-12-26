@@ -8,10 +8,13 @@ draft = false
 - Name:
     Yuki Nakahira
 
-- Master's student, [Science and Engineering](http://www.se.chiba-u.jp/) at [University of Chiba](http://www.chiba-u.ac.jp/)
-
 - Mail:
     [piyo56.net@gmail.com](mailto:piyo56.net@gmail.com)
+
+- Career:
+    - 2018 - : Master Degree, [Science and Engineering Dept.](http://www.se.chiba-u.jp/) at [University of Chiba](http://www.chiba-u.ac.jp/)
+    - 2016 - 2018 : Bachelor Degree, [Informatics and Imaging Systems Dept.](http://www.eng.chiba-u.ac.jp/faculty20-01.html) at [University of Chiba](http://www.chiba-u.ac.jp/)
+    - 2011 - 2016 : Associate Degree, [Computer Science Dept.](https://www.tokyo-ct.ac.jp/department/computer_science/) at [National Institute of Technology ,Tokyo College](https://www.tokyo-ct.ac.jp/))
 
 - Links:
     - [Github](https://github.com/raahii)
@@ -51,7 +54,6 @@ draft = false
 #### ・ばえるーポン (2018 / 10, M1)
 
   <iframe width="560" height="315" src="https://www.youtube.com/embed/5-lMbg_ud0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 > SNSにアップされた写真のインスタ映え度を深層学習で判定し，そのスコアに応じて割引クーポンなどの報酬を付与するサービス．[JPHACKS2018](https://2018.jphacks.com/)で開発．東京会場優勝．全国147チーム中2位（相当）．サーバーサイド全般と深層学習を用いてインスタ映え度推定のための食べ物検出を担当（動画40秒あたり）．
 
 > Links: [Github](https://github.com/jphacks/TK_1810), [結果報告 | JPHACKS 2018](https://2018.jphacks.com/result/?fbclid=IwAR06esEhUEgm7AKqRloqswW_1VERsoxxkFW6ykdFHdW5G4sH40H8PT8eNyE)
@@ -142,3 +144,4 @@ draft = false
 - JPHACKS2018 東京 [優勝](https://jphacks.com/information/jphacks-award-finalists/) (2018 / 10)
 - JPHACKS2018 全国 [Best Audience Award](https://jphacks.com/information/result-report/) (2018 / 11)
 - HackU2019 東京 [最優秀賞](https://hacku.yahoo.co.jp/hacku2019tokyo/) (2019 / 08)
+- HackDay2019 [最優秀賞](https://hackday.jp/2019/) (2019 / 12)
