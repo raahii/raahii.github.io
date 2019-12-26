@@ -70,9 +70,9 @@ draft = false
 2. ○時に処理を走らせ，エアコンを付ける
 
 
-さて，1 についてはGoogle Homeのアプリを作成するしかありません．アプリを作るときにはGoogleのDialogFlowというチャットボットを作れるサービスが利用できるので，これを使えばユーザーの音声から時間を取り出すのは難しくはないでしょう．
+さて，1 についてはGoogle Homeのアプリを作成するしかありません．ただ[DialogFlow](https://dialogflow.com/)というチャットボット作成用のツールが利用できるので，これを使えばユーザーの音声から時間を取り出すのは難しくはないでしょう．
 
-次に2です．Nature Remoを用意している時点でエアコンの操作も可能です．APIもあるので，アクセストークンさえ発行すればどこからでも指示を出すことができます．
+次に2です．Nature Remoを用意している時点でエアコンの操作も可能です．APIがあるので，アクセストークンさえ発行すればどこからでも指示を出すことができます．
 
 
 
@@ -255,9 +255,9 @@ func main() {
 これでバックエンドのサーバーは終わりです．コードは下記に置きました．
 
 <div style="text-align: center;">
-  <a href="https://github.com/tenntenn/natureremo">
+  <a href="https://github.com/raahii/air-conditioner-timer">
   <figure>
-    <img src="/images/2019/aircon/repo2.png" alt="tenntenn/natureremo" width="70%">
+    <img src="/images/2019/aircon/repo2.png" alt="raahii/air-conditioner-timer" width="70%">
 	</figure>
   </a>
 </div>
@@ -305,12 +305,13 @@ Simulatorで確認してみます．時間を教えると自動的に直近の�
 
 ができるようになると便利かなと考えています！
 
+
 ## 宣伝
 
-12/14・15で行われたYahoo!Japan主催のハッカソンであるHackDay2019に私と [@gutio_jp](https://twitter.com/gutio_jp) で出場し，[優勝しました](https://youtu.be/HNjXZwRTybU?t=7517)．その経験も踏まえ，相方が[ハッカソンで優勝する技術](https://qiita.com/taigamikami/items/7c6af445f1e62b0dad23)という記事を書いたので，ぜひ読んでいいねしてあげてください!
+12/14・15で行われたYahoo!Japan主催のハッカソンであるHackDay2019に私と [@gutio_jp](https://twitter.com/gutio_jp) で出場し，[優勝しました](https://youtu.be/HNjXZwRTybU?t=7517)．その経験も踏まえ，相方が「[ハッカソンで優勝する技術](https://qiita.com/taigamikami/items/7c6af445f1e62b0dad23)」という記事を書いたので，ぜひ読んでいいねしてあげてください！
+
 
 ## 参考
-
 
 - [Serverless Frameworkで構築するStep Functions](https://dev.classmethod.jp/etc/serverless-framework-step-functions/)
 - [StepFunctionsでLambdaの指定日時実行をしてみる](https://dev.classmethod.jp/cloud/aws/lambda-dynamic-scheduled-execution-by-stepfunctions/)
