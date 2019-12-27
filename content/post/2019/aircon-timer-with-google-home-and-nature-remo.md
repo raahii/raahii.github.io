@@ -2,9 +2,9 @@
 title = "Google HomeとNature Remoでエアコンのタイマーを快適にセットする"
 date = 2019-12-26T09:52:39+09:00
 categories = ["技術"] # 技術, 研究, 読書, レビュー, 旅行
-tags = ["nature remo", "google home", "home automation", "aws"]
+tags = ["nature remo", "google home", "home automation", "aws", "golang"]
 images = ["https://raahii.github.io/images/2019/aircon/thumb.jpg"]
-keywords = ["Nature Remo", "Google Home", "エアコンタイマー"]
+keywords = ["エアコン", "タイマー", "Nature Remo", "エアコンタイマー", "Google Home", "スマートスピーカー", "入タイマー"]
 description = "Google HomeとNature Remoを活用してエアコンの入タイマーをかんたんに設定する"
 draft = false
 +++
@@ -108,7 +108,7 @@ AWSの諸々のサービスの作成には [serverless framework](https://server
 
 まずyaml定義．1に相当する `createTimer` 関数と3に相当する`turnOnAircon`関数，最後に2のStepFunctionを定義します．
 
-ポイントは`createTimer`関数からStepFunctionsを実行するときに必要なARNを環境変数にセットしてあげること．次に，StepFunctionsがいつまで処理を待つのか（StatesのWaitUntil）のタイムスタンプをStateに渡すイベント`start_date` として渡してあげることです．
+ポイントは`createTimer`関数からStepFunctionsを実行するときに必要なARNを環境変数にセットしてあげること．次に，StepFunctionsがいつまで処理を待つのか（StatesのWaitUntil）を示すタイムスタンプをStateに渡すイベント`start_date` として動的に設定してあげることです．
 
 ```yml
 service: google-home-aircon-timer
