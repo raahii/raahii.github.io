@@ -1,12 +1,12 @@
 +++
 title = "coc.nvim で golint を使う"
-date = 2020-05-04T00:34:15+09:00
+date = 2020-05-11T11:34:15+09:00
 categories = ["技術"] # 技術, 研究, 読書, レビュー, 旅行
 tags = ["golang", "golint", "coc.nvim", "vim"]
-images = ["https://user-images.githubusercontent.com/13511520/81579008-8fa5f280-93e6-11ea-9612-02d26357a82d.png"]
+images = ["/images/2020/setup-golint-coc-nvim/document.png"]
 keywords = ["coc.nvim", "golint", "LSP", "Language Server", "coc-diagnostic"]
 description = "coc.nvimでgolintを使えるようにする"
-draft = true
+draft = false
 
 +++
 
@@ -114,7 +114,7 @@ draft = true
 
 <div style="text-align: center;">
   <figure>
-    <img src="/images/2020/setup-golint-coc-nvim" alt="thumbnail" width="100%">
+    <img src="/images/2020/setup-golint-coc-nvim/result.png" alt="thumbnail" width="100%">
 	</figure>
 </div>
 
