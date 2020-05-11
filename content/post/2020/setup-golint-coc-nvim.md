@@ -42,34 +42,33 @@ draft = false
 
 1. coc-diagnosticをインストールする。
 
-   ```
-   :CocInstall coc-diagnostic
-   ```
+    ```
+    :CocInstall coc-diagnostic
+    ```
 
-   でも良いし、 Vim Plugで管理しているのであれば
+    でも良いし、 Vim Plugで管理しているのであれば
 
-   ```
-   Plug 'iamcco/coc-diagnostic', {'do': 'yarn install --frozen-lockfile && yarn build'}
-   ```
+    ```
+    Plug 'iamcco/coc-diagnostic', {'do': 'yarn install --frozen-lockfile && yarn build'}
+    ```
 
-   という風に書くこともできる。
+    と書くこともできる。
+
 
 
 
 2. golintをインストールする。
 
-   地味に気づかなかったりするのですが、当然入っていないと動きません。
+    地味に気づかなかったりするのですが、当然入っていないと動きません。
 
-   ```
-   go get github.com/golang/lint
-   ```
-
-   
+    ```
+    go get github.com/golang/lint
+    ```
 
 3. `coc-settings.json` に下記を設定する
 
-   ```
-   {
+    ```
+    {
      ...
        
      "languageserver": {
@@ -108,8 +107,8 @@ draft = false
          }
        }
      }
-   }
-   ```
+    }
+    ```
 
 
 そうするとこんな感じで coc経由できちんとgolintの出力が見れると思います。 golintは出力にlevelがないので、すべてerrorとして表示されるのが少し気になるけど。
@@ -120,4 +119,5 @@ draft = false
 	</figure>
 </div>
 
+こんな感じで意外と楽に任意のリンタが追加できます。また[Wiki](https://github.com/iamcco/diagnostic-languageserver/wiki/Linters)に設定例がたくさん紹介されているので、そちらも参考まで。
 以上です。
