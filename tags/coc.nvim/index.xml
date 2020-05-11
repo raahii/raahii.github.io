@@ -6,7 +6,8 @@
 以下、導入方法を順に説明すると、
 coc-diagnosticをインストールする。
 :CocInstall coc-diagnostic でも良いし、 Vim Plugで管理しているのであれば
-Plug &amp;#39;iamcco/coc-diagnostic&amp;#39;, {&amp;#39;do&amp;#39;: &amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;} という風に書くこともできる。
-golintをインストールする。 地味に気づかなかったりするのですが、当然入っていないと動きません。
+Plug &amp;#39;iamcco/coc-diagnostic&amp;#39;, {&amp;#39;do&amp;#39;: &amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;} と書くこともできる。
+golintをインストールする。
+地味に気づかなかったりするのですが、当然入っていないと動きません。
 go get github.com/golang/lint coc-settings.json に下記を設定する
 { ... &amp;#34;languageserver&amp;#34;: { &amp;#34;dls&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;diagnostic-languageserver&amp;#34;, &amp;#34;args&amp;#34;: [&amp;#34;--stdio&amp;#34;], &amp;#34;filetypes&amp;#34;: [ &amp;#34;go&amp;#34; ], &amp;#34;initializationOptions&amp;#34;: { &amp;#34;linters&amp;#34;: { &amp;#34;golint&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;rootPatterns&amp;#34;: [], &amp;#34;isStdout&amp;#34;: true, &amp;#34;isStderr&amp;#34;: false, &amp;#34;debounce&amp;#34;: 100, &amp;#34;args&amp;#34;: [&amp;#34;%filepath&amp;#34;], &amp;#34;offsetLine&amp;#34;: 0, &amp;#34;offsetColumn&amp;#34;: 0, &amp;#34;sourceName&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;formatLines&amp;#34;: 1, &amp;#34;formatPattern&amp;#34;: [ &amp;#34;^[^:]+:(\\d+):(\\d+):\\s(.</description></item></channel></rss>
