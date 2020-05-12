@@ -13,11 +13,7 @@ draft = false
 
 [coc.nvim](https://github.com/neoclide/coc.nvim) は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がとても見やすい。
 
-<div style="text-align: center;">
-  <figure>
-    <img src="/images/2020/setup-golint-coc-nvim/document.png" alt="thumbnail" width="100%">
-	</figure>
-</div>
+{{< figure src="/images/2020/setup-golint-coc-nvim/document.png" title="coc preview document" >}}
 
 ただ、個人的にLSPプラグインはリンティング・フォーマッティングとの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるのはなかなか難しいからである。エクステンションが設定を用意していない限り、カスタマイズが難しい。
 
@@ -112,11 +108,7 @@ draft = false
 
 そうするとこんな感じで coc経由できちんとgolintの出力が見れると思います。 golintは出力にlevelがないので、すべてerrorとして表示されるのが少し気になるけど。
 
-<div style="text-align: center;">
-  <figure>
-    <img src="/images/2020/setup-golint-coc-nvim/result.png" alt="thumbnail" width="100%">
-  </figure>
-</div>
+{{< figure src="/images/2020/setup-golint-coc-nvim/result.png" title="coc golint" >}}
 
 こんな感じで意外と楽に任意のリンタが追加できます。また[Wiki](https://github.com/iamcco/diagnostic-languageserver/wiki/Linters)に設定例がたくさん紹介されているので、そちらも参考まで。
 以上です。
