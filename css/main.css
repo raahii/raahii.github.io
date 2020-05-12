@@ -298,6 +298,10 @@ img {
   font-size: 14px;
 }
 
+p + .highlight {
+  margin: 20px 0;
+}
+
 .highlight pre {
   padding: 10px;
 }
