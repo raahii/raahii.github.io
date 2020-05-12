@@ -6,8 +6,7 @@ tags = ["golang", "golint", "coc.nvim", "vim"]
 images = [""]
 keywords = ["coc.nvim", "golint", "LSP", "Language Server", "coc-diagnostic"]
 description = "coc.nvimでgolintを使えるようにする"
-draft = false
-
+draft = true
 +++
 
 
@@ -116,7 +115,7 @@ draft = false
 <div style="text-align: center;">
   <figure>
     <img src="/images/2020/setup-golint-coc-nvim/result.png" alt="thumbnail" width="100%">
-	</figure>
+  </figure>
 </div>
 
 こんな感じで意外と楽に任意のリンタが追加できます。また[Wiki](https://github.com/iamcco/diagnostic-languageserver/wiki/Linters)に設定例がたくさん紹介されているので、そちらも参考まで。
