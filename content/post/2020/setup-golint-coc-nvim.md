@@ -11,19 +11,19 @@ draft = false
 
 
 
-[coc.nvim](https://github.com/neoclide/coc.nvim) は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がとても見やすい。
+[coc.nvim](https://github.com/neoclide/coc.nvim) は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がきれい。
 
-{{< figure src="/images/2020/setup-golint-coc-nvim/document.png" title="coc preview document" >}}
+{{< figure src="/images/2020/setup-golint-coc-nvim/document.png" alt="coc preview document" >}}
 
-ただ、個人的にLSPプラグインはリンティング・フォーマッティングとの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるのはなかなか難しいからである。エクステンションが設定を用意していない限り、カスタマイズが難しい。
-
-
-
-なので自分は、LSPには基本的な補完機能とリンティングを、[ale](https://github.com/dense-analysis/ale)にフォーマッティングを任せている。こうすることで、cocの快適な機能を享受しつつも、aleで非同期に（カーソル動作をブロックせずに）コードフォーマットも行えている。
+ただ、個人的にLSPプラグインはリント・コードフォーマットの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるというのがなかなか難しいからである。拡張が設定を用意していない限り、カスタマイズが難しい。
 
 
 
-本題になるが、今、自分はGoのLSPとして標準の [gopls](https://github.com/golang/go/wiki/gopls) を使っており、これは [coc-go](https://github.com/josa42/coc-go) が提供するが、残念がら golint を使うことができない。リントにLSPを使っている以上、golintもLSPとして連携されなければならない、という問題がある。
+なので自分は、LSPには基本的な補完機能とリントを、[ale](https://github.com/dense-analysis/ale)にコードフォーマットを任せている。こうすることで、cocの快適な機能を享受しつつも、aleで非同期に（カーソル動作をブロックせずに）コードフォーマットも行えている。
+
+
+
+本題になるが、今、自分はGoのLSPである [gopls](https://github.com/golang/go/wiki/gopls) を使っており、これは [coc-go](https://github.com/josa42/coc-go) が提供するが、残念がら golint を使うことはできない。リントをcocに任せている以上、golintもLSPとして連携されなければならない、という問題がある。
 
 
 
@@ -54,11 +54,13 @@ draft = false
 
 2. golintをインストールする。
 
-    地味に気づかなかったりするのですが、当然入っていないと動きません。
+    地味に気づかなかったりるけど、入っていないと当然動かない。
 
     ```
     go get github.com/golang/lint
     ```
+
+    
 
 3. `coc-settings.json` に下記を設定する
 
@@ -108,7 +110,8 @@ draft = false
 
 そうするとこんな感じで coc経由できちんとgolintの出力が見れると思います。 golintは出力にlevelがないので、すべてerrorとして表示されるのが少し気になるけど。
 
-{{< figure src="/images/2020/setup-golint-coc-nvim/result.png" title="coc golint" >}}
+{{< figure src="/images/2020/setup-golint-coc-nvim/result.png" alt="coc golint" >}}
 
-こんな感じで意外と楽に任意のリンタが追加できます。また[Wiki](https://github.com/iamcco/diagnostic-languageserver/wiki/Linters)に設定例がたくさん紹介されているので、そちらも参考まで。
+こんな感じで意外と楽に任意のリンタが追加できます。他のリンタについても[Wiki](https://github.com/iamcco/diagnostic-languageserver/wiki/Linters)に設定例がたくさん紹介されているので、参考まで。
+
 以上です。
