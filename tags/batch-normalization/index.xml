@@ -12,4 +12,7 @@ $$ \Delta\mathcal{B} = MLP(c),\ \ \ \Delta \gamma = MLP(c) $$
 $$ \hat{\beta} = \beta + \Delta\mathcal{B},\ \ \ \hat{\gamma} = \gamma + \Delta\mathcal{\gamma},$$
 のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN2などではクラスラベルの1-of-Kベクタを用いているはず．
 なにが嬉しいのか このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN3，BigGAN4でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．
-また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．</description></item></channel></rss>
+また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．
+一方，DCGAN5でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．
+実装 BigGANsのPyTorchによる再現実装にそのコードがあります．標準のBN実装に+αすることでとてもシンプルになっています．
+BigGAN-pytorch/model_resnet.py at master · AaronLeong/BigGAN-pytorch またChainerではSNGANの公式実装でコードがあります．CategoricalConditionalBatchNormalizationという名前になっており，このクラスがConditionalBatchNormalizationクラスを継承するという実装になっているのが若干confusingですが…．</description></item></channel></rss>

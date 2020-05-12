@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>three.js on 1ミリもわからん</title><link>https://raahii.github.io/tags/three.js/</link><description>Recent content in three.js on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Mon, 09 Oct 2017 01:32:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/three.js/index.xml" rel="self" type="application/rss+xml"/><item><title>ボクセルデータを描画するツールを作った</title><link>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</link><pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate><guid>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</guid><description>最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で初めて3Dオブジェクトの生成にGANを適用した論文です。後者はその3D-GANを応用した研究のようです。
-どんなものか知るには著者らが公開している動画が非常にわかりやすいです。静止画と同じようにGANを3Dモデルにも適用できそうだということがわかります。
-ということでgithubにあがっている実装などを参考に実際にやろうとしているところなのですが、これらの手法では主に3Dオブジェクトを「ボクセル」として扱っています。
-このボクセルというのは「体積 (volume)」と「ピクセル (pixel)」を組み合わせたかばん語らしいのですが、要は画像と同じ要領で3Dモデルを3次元配列に格納して表したものです。イメージとしてはマインクラフトみたいな感じです。
-CGでは頂点情報や法線、テクスチャなどを保存する.obj, .3dsなどが有名（らしい）ですが、それらに比べると非常に簡単で取り扱いやすくなっています。
-その一方でボクセルデータを保存する形式には.binvoxがあるのですが、メジャーではないためかツールが少なめです（まぁただの3次元配列だしね…）。ざっくり探したところ以下のものは便利そうだなと思いました。
-.binvoxを3次元配列に変換: dimatura/binvox-rw-py(python)
-.objや.mtlを読み込んで変換し、ボクセルとして可視化: Online Voxelizer(web)
-ただ、単に.binvoxファイルをアップロードしてすぐに中身を見れるツールはなさそうだったので今回はそれを作ってみました（というエントリです）。ここから試せます。
-github.com
-ボクセルは形式そのものがシンプルなのでmatplotlibを使って3dplotするのでも良いのですが、結構重いんですよね。three.jsを使えばWeb上でマウスでグリグリできるインターフェースを簡単に作れるので楽しいですし、いつかフロントエンドで使えるかも…。
-先程紹介したOnline Voxelizerに比べると動作がかなり遅いしメモリも結構消費してしまうのでそこが今後の課題です。うーん…おしまい。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>three.js on 1ミリもわからん</title><link>https://raahii.github.io/tags/three.js/</link><description>Recent content in three.js on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Mon, 09 Oct 2017 01:32:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/three.js/index.xml" rel="self" type="application/rss+xml"/><item><title>ボクセルデータを描画するツールを作った</title><link>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</link><pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate><guid>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</guid><description/></item></channel></rss>

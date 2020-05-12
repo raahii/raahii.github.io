@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Apple on 1ミリもわからん</title><link>https://raahii.github.io/tags/apple/</link><description>Recent content in Apple on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Thu, 28 Apr 2016 01:25:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/apple/index.xml" rel="self" type="application/rss+xml"/><item><title>MBA購入と感じたこと</title><link>https://raahii.github.io/posts/review-macbook-air/</link><pubDate>Thu, 28 Apr 2016 01:25:00 +0900</pubDate><guid>https://raahii.github.io/posts/review-macbook-air/</guid><description>スペック 前回エントリでは若干Macの購入を渋っていたものの、某フリマで格安で落ちていたため4月頭に購入。スペックは以下の通り。
-MacBook Air 2013 cpu i7 memory 8GB SSD 128GB JISキーボード 充放電回数75回 これが¥63000。バカ安い。しかしなぜこんなに格安だったかというと、
-充電器が付属していないこと 本体が若干歪んで（曲がって）いること 「かな」キーが半分沈んでいること などが原因のよう。ただ、どれもあまり目立たない上、動作に影響はないようなので個人的には満足度の高い買い物になりました。ただ、フリマでパソコンを購入するという行為はほとんど賭けみたいなもので、あまりおすすめはできません（笑）。
-所感 2週間ほど使いました。個人的な話も多いですが…。
-良い所 1.08kgめちゃ軽い。荷物重い日でも持ち運びに全く抵抗無し、最高。 学生御用達、デファクトスタンダードのOfficeが動く。ついに！ UNIX。 タッチパッドが広く、ジェスチャが豊富。便利。 キーボードが（打鍵感的な意味で）打ちやすい。 Retinaじゃなくてもやっぱり画面が綺麗。 悪い所 LAN、モニタの入力端子がない。
-ThunderboltからVGA、USBからLANの変換ケーブルをそれぞれ購入することで対処。
-キーボード配列がちょっと変わってる。
-Hey CapsLock, why are you there?
-あとは、今までCtrlだけで出来ていた操作をcontrolとcommandで使い分けなければならないのが辛い。今のところ、個人的には統一していただいても全く差し支えないです。あと、commandキーは親指で押すのかな…？　command、control兄弟にメリットを感じる日が来るのを期待。今はとにかく慣れるしかない。
-メモリ食い過ぎ。
-GoogleChromeが諸悪の根源ではあるものの、やはりUbuntuなどに比べると多い。起動時点で2GBくらい食っててchrome+iTerm+officeとかすると5GB食ってるなんてザラ。オイまだプログラム動かしてないぞ。
-とはいいつつも重い処理はAirでは求めてないので、まぁSafari移行などで対処したい。本当にメイン機（？）としてMacを使う場合は16GB積んどくといいかもしれないという学びでもありました。
-ウィンドウ操作が貧弱。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Apple on 1ミリもわからん</title><link>https://raahii.github.io/tags/apple/</link><description>Recent content in Apple on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Thu, 28 Apr 2016 01:25:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/apple/index.xml" rel="self" type="application/rss+xml"/><item><title>MBA購入と感じたこと</title><link>https://raahii.github.io/posts/review-macbook-air/</link><pubDate>Thu, 28 Apr 2016 01:25:00 +0900</pubDate><guid>https://raahii.github.io/posts/review-macbook-air/</guid><description/></item></channel></rss>

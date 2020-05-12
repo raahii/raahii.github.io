@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NLP on 1ミリもわからん</title><link>https://raahii.github.io/tags/nlp/</link><description>Recent content in NLP on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Sun, 28 Jun 2015 21:10:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml"/><item><title>Pythonの日本語文字列</title><link>https://raahii.github.io/posts/nlp-100-knock/</link><pubDate>Sun, 28 Jun 2015 21:10:00 +0900</pubDate><guid>https://raahii.github.io/posts/nlp-100-knock/</guid><description>「研究者流コーディングの極意」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして2つ目で詰まった(早い)。
-使っている言語はPythonで、使い始めたばかりなのですが、そもそもプログラミングがダメダメです。
-まず、その問題ですが、
-&amp;lt;blockquote&amp;gt; &amp;lt;p&amp;gt;01. 「パタトクカシーー」&amp;lt;br&amp;gt; 「パタトクカシーー」という文字列の1,3,5,7文字目を取り出して連結した文字列を得よ．
-&amp;lt;/blockquote&amp;gt; です。
-まず私が考えたのは、こんな感じです。なんの疑問もなくこれでいけるだろうと思ってました笑。
-string=&amp;ldquo;パタトクカシーー&amp;rdquo; rev=&amp;ldquo;&amp;rdquo; for i in [1,3,5,7]: rev+=string[i] print rev
-一方結果は、
-% python 01.「パタトクカシーー」.py �㿃 なんか文字化けしてる…。
-それもそのはずで、「パタトクカシーー」は全て全角文字なのでひとひねり必要です。一般に半角は1byte、全角は2byteに符号化されているので、配列のお部屋と1:1対応にならないのが原因。
-そしてPythonの場合、通常のstr型の全角文字は3byteに符号化されている（お部屋3つに対応している）みたいです。
-&amp;gt;&amp;gt;&amp;gt; &amp;lsquo;あ&amp;rsquo;[0] &amp;lsquo;\xe3&amp;rsquo; &amp;gt;&amp;gt;&amp;gt; &amp;lsquo;あ&amp;rsquo;[1] &amp;lsquo;\x81&amp;rsquo; &amp;gt;&amp;gt;&amp;gt; &amp;lsquo;あ&amp;rsquo;[2] &amp;lsquo;\x82&amp;rsquo; &amp;gt;&amp;gt;&amp;gt; &amp;lsquo;あ&amp;rsquo;[3] Traceback (most recent call last): File &amp;ldquo;&amp;lt;stdin&amp;gt;&amp;rdquo;, line 1, in &amp;lt;module&amp;gt; IndexError: string index out of range この記事が参考になりました。qiita.com
-これを知ったうえで愚直に書き換えると、
-string=&amp;ldquo;パタトクカシーー&amp;rdquo; rev=&amp;ldquo;&amp;rdquo; for i in [1,3,5,7]: for j in range(3):#全角なので rev+=string[3*i+j] print rev</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NLP on 1ミリもわからん</title><link>https://raahii.github.io/tags/nlp/</link><description>Recent content in NLP on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Sun, 28 Jun 2015 21:10:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml"/><item><title>Pythonの日本語文字列</title><link>https://raahii.github.io/posts/nlp-100-knock/</link><pubDate>Sun, 28 Jun 2015 21:10:00 +0900</pubDate><guid>https://raahii.github.io/posts/nlp-100-knock/</guid><description>&amp;lt;blockquote&amp;gt; &amp;lt;p&amp;gt;01. 「パタトクカシーー」&amp;lt;br&amp;gt; 「パタトクカシーー」という文字列の1,3,5,7文字目を取り出して連結した文字列を得よ．&amp;lt;/blockquote&amp;gt;</description></item></channel></rss>
