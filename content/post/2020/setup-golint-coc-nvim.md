@@ -2,11 +2,11 @@
 title = "coc.nvim で golint を使う"
 date = 2020-05-11T11:34:15+09:00
 categories = ["技術"] # 技術, 研究, 読書, レビュー, 旅行
-tags = ["golang", "golint", "coc.nvim", "vim"]
+tags = ["golang", "golint", "coc.nvim", "vim", "lsp"]
 images = [""]
-keywords = ["coc.nvim", "golint", "LSP", "Language Server", "coc-diagnostic"]
+keywords = ["coc.nvim", "golint", "LSP", "Language Server", "coc-diagnostic", "configuration", "設定"]
 description = "coc.nvimでgolintを使えるようにする"
-draft = true
+draft = false
 +++
 
 
