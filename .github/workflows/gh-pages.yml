@@ -3,30 +3,30 @@ name: github pages
 on:
   push:
     branches:
-    - source
+      - source
 
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-      with:
-        ref: source
-        submodules: recursive
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          ref: source
+          submodules: recursive
 
-    - name: Setup Hugo
-      uses: peaceiris/actions-hugo@v2.2.2
-      with:
-        hugo-version: '0.58.3'
-        # extended: true
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2.2.0
+        with:
+          hugo-version: "0.70.0"
+          # extended: true
 
-    - name: Build
-      run: hugo --gc --minify --cleanDestinationDir
+      - name: Build
+        run: hugo --gc --minify --cleanDestinationDir
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.5.0
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        PUBLISH_BRANCH: master
-        PUBLISH_DIR: ./public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v2.5.0
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: master
+          PUBLISH_DIR: ./public
