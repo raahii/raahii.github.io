@@ -11,22 +11,11 @@ draft = false
 
 
 
-<!--
-<div style="text-align: center;">
-  <figure>
-    <img src="/images/2019/aircon/thumb.jpg" alt="thumbnail" width="100%" style="margin-bottom: 10px;">
-    <figcaption>最後にデモあります！</figcaption>
-	</figure>
-</div>
--->
-
-<div style="text-align: center; margin-top: 40px;">
-  <video src="/images/2019/aircon/demo.mov" controls muted preload="auto" width="100%">
-		<p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
-	</video>
-</div>
-
-
+{{< rawhtml >}}
+<video src="/images/2019/aircon/demo.mov" controls muted preload="auto" width="100%">
+  <p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
+</video>
+{{< /rawhtml >}}
 
 
 ## はじめに
@@ -47,13 +36,16 @@ draft = false
 
 というか…何か変ですよね…
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
     <img src="https://stat.ameba.jp/user_images/20191023/10/nomu222/27/2c/j/o0605035114621804625.jpg?caw=400" alt="system design" width="60%" style="margin-bottom: 10px;">
-    <figcaption>この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？</figcaption>
-	</figure>
+    <figcaption></figcaption>
+  </figure>
 </div>
+{{< /rawhtml >}}
 
+この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？
 
 由々しき事態です．
 
@@ -88,11 +80,13 @@ draft = false
 
 
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
     <img src="/images/2019/aircon/arch.svg" alt="system design" width="100%">
 	</figure>
 </div>
+{{< /rawhtml >}}
 
 
 
@@ -164,6 +158,7 @@ resources:
 
 最後に3でエアコンを操作します．tenntennさんがGoのNature Remo APIのクライアントを公開してくださっているのでそれを利用します．
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <a href="https://github.com/tenntenn/natureremo">
   <figure>
@@ -171,6 +166,7 @@ resources:
 	</figure>
   </a>
 </div>
+{{< /rawhtml >}}
 
 ハンドラはこんな感じ．NatureRemoを操作するアクセストークンが必要なので，発行した上でSystem ManagerのParameter Storeを使って登録・読み込みを行います．後はエアコンを付けるのみ！NatureRemoがあると外部からのアクセス（固定IPとか）に困らなくて最高ですね．
 
@@ -254,6 +250,7 @@ func main() {
 
 これでバックエンドのサーバーは終わりです．コードは下記に置きました．
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <a href="https://github.com/raahii/air-conditioner-timer">
   <figure>
@@ -261,6 +258,7 @@ func main() {
 	</figure>
   </a>
 </div>
+{{< /rawhtml >}}
 
 残るはインターフェースです．
 
@@ -283,11 +281,13 @@ func main() {
 
 Simulatorで確認してみます．時間を教えると自動的に直近の日時を解釈してAPIをコールしてくれることがわかります！
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <video src="/images/2019/aircon/actions-simulator.mov" controls width="100%">
 		<p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
 	</video>
 </div>
+{{< /rawhtml >}}
 
 
 
