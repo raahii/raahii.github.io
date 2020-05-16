@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/05/30/word-margins-disappear-bug", "/2016/05/word-margins-disappear-bug"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p><span itemscope itemtype="http://schema.org/Photograph"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20160530/20160530102508.png" alt="f:id:bonhito:20160530102508p:plain" title="f:id:bonhito:20160530102508p:plain" class="hatena-fotolife" itemprop="image"></span></p>
 
@@ -25,3 +26,4 @@ aliases = ["/2016/05/30/word-margins-disappear-bug", "/2016/05/word-margins-disa
 
 <p>これ何かの便利機能なのだとしたら意図的にそうする方法を知りたかったり。またWordのおせっかい機能だとしたら激おこ😡ですな。</p>
 </body>
+{{< /rawhtml >}}

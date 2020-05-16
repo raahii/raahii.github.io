@@ -9,7 +9,10 @@ aliases = ["/2018/03/08/stanford-awesome-sleep-method", "/2018/03/stanford-aweso
 
 # TL;DR
 
-<a target="_blank" href="https://www.amazon.co.jp/gp/product/4763136011/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4763136011&linkCode=as2&tag=raahii-22&linkId=d24aafae4c51a777ccf366e3d664ea70">『スタンフォード式 最高の睡眠』</a>を読んだ。睡眠の質を最大限に高めるためには、**<u>最初の90分の睡眠の質を高めることを心がける</u>**ことが大事。
+{{< rawhtml >}}
+<a target="_blank" href="https://www.amazon.co.jp/gp/product/4763136011/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4763136011&linkCode=as2&tag=raahii-22&linkId=d24aafae4c51a777ccf366e3d664ea70">『スタンフォード式 最高の睡眠』</a>
+{{< /rawhtml >}}
+を読んだ。睡眠の質を最大限に高めるためには、**<u>最初の90分の睡眠の質を高めることを心がける</u>**ことが大事。
 そのために具体的に何をすべきかというと、
 
 - 寝る前はできるだけ脳みそ使わず、リラックスしとく

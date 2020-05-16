@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/09/21/show-lgtm-using-giphy-and-imgcat", "/2016/09/show-lgtm-using-giphy-and-imgcat", "/2016/09/231012"]
 +++
 
+{{< rawhtml >}}
 <body>
 <h1>近況</h1>
 
@@ -116,3 +117,4 @@ aliases = ["/2016/09/21/show-lgtm-using-giphy-and-imgcat", "/2016/09/show-lgtm-u
 </ul>
 
 </body>
+{{< /rawhtml >}}

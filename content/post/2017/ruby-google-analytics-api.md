@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/05/04/ruby-google-analytics-api", "/2017/05/ruby-google-analytics-api"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>今回<a class="keyword" href="http://d.hatena.ne.jp/keyword/Ruby">Ruby</a>で<a class="keyword" href="http://d.hatena.ne.jp/keyword/Google%20Analytics">Google Analytics</a> <a class="keyword" href="http://d.hatena.ne.jp/keyword/API">API</a>を利用する機会があったのですが、思ったより情報が少ない上、必要な鍵ファイルや<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%C8%A1%BC%A5%AF">トーク</a>ンがよくわからず時間を取られたので以下に手順をまとめておきます。</p>
 
@@ -115,3 +116,4 @@ aliases = ["/2017/05/04/ruby-google-analytics-api", "/2017/05/ruby-google-analyt
 </ul>
 
 </body>
+{{< /rawhtml >}}

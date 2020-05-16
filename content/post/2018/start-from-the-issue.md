@@ -12,9 +12,11 @@ aliases = ["/2018/04/09/start-from-the-issue", "/2018/04/start-from-the-issue"]
 
 『イシューから始めよ』を読んだ。
 
+{{< rawhtml >}}
 <center>
 [{{< figure src="https://images-na.ssl-images-amazon.com/images/I/61pvsTwzCGL.jpg" width="150">}}](https://www.amazon.co.jp/dp/4862760856?tag=googhydr-22&hvadid=261960526684&hvpos=1t1&hvnetw=g&hvrand=13706034016825101863&hvpone=&hvptwo=&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1009253&hvtargid=aud-409338366859:kwd-333310288002&ref=pd_sl_73rzt1wdk_e)
 </center>
+{{< /rawhtml >}}
 
 # メモ
 
@@ -24,9 +26,11 @@ aliases = ["/2018/04/09/start-from-the-issue", "/2018/04/start-from-the-issue"]
 
 ただこの時、よくやってしまう失敗がある。それは、安直に労働量を増やすことによって解の質を高めようとする行為である。これは本書では犬の道として紹介されている。
 
+{{< rawhtml >}}
 <center>
 {{< figure src="http://mugentoyugen.cocolog-nifty.com/blog/images/2010/12/15/photo_3.jpg" width="470" title="本書より引用。画像は http://mugentoyugen.cocolog-nifty.com/blog/2010/12/post-a444-1.html より転載">}}
 </center>
+{{< /rawhtml >}}
 
 
 犬の道を通って生産性を高めても、長続きしない上、そのやり方は人に教えることが出来ないという大きな問題がある。また、特に事業においては、価値の無い課題にどれだけ取り組もうと無意味である。よって、あなたはまずイシュー度を高めることに注力しなくてはならない。イシューを洗い出し、価値の高い問題から順に取り組むことこそが高い生産性を生む。

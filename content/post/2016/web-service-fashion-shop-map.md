@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/11/26/web-service-fashion-shop-map", "/2016/11/web-service-fashion-shop-map"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>タイトルの通り<a class="keyword" href="http://d.hatena.ne.jp/keyword/web%A5%B5%A1%BC%A5%D3%A5%B9">webサービス</a>作りました。またしても<a class="keyword" href="http://d.hatena.ne.jp/keyword/Google">Google</a> Mapを使ってしまった。</p>
 
@@ -309,3 +310,4 @@ aliases = ["/2016/11/26/web-service-fashion-shop-map", "/2016/11/web-service-fas
 
 <p><a href="http://amzn.asia/2hmrg7W">http://amzn.asia/2hmrg7W</a><cite class="hatena-citation"><a href="http://amzn.asia/2hmrg7W">amzn.asia</a></cite></p>
 </body>
+{{< /rawhtml >}}

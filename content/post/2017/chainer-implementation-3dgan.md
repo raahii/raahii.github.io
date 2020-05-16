@@ -10,7 +10,9 @@ aliases = ["/2017/10/25/chainer-implementation-3dgan", "/2017/10/chainer-impleme
 
 タイトルの通り，3DGANのchainer実装をgithubに上げた．当初はKerasで書いていたが良い結果が得られず，ソースコードの間違い探しをするモチベーションが下がってきたので，思い切ってchainerで書き直した．
 
+{{< rawhtml >}}
 <p><iframe src="https://hatenablog-parts.com/embed?url=https%3A%2F%2Fgithub.com%2Fraahii%2F3dgan-chainer" title="raahii/3dgan-chainer" class="embed-card embed-webcard" scrolling="no" frameborder="0" style="display: block; width: 100%; height: 155px; max-width: 500px; margin: 10px 0px;"></iframe><cite class="hatena-citation">
+{{< /rawhtml >}}
 
 実はmnistなどのサンプルレベルのものを超えてちゃんとディープラーニングのタスクに取り組むのは今回が初めてだった．
 ChainerによるGANの実装自体は[公式のexample](https://github.com/chainer/chainer/tree/master/examples/dcgan)や[chainer-gan-lib](https://github.com/pfnet-research/chainer-gan-lib)が非常に参考になった．
@@ -23,7 +25,9 @@ ChainerによるGANの実装自体は[公式のexample](https://github.com/chain
 
 Generatorは以下の図（論文より引用）のようなネットワークで，Discriminatorはこれを反転したようなモデルになっている．各ネットワーク内では3次元畳み込みを使用する．最適化手法はAdamで，論文ではDiscriminatorがバッチを8割以上正しく分類できた場合はパラメータを更新しないようにしたとあった．
 
+{{< rawhtml >}}
 <span itemscope="" itemtype="http://schema.org/Photograph">![f:id:bonhito:20171024233301p:plain](https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024233301.png "f:id:bonhito:20171024233301p:plain")</span>
+{{< /rawhtml >}}
 
 # 3Dモデル
 
@@ -33,11 +37,13 @@ Generatorは以下の図（論文より引用）のようなネットワーク�
 
 ShapeNet-v2に収録されているデータのサンプルを示す．
 
+{{< rawhtml >}}
 <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234729.png" width="300px">
 <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234743.png" width="300px">
 
 <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234801.png" width="300px">
 <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024234823.png" width="300px">
+{{< /rawhtml >}}
 
 
 実装
@@ -66,10 +72,12 @@ ShapeNet-v2に収録されているデータのサンプルを示す．
 
 学習の途中では椅子とは独立した無意味なかたまりのオブジェクトが所々に浮かんでいたりしたが，それが消えてくるとかなり見栄えが良くなっていった．
 
+{{< rawhtml >}}
 <img src="https://github.com/piyo56/3dgan-chainer/blob/master/result/generated_samples/png/7.png?raw=true"  width="300px">
 <img src="https://github.com/piyo56/3dgan-chainer/blob/master/result/generated_samples/png/13.png?raw=true" width="300px">
 <img src="https://github.com/piyo56/3dgan-chainer/blob/master/result/generated_samples/png/21.png?raw=true" width="300px">
 <img src="https://github.com/piyo56/3dgan-chainer/blob/master/result/generated_samples/png/30.png?raw=true" width="300px">
+{{< /rawhtml >}}
 
 失敗例
 ---
@@ -78,10 +86,12 @@ ShapeNet-v2に収録されているデータのサンプルを示す．
 
 また，ボクセルが消滅したらその後復活しないこともわかった．ただこれは実装のところで述べたようにロスが間違っているせいかもしれない．
 
+{{< rawhtml >}}
 <img src="https://i.gyazo.com/1c516e331073f2f35c20948f7e5358b0.png" width="300px">
 <img src="https://i.gyazo.com/c12285bb038635a17df18410202bc315.png" width="300px">
 <img src="https://i.gyazo.com/0b87e9115d56faa93332afa61d093ad8.png" width="300px">
 <img src="https://i.gyazo.com/1e67d6f8872df8b0b6e41d01021f69bf.png"   width="300px">
+{{< /rawhtml >}}
 
 わかったこと
 ======

@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/12/22/ruby-language-features", "/2016/12/ruby-language-features"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p><a class="keyword" href="http://d.hatena.ne.jp/keyword/Rails">Rails</a>でサービス作ってみたは良いものの、<a class="keyword" href="http://d.hatena.ne.jp/keyword/Ruby">Ruby</a>に関する理解が結構おろそかになっている。なので、今回は基本的だけど未だに理解できていない部分を簡単にまとめる。</p>
 
@@ -216,3 +217,4 @@ end
 <div class="hatena-asin-detail-foot"></div>
 </div>
 </body>
+{{< /rawhtml >}}

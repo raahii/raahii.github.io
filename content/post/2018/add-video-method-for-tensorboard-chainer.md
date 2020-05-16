@@ -21,4 +21,6 @@ aliases = ["/2018/05/13/add-video-method-for-tensorboard-chainer", "/2018/05/add
 
 ということでtensorboard-chainerの`add_video`メソッドで動画記録できます。fpsも指定できます。便利。
 
+{{< rawhtml >}}
 <video style="max-width: 100%;" src="http://localhost:51332/videos/2018/add-video-for-tensorboard-chainer/tensoboard_video.mp4" autoplay loop></video>
+{{< /rawhtml >}}

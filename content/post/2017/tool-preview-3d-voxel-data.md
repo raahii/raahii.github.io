@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/10/09/tool-preview-3d-voxel-data", "/2017/10/tool-preview-3d-voxel-data", "/2017/10/voxel"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で初めて3Dオブジェクトの生成にGANを適用した論文です。後者はその3D-GANを応用した研究のようです。</p>
 
@@ -52,3 +53,4 @@ aliases = ["/2017/10/09/tool-preview-3d-voxel-data", "/2017/10/tool-preview-3d-v
 
 <p>先程紹介した<a href="http://drububu.com/miscellaneous/voxelizer/">Online Voxelizer</a>に比べると動作がかなり遅いしメモリも結構消費してしまうのでそこが今後の課題です。うーん…おしまい。</p>
 </body>
+{{< /rawhtml >}}

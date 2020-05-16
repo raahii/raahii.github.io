@@ -15,9 +15,11 @@ aliases = ["/2018/05/06/texshop-yen-mark-problem", "/2018/05/texshop-yen-mark-pr
 
 [TeXShopからソースをコピーすると\が¥でコピーされてしまう ─ TeXShop FAQ](https://texwiki.texjp.org/?TeXShop%20FAQ#xd11f52a)
 
+{{< rawhtml >}}
 <center>
 {{< figure src="/images/2018/texshop-yen-mark-problem/setting.png" width="200px" title="TeXShopの設定">}}
 </center>
+{{< /rawhtml >}}
 
 
 おそらく勘違いしたのは、これまでもOS Xでこんな感じの現象を見たことがある気がしていて、まさかTeXShop固有の問題とは思わなかったのが原因だろうと思う。とりあえず置換すれば良いか〜などと思って、

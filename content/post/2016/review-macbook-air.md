@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/04/28/review-macbook-air", "/2016/04/review-macbook-air", "/2016/04/012527"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p><span itemscope itemtype="http://schema.org/Photograph"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20160406/20160406221803.jpg" alt="f:id:bonhito:20160406221803j:plain" title="f:id:bonhito:20160406221803j:plain" class="hatena-fotolife" itemprop="image"></span></p>
 
@@ -101,3 +102,4 @@ aliases = ["/2016/04/28/review-macbook-air", "/2016/04/review-macbook-air", "/20
 
 <p>それでは。</p>
 </body>
+{{< /rawhtml >}}

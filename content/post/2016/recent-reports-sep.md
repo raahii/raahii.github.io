@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/09/30/recent-reports-sep", "/2016/09/recent-reports-sep"]
 +++
 
+{{< rawhtml >}}
 <body>
 <h2>近況</h2>
 
@@ -55,3 +56,4 @@ aliases = ["/2016/09/30/recent-reports-sep", "/2016/09/recent-reports-sep"]
 </ul>
 
 </body>
+{{< /rawhtml >}}

@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/08/12/window-operation-chrome-extension", "/2016/08/window-operation-chrome-extension"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p><a href="http://dotinstall.com/lessons/basic_chrome_v2">http://dotinstall.com/lessons/basic_chrome_v2</a><cite class="hatena-citation"><a href="http://dotinstall.com/lessons/basic_chrome_v2">dotinstall.com</a></cite></p>
 
@@ -140,3 +141,4 @@ aliases = ["/2016/08/12/window-operation-chrome-extension", "/2016/08/window-ope
 </ul>
 
 </body>
+{{< /rawhtml >}}

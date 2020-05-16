@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2015/06/28/nlp-100-knock", "/2015/06/nlp-100-knock", "/2015/06/211051"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>「<a href="http://www.chokkan.org/publication/coding-for-researchers.pdf">研究者流コーディングの極意</a>」を読んで、なんだかためになりそうだし、面白そうだし、ということで言語処理100本ノックを始めてみました。そして2つ目で詰まった(早い)。<br>
 使っている言語は<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>で、使い始めたばかりなのですが、そもそもプログラミングがダメダメです。</p>
@@ -72,3 +73,4 @@ print rev
 <p>これでもできます。便利。<br>
 超基礎的な文字列処理ですが、<a class="keyword" href="http://d.hatena.ne.jp/keyword/Python">Python</a>で鍛え直します…。</p>
 </body>
+{{< /rawhtml >}}

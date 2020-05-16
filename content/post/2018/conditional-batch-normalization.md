@@ -34,11 +34,13 @@ $$y_i \leftarrow \gamma\hat{x}_i + \beta$$
 Conditional Batch Normalization[^cbn]\(CBN)の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．
 
 
+{{< rawhtml >}}
 <br>
 <center>
 {{< figure src="/images/2018/conditional-batch-normalization/architecture.png" width="600">}}
 </center>
 <br>
+{{< /rawhtml >}}
 
 
 具体的には，入力データのラベルベクトル$c$があったとき，

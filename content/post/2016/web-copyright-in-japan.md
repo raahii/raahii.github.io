@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/11/17/web-copyright-in-japan", "/2016/11/web-copyright-in-japan"]
 +++
 
+{{< rawhtml >}}
 <body>
 <h1>はじめに</h1>
 
@@ -84,3 +85,4 @@ aliases = ["/2016/11/17/web-copyright-in-japan", "/2016/11/web-copyright-in-japa
 </ul>
 
 </body>
+{{< /rawhtml >}}

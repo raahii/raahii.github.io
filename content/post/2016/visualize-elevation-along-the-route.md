@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/07/24/visualize-elevation-along-the-route", "/2016/07/visualize-elevation-along-the-route", "/2016/07/155027"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>タイトルの通り<a class="keyword" href="http://d.hatena.ne.jp/keyword/Google%20Maps%20API">Google Maps API</a>を使って、出発地点から目的地点までの高低差を可視化する簡単なサイトを作ってみました。</p>
 
@@ -44,3 +45,4 @@ aliases = ["/2016/07/24/visualize-elevation-along-the-route", "/2016/07/visualiz
 
 <p><a class="keyword" href="http://d.hatena.ne.jp/keyword/NAVITIME">NAVITIME</a>は坂の少ない／多いルートを選べ、かつ所要時間も出ていて素晴らしいです。ただちょっと図が小さめ。<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%EB%A1%BC%A5%C8%A5%E9%A5%DC">ルートラボ</a>はパッと検索するというよりは、ユーザー同士が作ったルートをシェアできる機能があって独特なサービスです。Flattest Routeはなんか動かない。とはいえ、今回の題材はコンセプトとしては意外と悪くなかったかなと思います。</p>
 </body>
+{{< /rawhtml >}}

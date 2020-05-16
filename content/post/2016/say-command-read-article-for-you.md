@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/06/05/say-command-read-article-for-you", "/2016/06/say-command-read-article-for-you"]
 +++
 
+{{< rawhtml >}}
 <body>
 <h2>飯を食いながら記事が読みたい．でもご飯を口に入れながら上目遣いでディスプレイを見たり，片手に<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%B9%A5%DE%A5%DB">スマホ</a>を持ちながらみたいなのは嫌だという方．</h2>
 
@@ -30,3 +31,4 @@ aliases = ["/2016/06/05/say-command-read-article-for-you", "/2016/06/say-command
 </ul>
 
 </body>
+{{< /rawhtml >}}

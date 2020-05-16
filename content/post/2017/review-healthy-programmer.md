@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/01/03/review-healthy-programmer", "/2017/01/review-healthy-programmer"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p></p>
 <div class="hatena-asin-detail">
@@ -149,3 +150,4 @@ aliases = ["/2017/01/03/review-healthy-programmer", "/2017/01/review-healthy-pro
 
 <p>個人的な対策として、自分は右手首に痛みを感じているので、右手のタイピング動作を見直す。特に、右手範囲の上段（( ) 0 - ^ ¥）と下段（, . / _）はプログラミングでよく使うにも関わらずタイプが苦手な場所なので、正しい方法でタイプをするようにする。</p>
 </body>
+{{< /rawhtml >}}

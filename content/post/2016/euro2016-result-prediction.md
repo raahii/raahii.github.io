@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/06/23/euro2016-result-prediction", "/2016/06/euro2016-result-prediction"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>こんにちは。<a href="http://jp.uefa.com/uefaeuro/season=2016/standings/index.html">EURO2016</a>盛り上がってますね。みなさん見ていますか。明後日からはトーナメントが始まりますが僕の予想はコレです。</p>
 
@@ -69,3 +70,4 @@ aliases = ["/2016/06/23/euro2016-result-prediction", "/2016/06/euro2016-result-p
 
 <p>コレ読みたい。それでは。</p>
 </body>
+{{< /rawhtml >}}

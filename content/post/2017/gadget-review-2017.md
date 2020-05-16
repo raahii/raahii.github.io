@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/01/01/gadget-review-2017", "/2017/01/gadget-review-2017"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>こんばんは。だらだら書いていたら新年が明けてしまいました。あけましておめでとうございます。</p>
 
@@ -125,3 +126,4 @@ aliases = ["/2017/01/01/gadget-review-2017", "/2017/01/gadget-review-2017"]
 </ul>
 
 </body>
+{{< /rawhtml >}}

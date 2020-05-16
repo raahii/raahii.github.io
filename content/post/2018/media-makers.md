@@ -34,10 +34,12 @@ aliases = ["/2018/04/12/media-makers", "/2018/04/media-makers"]
 
 また、コンテンツの側面からメディアを次の3つの軸で分類することも紹介されている。
 
+{{< rawhtml >}}
 <center>
 {{< figure src="/images/2018/media-makers/content_matrix.png" title="あらゆるメディア・コンテンツを分類する３次元のマトリックス">}}
 </center>
 <br>
+{{< /rawhtml >}}
 
 まず、フロー↔ストックはコンテンツが消費されるスピードを指す。例えばフロー性の高い情報には、新聞やニュース、ツイッターのようなものがあてはまり、ストック性の高い情報にはウィキペディア、文学作品などがあてはまることになる。
 
@@ -56,10 +58,12 @@ aliases = ["/2018/04/12/media-makers", "/2018/04/media-makers"]
 
 また、メディアには予言を実現に変える力がある。例えば、1990年代においてヨガはオウム真理教が信者の勧誘に使用したこともあり、怪しいイメージであった。しかし、2004年にYoginiが創刊されたことによってムーブメントが起こり、実際にヨガを始める女性が増えた。このように、メディアには読み手の潜在的な欲望を喚起し、現実のもとする力があると言える。
 
+{{< rawhtml >}}
 <center>
 {{< figure src="http://image.space.rakuten.co.jp/d/strg/ctrl/12/efdbdb40e98b9ce9860b154610944d776fac8517.38.1.12.2.jpeg" width="300" title="Yogini（http://www.manduka.jp/html/page6.html より引用）">}}
 </center>
 <br>
+{{< /rawhtml >}}
 
 ## メディア運営で大事なこと
 
@@ -67,10 +71,12 @@ aliases = ["/2018/04/12/media-makers", "/2018/04/media-makers"]
 
 もう一点、サイトの分析を行い売上の構造を理解することである。例えば、Webメディアにおいては広告によるマネタイズがメジャーであるため、PVが有名な指標である。
 
+{{< rawhtml >}}
 <center>
-{{< figure src="/images/2018/media-makers/kpi_tree.png" title="あらゆるメディア・コンテンツを分類する３次元のマトリックス">}}
+{{< figure src="/images/2018/media-makers/kpi_tree.png">}}
 </center>
 <br>
+{{< /rawhtml >}}
 
 当たり前なことではあるが、このように木構造でもれのないように分割して表していくと、施策との対応付けもしやすく、今後使えそうだな思った。
 

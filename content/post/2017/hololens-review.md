@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/02/04/hololens-review", "/2017/02/hololens-review"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p><a href="https://compass-ssl.surface.com/assets/f5/2a/f52a1f76-0640-4a37-a650-51b0902f8427.jpg?n=Buy_Panel_1920.jpg" class="http-image" target="_blank"><img src="https://compass-ssl.surface.com/assets/f5/2a/f52a1f76-0640-4a37-a650-51b0902f8427.jpg?n=Buy_Panel_1920.jpg" class="http-image" alt="https://compass-ssl.surface.com/assets/f5/2a/f52a1f76-0640-4a37-a650-51b0902f8427.jpg?n=Buy_Panel_1920.jpg"></a></p>
 
@@ -31,3 +32,4 @@ aliases = ["/2017/02/04/hololens-review", "/2017/02/hololens-review"]
 
 <p>ということで今回はHoloLensを触れて<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%CA%A5%A6%A4%A4">ナウい</a>感じの授業だったのでよかった。</p>
 </body>
+{{< /rawhtml >}}

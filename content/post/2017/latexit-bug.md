@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2017/07/01/latexit-bug", "/2017/07/latexit-bug", "/2017/07/231213"]
 +++
 
+{{< rawhtml >}}
 <body>
 <p>LaTeXiTは<a class="keyword" href="http://d.hatena.ne.jp/keyword/TeX">TeX</a>数式を画像に変換できるツールですが、ついさっき使ったらプレビューに数式が表示されず、というか数式画像の生成自体に失敗しているみたいで全く使えないという事態に遭遇しました。</p>
 
@@ -51,3 +52,4 @@ Optional: x11 ✔
 
 <p>あるいは<code>TeX</code>をアップデートすれば良いのかもしれません。</p>
 </body>
+{{< /rawhtml >}}

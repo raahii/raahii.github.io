@@ -10,6 +10,7 @@ draft = false
 aliases = ["/2016/10/26/find-xargs-grep-script", "/2016/10/find-xargs-grep-script"]
 +++
 
+{{< rawhtml >}}
 <body>
 <h1>はじめに</h1>
 
@@ -156,3 +157,4 @@ alias findword='find . -type f -print0 | xargs -0 grep -i $1'
 </table>
 
 </body>
+{{< /rawhtml >}}
