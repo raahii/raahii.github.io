@@ -50,7 +50,9 @@ aliases = ["/2019/03/12/union-find", "/2019/03/union-find"]
 
 今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．
 
+{{< rawhtml >}}
 <script src="https://gist.github.com/raahii/652851fb1f45ab0b365145cabe588c36.js"></script>
+{{< /rawhtml >}}
 
 重要なのは新しい隣接情報が与えられたときに，隣の隣の島の情報もきちんと反映させることで，今回は一つ隣の島の隣接情報を拾う処理を$N-1$回繰り返すことでそれを実現しています．
 
@@ -72,7 +74,9 @@ aliases = ["/2019/03/12/union-find", "/2019/03/union-find"]
 
 
 
+{{< rawhtml >}}
 <script src="https://gist.github.com/raahii/930f1a6509cfdccfb99143d54e8e564b.js"></script>
+{{< /rawhtml >}}
 
 
 
@@ -91,7 +95,9 @@ aliases = ["/2019/03/12/union-find", "/2019/03/union-find"]
 
 これにより，Union Findの計算量は少なくとも$O(\text{log}N)$未満となるようです．重要な制約として，グループの併合はできても分割はできないことが挙げられます．最終的なコードは以下の通りになります．
 
+{{< rawhtml >}}
 <script src="https://gist.github.com/raahii/f456ddf6109b2121dfd6f451d0476d6c.js"></script>
+{{< /rawhtml >}}
 
 
 

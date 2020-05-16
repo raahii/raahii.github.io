@@ -28,6 +28,7 @@ aliases = ["/2019/02/13/update-dotfiles", "/2019/02/update-dotfiles"]
 
 
 
+{{< rawhtml >}}
 <div style="height:10px;"></div>
 
 <div style="display: flex;justify-content: center;align-items: center; height:160px;">
@@ -35,3 +36,4 @@ aliases = ["/2019/02/13/update-dotfiles", "/2019/02/update-dotfiles"]
 </div>
 <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 
+{{< /rawhtml >}}

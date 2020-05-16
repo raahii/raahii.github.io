@@ -13,10 +13,11 @@ aliases = ["/2019/10/29/dvdgan-adversarial-video-generation-on-complex-datasets"
 
 
 
-
+{{< rawhtml >}}
 <div style="text-align: center; margin: 30px auto;">
   <img src="/images/2019/dvdgan/samples.gif" alt="generated videos" width="80%">
 </div>
+{{< /rawhtml >}}
 
 
 
@@ -62,11 +63,13 @@ DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでま
 
 
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
     <img src="/images/2019/dvdgan/arch_legend.png" alt="mode architecture" width="100%">
 	</figure>
 </div>
+{{< /rawhtml >}}
 
 
 
@@ -100,11 +103,13 @@ DVDGANでは動画のクラス情報を使った条件付き動画生成を行�
 
 
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
 		<img src="/images/2019/dvdgan/fixed_kphi.png" alt="k and phi tuning experiment result" >
 	</figure>
 </div>
+{{< /rawhtml >}}
 
 
 
@@ -151,21 +156,25 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
     <img src="/images/2019/dvdgan/table2.png" alt="inception score for ucf-101 dataset"  width="80%">
   </figure>
 </div>
+{{< /rawhtml >}}
 
 
 
 しかし，appendixで但し書きがされており，DVDGANはそのモデル容量の大きさから部分的に訓練サンプルを記憶している可能性が高いと自ら言っています．その証拠に，サンプルのinterpolation[^interp]を行うと，滑らかに変化しない場合があったり，訓練サンプルと酷似したサンプルが生成されたようです．（行ごとに独立，動画の最初の1フレームのみ提示）．
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <figure>
 		<img src="/images/2019/dvdgan/overfit.png" alt="interpolation for ucf-101 dataset" width="100%">
   </figure>
 </div>
+{{< /rawhtml >}}
 
 この訓練サンプルの記憶に関し，著者らはInception Scoreという評価指標の欠点であり，同時に，UCF-101は動画生成を検証するのに不十分である（クラス数も各クラス毎のサンプル数も不足している）と指摘しています．
 
@@ -179,9 +188,11 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 
+{{< rawhtml >}}
 <div style="text-align: center;">
   <img src="/images/2019/dvdgan/table1.png" alt="score for kinetics-600 dataset" width="80%">
 </div>
+{{< /rawhtml >}}
 
 
 
@@ -197,6 +208,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
 
 
 
+{{< rawhtml >}}
   <div style="text-align: center;">
     <figure>
       <img src="/images/2019/dvdgan/intra_interp.png" alt="a interpolation for kinetics-600 dataset" width="100%">
@@ -210,6 +222,7 @@ $16\times128\times128$の動画生成で評価した結果，**DVDGANのISは32.
       <figcaption>同クラスでの補間</figcaption>
     </figure>
 </div>
+{{< /rawhtml >}}
 
 実際の生成サンプルは下記リンクに上がっています．
 
