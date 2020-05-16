@@ -7,4 +7,6 @@ func ReadAll - ioutil そこで，ioutil.ReadFile関数では，事前にosパ�
 最初の関数は固定長のバッファで読み込んだ場合．次は ioutil.ReadAll を使う場合．これは指数的にバッファサイズを大きくしていくので可変長のバッファで読み込むということ．次に iotuil.ReadFile．最後がioutil.ReadFileと同等の処理をファイルサイズ取得+io.ReadAllで実装したもの．
 package main import ( &amp;#34;io&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;os&amp;#34; &amp;#34;testing&amp;#34; ) var filename = &amp;#34;bigfile&amp;#34; // 804,335,663 bytes func BenchmarkFixedSizeBuffer(b *testing.B) { BUFSIZE := 4 * 1024 for i := 0; i &amp;lt; b.</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
 しかし， $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．
-ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．</description></item></channel></rss>
+ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．
+ついに同解法でGoなら通るがPythonだと駄目ってのを観測した pic.twitter.com/Qd6V2PsGgX
+&amp;mdash; raahii (@raahiiy) March 23, 2019</description></item></channel></rss>

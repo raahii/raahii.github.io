@@ -20,10 +20,11 @@ DPによる解法 解法の方向性がわかったところで，DPで解く方
 $$ dp[i+1][j] = \sum_{k} dp[i][k] $$
 のように書くことができ，コードは次のようになる．
 この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを dp[i][j][k][l] のように拡張する．添字はそれぞれ直近3番目(j)，直近2番目(k)，直近1番目(l)を示す．そうすると遷移式は次のようにかける．
-$$ dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l] $$
-ここで，j k l m の4つの文字を並べたときに，先のokに渡してtrueとなるもののみを遷移可能として足せば良い．dpを使うことで計算量は $O(N)$ になる．for文が多くて結構つらいが完成してみると難しいところは特にない．初期値をどうするかは割と迷った．</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
+$$ dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l] $$</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
 しかし， $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．
-ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．</description></item><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
+ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．
+ついに同解法でGoなら通るがPythonだと駄目ってのを観測した pic.twitter.com/Qd6V2PsGgX
+&amp;mdash; raahii (@raahiiy) March 23, 2019</description></item><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
 問題 以下，問題ページ（D: Decayed Bridges）より引用．
 問題文:
 $N$ 個の島と $M$ 本の橋があります。
