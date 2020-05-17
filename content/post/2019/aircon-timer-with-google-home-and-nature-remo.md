@@ -11,11 +11,9 @@ draft = false
 
 
 
-{{< rawhtml >}}
-<video src="/images/2019/aircon/demo.mov" controls muted preload="auto" width="100%">
-  <p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
-</video>
-{{< /rawhtml >}}
+{{< video src="/images/2019/aircon/demo.mov" width="100%" >}}
+
+
 
 
 ## はじめに
@@ -36,16 +34,10 @@ draft = false
 
 というか…何か変ですよね…
 
-{{< rawhtml >}}
-<div style="text-align: center;">
-  <figure>
-    <img src="https://stat.ameba.jp/user_images/20191023/10/nomu222/27/2c/j/o0605035114621804625.jpg?caw=400" alt="system design" width="60%" style="margin-bottom: 10px;">
-    <figcaption></figcaption>
-  </figure>
-</div>
-{{< /rawhtml >}}
 
-この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？
+{{< image src="https://stat.ameba.jp/user_images/20191023/10/nomu222/27/2c/j/o0605035114621804625.jpg?caw=400" width="60%" caption="この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？">}}
+
+
 
 由々しき事態です．
 
@@ -80,13 +72,9 @@ draft = false
 
 
 
-{{< rawhtml >}}
-<div style="text-align: center;">
-  <figure>
-    <img src="/images/2019/aircon/arch.svg" alt="system design" width="100%">
-	</figure>
-</div>
-{{< /rawhtml >}}
+{{< image src="/images/2019/aircon/arch.svg" width="100%" >}}
+
+
 
 
 
@@ -262,6 +250,8 @@ func main() {
 
 残るはインターフェースです．
 
+
+
 ## DialogFlowでGoogle Homeアプリを作成
 
 最後にここが地味に面倒くさかったのですが，Google Homeアプリを作ります．[はじめてのGoogle Homeアプリ開発（WebAPI連携/2018年春編）](https://www.moyashi-koubou.com/blog/make_google_home_app_2018/)を参考にさせていただきました．
@@ -281,13 +271,9 @@ func main() {
 
 Simulatorで確認してみます．時間を教えると自動的に直近の日時を解釈してAPIをコールしてくれることがわかります！
 
-{{< rawhtml >}}
-<div style="text-align: center;">
-  <video src="/images/2019/aircon/actions-simulator.mov" controls width="100%">
-		<p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
-	</video>
-</div>
-{{< /rawhtml >}}
+
+
+{{< video src="/images/2019/aircon/actions-simulator.mov" width="100%" >}}
 
 
 
@@ -306,9 +292,12 @@ Simulatorで確認してみます．時間を教えると自動的に直近の�
 ができるようになると便利かなと考えています！
 
 
+
 ## 宣伝
 
-12/14・15で行われたYahoo!Japan主催のハッカソンであるHackDay2019に私と [@gutio_jp](https://twitter.com/gutio_jp) で出場し，[優勝しました](https://youtu.be/HNjXZwRTybU?t=7517)．その経験も踏まえ，相方が「[ハッカソンで優勝する技術](https://qiita.com/taigamikami/items/7c6af445f1e62b0dad23)」という記事を書いたので，ぜひ読んでいいねしてあげてください！
+12/14・15で行われたYahoo!Japan主催のハッカソンであるHackDay2019に[@gutio_jp](https://twitter.com/gutio_jp) と共に出場し，[優勝しました](https://youtu.be/HNjXZwRTybU?t=7517)．その経験を踏まえ，相方が「[ハッカソンで優勝する技術](https://qiita.com/taigamikami/items/7c6af445f1e62b0dad23)」という記事を書いたので，ぜひ読んで見て下さい！
+
+
 
 
 ## 参考
