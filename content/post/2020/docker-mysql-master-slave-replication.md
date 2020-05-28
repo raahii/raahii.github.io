@@ -6,7 +6,7 @@ tags = ["mysql", "database", "web", "docker"]
 images = ["https://miro.medium.com/max/900/1*5JgbHNxldQcCocld6mfEkQ.jpeg"]
 keywords = ["mysql", "master slave", "replication", "docker", "docker-compose"]
 description = "MySQLのmaster slave構成をDockerで試す"
-draft = true
+draft = false
 +++
 
 
@@ -118,9 +118,7 @@ code: 200
 
 
 ## 参考
+
 - [MySQL入門　レプリケーション編 - Qiita](https://qiita.com/Tocyuki/items/c224cef57493f536a941)
 - [漢(オトコ)のコンピュータ道: MySQLレプリケーションの運用が劇的変化！！GTIDについて仕組みから理解する](http://nippondanji.blogspot.com/2014/12/mysqlgtid.html)
 
-
-
-#開発/サイドプロジェクト #記録/blog
