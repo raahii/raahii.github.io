@@ -1,11 +1,15 @@
 <div style="text-align: center;">
   <figure style="margin: 30px 0px;">
+    {{- if .Get "link" -}}
+        <a class="dont-hightlight" href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
+    {{- end }}
     <img
       loading="lazy"
       src='{{ .Get "src" }}'
       alt='{{ .Get "alt" }}'
       width='{{ .Get "width" }}'
     />
+    {{- if .Get "link" }}</a>{{ end -}}
     <figcaption>{{ .Get "caption" }}</figcaption>
   </figure>
 </div>
