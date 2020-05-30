@@ -65,7 +65,7 @@ mysql-slave    docker-entrypoint.sh mysqld   Up      0.0.0.0:3307->3306/tcp, 330
 
 - masterのステータスを確認
 ```shell
-$ docker exec mysql-master sh -c "export MYSQL_PWD=password; mysql -u root app -e 'show master status\G'" 
+$ docker-compose exec mysql-master sh -c "export MYSQL_PWD=password; mysql -u root app -e 'show master status\G'" 
 *************************** 1. row ***************************
              File: mysql-bin.000001
          Position: 156
@@ -76,7 +76,7 @@ Executed_Gtid_Set:
 
 - slaveのステータスを確認
 ```shell
-$ docker exec mysql-slave sh -c "export MYSQL_PWD=password; mysql -u root app -e 'show slave status\G'" 
+$ docker-compose exec mysql-slave sh -c "export MYSQL_PWD=password; mysql -u root app -e 'show slave status\G'" 
 *************************** 1. row ***************************
                Slave_IO_State: Waiting for master to send event
                   Master_Host: mysql-master
@@ -96,18 +96,13 @@ $ docker exec mysql-slave sh -c "export MYSQL_PWD=password; mysql -u root app -e
 
 - masterにテーブルを作ってレコードをinsert
 ```shell
-$ docker exec mysql-master sh -c “export MYSQL_PWD=password; mysql -u root app -e ‘create table code(code int); insert into code values (100), (200)’”
+$ docker-compose exec mysql-master sh -c “export MYSQL_PWD=password; mysql -u root app -e ‘create table code(code int); insert into code values (100), (200)’”
 ```
 
-```shell
-$ docker exec mysql-master sh -c "export MYSQL_PWD=password; mysql -u root app -e 'show tables\G'"
-*************************** 1. row ***************************
-Tables_in_app: code
-```
 
 - 変更が slave に反映されていることを確認
 ```shell
-$ docker exec mysql-slave sh -c "export MYSQL_PWD=password; mysql -u root app -e 'select * from code \G'"                                                                                          22:42
+$ docker-compose exec mysql-slave sh -c "export MYSQL_PWD=password; mysql -u root app -e 'select * from code \G'"
 *************************** 1. row ***************************
 code: 100
 *************************** 2. row ***************************
