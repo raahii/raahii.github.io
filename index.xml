@@ -508,13 +508,11 @@ string="パタトクカシーー" rev="" for i in [1,3,5,7]: rev+=string[i] prin
 そしてPythonの場合、通常のstr型の全角文字は3byteに符号化されている（お部屋3つに対応している）みたいです。
 &amp;gt;&amp;gt;&amp;gt; 'あ'[0] '\xe3' &amp;gt;&amp;gt;&amp;gt; 'あ'[1] '\x81' &amp;gt;&amp;gt;&amp;gt; 'あ'[2] '\x82' &amp;gt;&amp;gt;&amp;gt; 'あ'[3] Traceback (most recent call last): File "&amp;lt;stdin&amp;gt;", line 1, in &amp;lt;module&amp;gt; IndexError: string index out of range この記事が参考になりました。qiita.com
 これを知ったうえで愚直に書き換えると、
-string="パタトクカシーー" rev="" for i in [1,3,5,7]: for j in range(3):#全角なので rev+=string[3*i+j] print rev % python 01.</description></item><item><title>AboutMe</title><link>https://raahii.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://raahii.github.io/about/</guid><description>About Me 名前:
-Yuki Nakahira
-問い合わせ先
-Github Twitter 経歴:
-2018 - 2020 : 千葉大学大学院 融合理工学府 博士前期課程 2016 - 2018 : 千葉大学 情報画像学科 卒業 2011 - 2016 : 東京高専 情報工学科 卒業 所属:
-ポケット団 好き:
-Web バックエンド 🌎
+string="パタトクカシーー" rev="" for i in [1,3,5,7]: for j in range(3):#全角なので rev+=string[3*i+j] print rev % python 01.</description></item><item><title>AboutMe</title><link>https://raahii.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://raahii.github.io/about/</guid><description>Contact Github Twitter Likes Web バックエンド 🌎
 golang Deep Learning 🤖
 GAN 服 👖
-New Balance M990 Champion Reverse Weave Arc&amp;rsquo;teryx Arro 22 サッカー ⚽️ - Paul Pogba</description></item></channel></rss>
+New Balance M990 Champion Reverse Weave Arc&amp;rsquo;teryx Arro 22 サッカー ⚽️ - Paul Pogba
+問い合わせ先
+Work Web Services ・Arxiv Equations ( 2019 / 02, M1 ) 最近，一部の研究分野ではarxivと呼ばれる論文のプレプリントを保存・公開するサービスが広く使われている．本サービスはarxivの論文から数式を自動で抽出し，latex形式でコピーできるというもの．
+Links: Github
+Hackathon ・おそうじぶーぶー (2019 / 12, M2) &amp;ldquo;小さくなって楽しくお掃除&amp;rdquo;</description></item></channel></rss>
