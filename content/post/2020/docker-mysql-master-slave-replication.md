@@ -10,7 +10,6 @@ draft = false
 +++
 
 
-
 研修で触ったときにサクッと動かなかったので追試的に。MySQLは8.0を使う。
 
 {{< image src="https://user-images.githubusercontent.com/13511520/83156887-ec6f1000-a13d-11ea-80d7-cb4619751706.png"

@@ -3,29 +3,18 @@ title = "ProxySQLでMySQLの負荷分散をする"
 date = 2020-05-31T17:20:27+09:00
 categories = ["開発"] # 技術, 研究, 読書, レビュー, 旅行
 tags = ["proxysql", "mysql", "replication", "grafana", "prometheus"]
-images = ["https://www.google.com/url?sa=i&url=https%3A%2F%2Ftech.actindi.net%2F2019%2F09%2F19%2F101237&psig=AOvVaw2nTGrUCQ5AhUnAC8zDTcXr&ust=1591000615223000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLiqoKfZ3ekCFQAAAAAdAAAAABAD"]
+images = ["https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png"]
 keywords = ["proxysql", "mysql", "replication", "grafana", "prometheus", "load balancing"]
 description = "ProxySQLでMySQLを負荷分散する "
 draft = false
-
+toc = true
+thumbnail = true
+tldr = [
+  "Docker上にProxySQLとMySQL（構成: master1 + slave2）を構築",
+  "sysbenchを使ってリクエストを送り、負荷分散されることを確認",
+  "様子を Prometheus + Grafana を使ってモニタリングしてみる"
+  ]
 +++
-
-
-
-
-## TL;DR
-- Docker上にProxySQLとMySQL（構成: master1 + slave2）を構築
-- sysbenchを使ってリクエストを送り、負荷分散されることを確認
-- 様子を Prometheus + Grafana を使ってモニタリングしてみる
-
-
-
-{{< image src="https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png"
-          width="90%" alt="overview"
-          link="https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png" >}}
-
-
-
 
 ## はじめに
 前回、[MySQLのmaster slave構成をDockerで作ってみた](https://raahii.github.io/posts/docker-mysql-master-slave-replication/) が、実際の開発では複数DBをアプリケーションから使うには一工夫必要である。もっとも素朴な方法は使用するDBの接続情報をアプリケーションですべて保持しておき、read系/write系で使い分けることだと思う。しかし、これは次のような問題がある。

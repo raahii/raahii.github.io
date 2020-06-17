@@ -10,7 +10,6 @@ draft = false
 +++
 
 
-
 [coc.nvim](https://github.com/neoclide/coc.nvim) は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がきれい。
 
 {{< image src="/images/2020/setup-golint-coc-nvim/document.png" width="90%" alt="coc preview document" >}}
