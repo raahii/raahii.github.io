@@ -6,3 +6,6 @@ local: open
 
 build:
 	hugo
+
+upgrade:
+	git submodule foreach git pull origin master
