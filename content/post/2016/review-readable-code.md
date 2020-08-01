@@ -6,7 +6,7 @@ date = "2016-03-04T13:54:00+09:00"
 title = "リーダブル・コード(1)"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/03/04/review-readable-code", "/2016/03/review-readable-code"]
 +++
 

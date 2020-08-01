@@ -6,7 +6,7 @@ date = "2015-11-14T17:47:00+09:00"
 title = "人工知能とは"
 author = "bonhito"
 archive = ["2015"]
-draft = false
+draft = true
 aliases = ["/2015/11/14/artificial-intelligent", "/2015/11/artificial-intelligent"]
 +++
 

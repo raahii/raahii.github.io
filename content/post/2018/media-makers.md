@@ -3,7 +3,7 @@ title = "『MEDIA MAKERS』を読んだ"
 date = 2018-04-12T00:05:28+09:00
 categories = ["読書"]
 tags = ["メディア"]
-draft = false
+draft = true
 aliases = ["/2018/04/12/media-makers", "/2018/04/media-makers"]
 +++
 

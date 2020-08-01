@@ -6,7 +6,7 @@ date = "2016-05-30T10:25:00+09:00"
 title = "Wordで上下の余白が消えてしまった時"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/05/30/word-margins-disappear-bug", "/2016/05/word-margins-disappear-bug"]
 +++
 

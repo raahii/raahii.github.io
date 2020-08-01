@@ -6,7 +6,7 @@ date = "2016-07-24T15:50:00+09:00"
 title = "Google Maps APIを使った標高の可視化"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/07/24/visualize-elevation-along-the-route", "/2016/07/visualize-elevation-along-the-route", "/2016/07/155027"]
 +++
 

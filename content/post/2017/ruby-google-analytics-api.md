@@ -6,7 +6,7 @@ date = "2017-05-04T01:03:00+09:00"
 title = "Ruby(Rails)でGoogle Analytics APIを使う"
 author = "bonhito"
 archive = ["2017"]
-draft = false
+draft = true
 aliases = ["/2017/05/04/ruby-google-analytics-api", "/2017/05/ruby-google-analytics-api"]
 +++
 

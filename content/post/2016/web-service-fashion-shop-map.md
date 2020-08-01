@@ -6,7 +6,7 @@ date = "2016-11-26T01:36:00+09:00"
 title = "Fashion Shop Mapというwebサービスをつくった"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/11/26/web-service-fashion-shop-map", "/2016/11/web-service-fashion-shop-map"]
 +++
 

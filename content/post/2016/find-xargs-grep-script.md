@@ -6,7 +6,7 @@ date = "2016-10-26T11:10:00+09:00"
 title = "find | xargs grep を知る"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/10/26/find-xargs-grep-script", "/2016/10/find-xargs-grep-script"]
 +++
 

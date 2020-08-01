@@ -6,7 +6,7 @@ date = "2016-12-22T01:18:00+09:00"
 title = "Rubyの文法のミニメモ"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/12/22/ruby-language-features", "/2016/12/ruby-language-features"]
 +++
 

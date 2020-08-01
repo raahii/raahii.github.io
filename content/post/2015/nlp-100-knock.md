@@ -6,7 +6,7 @@ date = "2015-06-28T21:10:00+09:00"
 title = "Pythonの日本語文字列"
 author = "bonhito"
 archive = ["2015"]
-draft = false
+draft = true
 aliases = ["/2015/06/28/nlp-100-knock", "/2015/06/nlp-100-knock", "/2015/06/211051"]
 +++
 

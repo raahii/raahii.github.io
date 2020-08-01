@@ -6,7 +6,7 @@ date = "2016-09-21T23:10:00+09:00"
 title = "imgcatコマンドで遊ぶ"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/09/21/show-lgtm-using-giphy-and-imgcat", "/2016/09/show-lgtm-using-giphy-and-imgcat", "/2016/09/231012"]
 +++
 

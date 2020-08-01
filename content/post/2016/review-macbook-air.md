@@ -6,7 +6,7 @@ date = "2016-04-28T01:25:00+09:00"
 title = "MBA購入と感じたこと"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/04/28/review-macbook-air", "/2016/04/review-macbook-air", "/2016/04/012527"]
 +++
 

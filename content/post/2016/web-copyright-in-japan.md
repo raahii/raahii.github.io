@@ -6,7 +6,7 @@ date = "2016-11-17T20:41:00+09:00"
 title = "ロゴの利用について少し調べて学んだこと"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/11/17/web-copyright-in-japan", "/2016/11/web-copyright-in-japan"]
 +++
 

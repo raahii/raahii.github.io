@@ -6,7 +6,7 @@ date = "2016-06-05T23:42:00+09:00"
 title = "Macならできること　ぱーと１"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/06/05/say-command-read-article-for-you", "/2016/06/say-command-read-article-for-you"]
 +++
 

@@ -6,7 +6,7 @@ date = "2016-08-12T00:21:00+09:00"
 title = "Chrome extensionに入門した"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/08/12/window-operation-chrome-extension", "/2016/08/window-operation-chrome-extension"]
 +++
 

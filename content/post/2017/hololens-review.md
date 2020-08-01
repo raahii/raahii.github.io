@@ -6,7 +6,7 @@ date = "2017-02-04T00:51:00+09:00"
 title = "HoloLensを軽く触ってみた印象"
 author = "bonhito"
 archive = ["2017"]
-draft = false
+draft = true
 aliases = ["/2017/02/04/hololens-review", "/2017/02/hololens-review"]
 +++
 

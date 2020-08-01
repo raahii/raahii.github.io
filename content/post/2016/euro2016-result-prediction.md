@@ -6,7 +6,7 @@ date = "2016-06-23T17:28:00+09:00"
 title = "外部モニターで動画を見ると辛い"
 author = "bonhito"
 archive = ["2016"]
-draft = false
+draft = true
 aliases = ["/2016/06/23/euro2016-result-prediction", "/2016/06/euro2016-result-prediction"]
 +++
 
