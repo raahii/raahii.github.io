@@ -1,9 +1,9 @@
-name: github pages
+name: update github pages
 
 on:
   push:
     branches:
-      - source
+      - main
 
 jobs:
   build-deploy:
@@ -16,17 +16,16 @@ jobs:
           submodules: recursive
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2.2.0
+        uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.70.0"
-          # extended: true
+          hugo-version: "0.85.0"
+          fetch-depth: 1
 
       - name: Build
-        run: hugo --gc --minify --cleanDestinationDir
+        run: hugo --minify
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2.5.0
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: master
-          PUBLISH_DIR: ./public
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
