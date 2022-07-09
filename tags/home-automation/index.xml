@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>home automation on 1ミリもわからん</title><link>https://raahii.github.io/tags/home-automation/</link><description>Recent content in home automation on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Thu, 26 Dec 2019 09:52:39 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/home-automation/index.xml" rel="self" type="application/rss+xml"/><item><title>Google HomeとNature Remoでエアコンのタイマーを快適にセットする</title><link>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</link><pubDate>Thu, 26 Dec 2019 09:52:39 +0900</pubDate><guid>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</guid><description>動画を再生するにはvideoタグをサポートしたブラウザが必要です。
+はじめに この時期になると朝寒くてお布団から出るのが辛いですね…．せっかく一度目を覚ましたのに部屋が寒すぎてエアコンを付けて二度寝…．あるあるです．
+なので我々はエアコンのタイマーをセットしますね．でもこのタイマーがちょいと曲者．
+まず明日何時に起きるかを考えて… 今から逆算して何時間後かを計算して… 入タイマーボタンを何度も押してその時間をセット と機種によりますが大体こんな感じ．すごく面倒．
+これ本当は「明日○時にエアコン付けて」のワンステップで良くないですか？
+というか…何か変ですよね…
+この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？ 由々しき事態です．
+エアコンの入タイマーを自動化する そこで，Google HomeとNature Remoを活用して所望の時間に自動でエアコンをONにする機能を作ります．
+皆さん家電リモコンは持ってますか？外から予め暖房を付けておいたり，行方不明になりがちな部屋のリモコンに代わって電気を付けてくれたり，ベッドで寝落ちするときも部屋の電気を消すのがとっても簡単です．最高なのでぜひ買ってみてください．
+話がそれました．今回作成する機能の大まかな利用ステップは次のとおりです．
+Google Homeに○時にエアコンを付けるように指示を出す． ○時に処理を走らせ，エアコンを付ける さて，1 についてはGoogle Homeのアプリを作成するしかありません．ただDialogFlowというチャットボット作成用のツールが利用できるので，これを使えばユーザーの音声から時間を取り出すのは難しくはないでしょう．
+次に2です．Nature Remoを用意している時点でエアコンの操作も可能です．APIがあるので，アクセストークンさえ発行すればどこからでも指示を出すことができます．
+問題は「どうやって○時に処理を実行するか」です．簡単なバックエンドのWeb APIを作成して時間を登録＆cronやatコマンドなんかを用いて指定時間に実行…というのをまず考えました．しかしタイマーのためだけに常駐サービスをデプロイするのはやや大げさな感があります．Herokuなどで実現できれば良いですが，そうでなければVPSやEC2を借りる必要がありコストもかかりそうです．
+「なんとかならないものか…」と考えあぐねていたところ，なんと AWSのStepFunctionsに指定日実行 の機能があるというではありませんか．
+これなら必要なときに必要な分だけ関数を走らせるサーバーレスアプリとして実装できます．この程度のアプリなら使った分だけ課金といってもたかが知れているので，良さそうです．AWSさん神！！
+ということでこんなデザインとなりました．
+serverless frameworkで関数を作成 AWSの諸々のサービスの作成には serverless framework を使用しました．言語はもちろんGoです．つくるのは大きく分けて3つ．
+タイマーの時間を受け取るLambda Function（及び API Gateway）． 1の中でキックするStep Functions．指定時間まで待ってからエアコン操作のFunctionを実行する． エアコン操作を行うLambda Function． まずyaml定義．1に相当する createTimer 関数と3に相当するturnOnAircon関数，最後に2のStepFunctionを定義します．
+ポイントはcreateTimer関数からStepFunctionsを実行するときに必要なARNを環境変数にセットしてあげること．次に，StepFunctionsがいつまで処理を待つのか（StatesのWaitUntil）を示すタイムスタンプをStateに渡すイベントstart_date として動的に設定してあげることです．
+service:google-home-aircon-timerplugins:- serverless-step-functionsprovider:name:awsruntime:go1.xfunctions:createTimer:handler:bin/create-timerevents:- http:path:apimethod:postenvironment:TurnOnAirconStepFuncARN:${self:resources.Outputs.TurnOnAirconStepFunc.Value}turnOnAircon:handler:bin/turn-on-airconstepFunctions:stateMachines:StateMachine1:name:TurnOnAirconStepFuncdefinition:StartAt:WaitUntilStates:WaitUntil:Type:WaitTimestampPath:$.start_dateNext:MainMain:Type:TaskResource:Fn::GetAtt:[turnOnAircon, Arn]End:trueresources:Outputs:TurnOnAirconStepFunc:Value:Ref:TurnOnAirconStepFunc1のハンドラは割愛しますが，これでGoogleHomeの方から指定時間をリクエストするとその時間まで待って関数が実行されるようになりました．
+最後に3でエアコンを操作します．tenntennさんがGoのNature Remo APIのクライアントを公開してくださっているのでそれを利用します．</description></item></channel></rss>

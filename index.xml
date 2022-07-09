@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>1ミリもわからん</title><link>https://raahii.github.io/</link><description>Recent content on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Sun, 31 May 2020 17:20:27 +0900</lastBuildDate><atom:link href="https://raahii.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>ProxySQLでMySQLの負荷分散をする</title><link>https://raahii.github.io/posts/docker-proxysql-mysql-replication/</link><pubDate>Sun, 31 May 2020 17:20:27 +0900</pubDate><guid>https://raahii.github.io/posts/docker-proxysql-mysql-replication/</guid><description>はじめに 前回、MySQLのmaster slave構成をDockerで作ってみた が、実際の開発では複数DBをアプリケーションから使うには一工夫必要である。もっとも素朴な方法は使用するDBの接続情報をアプリケーションですべて保持しておき、read系/write系で使い分けることだと思う。しかし、これは次のような問題がある。
+DBの接続情報は途中で変わりうる アプリケーションのロジックにDBの使い分けが入るのは面倒（だし複雑） そこで、今回は ProxySQL を試してみる。ProxySQLは アプリケーションとDBの間に入って、次のようなことをしてくれる。
+クエリに応じたmaster / slave への自動プロキシ 負荷分散 シームレスな接続設定の変更 どの程度メジャーなのかはいまいちわかっていないが、公式の mysql-proxyよりは使われているようだったので選んだ。ちなみにProxySQLはMysQL以外のDBでも使える。
+MySQLのセットアップ 前回に続いてMySQL8.0を使い、masterを1つ、slaveを2つ用意してレプリケーション設定を組んでおいた。
+version: &amp;#34;3&amp;#34;services: mysql-master: image: mysql:8.0 container_name: proxysql-mysql-replication-master environment: MYSQL_ROOT_PASSWORD: password MYSQL_DATABASE: sbtest volumes: - ./master/my.cnf:/etc/mysql/my.cnf - ./master/data:/var/lib/mysql - ./master/init.sql:/docker-entrypoint-initdb.d/init.sql ports: - 3306:3306 mysql-slave1: image: mysql:8.0 container_name: proxysql-mysql-replication-slave1 environment: MYSQL_ROOT_PASSWORD: password MYSQL_DATABASE: sbtest volumes: - ./slave/my-slave1.cnf:/etc/mysql/my.cnf - ./slave/data/slave1:/var/lib/mysql - ./slave/init.sql:/docker-entrypoint-initdb.d/init.sql ports: - 3307:3306 depends_on: - mysql-master mysql-slave2: image: mysql:8.</description></item><item><title>MySQLのmaster slave構成をDockerで試す</title><link>https://raahii.github.io/posts/docker-mysql-master-slave-replication/</link><pubDate>Thu, 28 May 2020 23:43:16 +0900</pubDate><guid>https://raahii.github.io/posts/docker-mysql-master-slave-replication/</guid><description>研修で触ったときにサクッと動かなかったので追試的に。MySQLは8.0を使う。
+レプリケーション自体の仕組みは 進化を続けるMySQLのド定番機能　MySQLレプリケーション最新機能 がわかりやすかった。
+必要なこと How To Set Up Master Slave Replication in MySQL | DigitalOcean
+このページを見ながらmasterとslaveのmysqldを1つずつ用意して、設定を行う。異なる点は下記。
+master, slave共に bind-addressを0.0.0.0として、dockerのネットワークエイリアスで繋ぐ
+masterのMySQLにレプリケーション用のユーザーを作成するが、MySQL8.0ではGRANT構文でユーザを作成できない ので下記のようにする
+create user &amp;#39;slave_user&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;password&amp;#39;; grant replication slave on *.* to &amp;#39;slave_user&amp;#39;@&amp;#39;%&amp;#39; with grant option; flush privileges; GTIDを有効にして MASTER_LOG_FILE と MASTER_LOG_POS は自動で検知されるようにする。 CHANGE MASTER TO MASTER_HOST=&amp;#39;mysql-master&amp;#39;,MASTER_USER=&amp;#39;slave_user&amp;#39;,MASTER_PASSWORD=&amp;#39;password&amp;#39;,MASTER_AUTO_POSITION=1; START SLAVE; レプリケーションを確認する $ git clone https://github.com/raahii/docker-mysql-master-slave.git $ cd docker-mysql-master-slave $ docker-compose up -d $ docker-compose ps Name Command State Ports -------------------------------------------------------------------------------------- mysql-master docker-entrypoint.</description></item><item><title>coc.nvim で golint を使う</title><link>https://raahii.github.io/posts/setup-golint-coc-nvim/</link><pubDate>Mon, 11 May 2020 11:34:15 +0900</pubDate><guid>https://raahii.github.io/posts/setup-golint-coc-nvim/</guid><description>coc.nvim は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がきれい。
+ただ、個人的にLSPプラグインはリント・コードフォーマットの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるというのがなかなか難しいからである。拡張が設定を用意していない限り、カスタマイズが難しい。
+なので自分は、LSPには基本的な補完機能とリントを、aleにコードフォーマットを任せている。こうすることで、cocの快適な機能を享受しつつも、aleで非同期に（カーソル動作をブロックせずに）コードフォーマットも行えている。
+本題になるが、今、自分はGoのLSPである gopls を使っており、これは coc-go が提供するが、残念がら golint を使うことはできない。リントをcocに任せている以上、golintもLSPとして連携されなければならない、という問題がある。
+こう言うときに使えるのが diagnostic-languageserver である。これは、任意のコマンドをLSP化してくれるもので、coc向けには coc-diagnostic が提供されている。これを活用することで、例えば JSのeslintやdockerfileのhadolintなんかもLSPとして組み込むことができる（！）
+以下、導入方法を順に説明すると、
+coc-diagnosticをインストールする。
+:CocInstall coc-diagnostic でも良いし、 Vim Plugで管理しているのであれば
+Plug &amp;#39;iamcco/coc-diagnostic&amp;#39;, {&amp;#39;do&amp;#39;: &amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;} と書くこともできる。
+golintをインストールする。
+地味に気づかなかったりるけど、入っていないと当然動かない。
+go get github.com/golang/lint coc-settings.json に下記を設定する
+{ ... &amp;#34;languageserver&amp;#34;: { &amp;#34;dls&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;diagnostic-languageserver&amp;#34;, &amp;#34;args&amp;#34;: [&amp;#34;--stdio&amp;#34;], &amp;#34;filetypes&amp;#34;: [ &amp;#34;go&amp;#34; ], &amp;#34;initializationOptions&amp;#34;: { &amp;#34;linters&amp;#34;: { &amp;#34;golint&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;rootPatterns&amp;#34;: [], &amp;#34;isStdout&amp;#34;: true, &amp;#34;isStderr&amp;#34;: false, &amp;#34;debounce&amp;#34;: 100, &amp;#34;args&amp;#34;: [&amp;#34;%filepath&amp;#34;], &amp;#34;offsetLine&amp;#34;: 0, &amp;#34;offsetColumn&amp;#34;: 0, &amp;#34;sourceName&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;formatLines&amp;#34;: 1, &amp;#34;formatPattern&amp;#34;: [ &amp;#34;^[^:]+:(\\d+):(\\d+):\\s(.</description></item><item><title>Goでオプショナルパラメータをどう扱うか</title><link>https://raahii.github.io/posts/optional-parameters-in-go/</link><pubDate>Tue, 31 Dec 2019 13:13:35 +0900</pubDate><guid>https://raahii.github.io/posts/optional-parameters-in-go/</guid><description>TL; DR 状況によって下記を使い分けるのが良さそう．とりあえずFunctional Option Patternでも良いかも．
+複数の関数を用意する
+オプショナル引数が少ない場合に有効．シンプルだが拡張性が低い．
+引数用の構造体を用意する
+構造体を使うのでユーザービリティが良く実装も容易．ただし，引数の未指定とゼロ値を分離するためには値のポインタを使う必要がある．
+Functional Option Patternを使う
+デザインパターンとして提案されているだけあって，クリーンで拡張性が高い．敢えてデメリットを挙げるとすると，このパターンを知らないユーザーからするとやや直感的でない．実装側は引数毎に関数を定義する必要があり記述量が増える．
+はじめに Goには関数のオプショナルパラメータ（デフォルトパラメータ）がありません．しかし，「必要最低限の挙動をする分にはユーザーが意識する必要のない引数」というのはよくあり，必要に迫られます．
+実際，先日 Kutt.it というURL短縮サービスのAPIのクライアントをGoで書いたときに，Web API側にデフォルトパラメータがあったので，これをGoでどう実装すべきか迷いました．何番煎じかわかりませんが，せっかくなので実装パターンをまとめておきます．
+異なるシグネチャの関数を用意する 最も簡単なのはいくつも関数を用意してしまうことです．ここではname を受け取って Hello, {name}!と出力するだけの関数 Greet を例に見てみます．
+func Greet(name string) { fmt.Printf(&amp;#34;Hello, %s!\n&amp;#34;, name) } func main() { Greet(&amp;#34;gopher&amp;#34;) // Hello, gopher! } このとき挨拶の言葉を”Hello”ではなく”Hey”にも出来るようにしたくなりました．そこで，今回のパターンでは新たに関数 GreetWithOpts を定義して，挨拶の言葉greetingWord を受け取れるようにします．
+func GreetWithOpts(name string, greetingWord string) { fmt.Printf(&amp;#34;%s, %s!\n&amp;#34;, greetingWord, name) } func main() { GreetWithOpts(&amp;#34;gopher&amp;#34;, &amp;#34;Hey&amp;#34;) // Hey, gopher!</description></item><item><title>Google HomeとNature Remoでエアコンのタイマーを快適にセットする</title><link>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</link><pubDate>Thu, 26 Dec 2019 09:52:39 +0900</pubDate><guid>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</guid><description>動画を再生するにはvideoタグをサポートしたブラウザが必要です。
+はじめに この時期になると朝寒くてお布団から出るのが辛いですね…．せっかく一度目を覚ましたのに部屋が寒すぎてエアコンを付けて二度寝…．あるあるです．
+なので我々はエアコンのタイマーをセットしますね．でもこのタイマーがちょいと曲者．
+まず明日何時に起きるかを考えて… 今から逆算して何時間後かを計算して… 入タイマーボタンを何度も押してその時間をセット と機種によりますが大体こんな感じ．すごく面倒．
+これ本当は「明日○時にエアコン付けて」のワンステップで良くないですか？
+というか…何か変ですよね…
+この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？ 由々しき事態です．
+エアコンの入タイマーを自動化する そこで，Google HomeとNature Remoを活用して所望の時間に自動でエアコンをONにする機能を作ります．
+皆さん家電リモコンは持ってますか？外から予め暖房を付けておいたり，行方不明になりがちな部屋のリモコンに代わって電気を付けてくれたり，ベッドで寝落ちするときも部屋の電気を消すのがとっても簡単です．最高なのでぜひ買ってみてください．
+話がそれました．今回作成する機能の大まかな利用ステップは次のとおりです．
+Google Homeに○時にエアコンを付けるように指示を出す． ○時に処理を走らせ，エアコンを付ける さて，1 についてはGoogle Homeのアプリを作成するしかありません．ただDialogFlowというチャットボット作成用のツールが利用できるので，これを使えばユーザーの音声から時間を取り出すのは難しくはないでしょう．
+次に2です．Nature Remoを用意している時点でエアコンの操作も可能です．APIがあるので，アクセストークンさえ発行すればどこからでも指示を出すことができます．
+問題は「どうやって○時に処理を実行するか」です．簡単なバックエンドのWeb APIを作成して時間を登録＆cronやatコマンドなんかを用いて指定時間に実行…というのをまず考えました．しかしタイマーのためだけに常駐サービスをデプロイするのはやや大げさな感があります．Herokuなどで実現できれば良いですが，そうでなければVPSやEC2を借りる必要がありコストもかかりそうです．
+「なんとかならないものか…」と考えあぐねていたところ，なんと AWSのStepFunctionsに指定日実行 の機能があるというではありませんか．
+これなら必要なときに必要な分だけ関数を走らせるサーバーレスアプリとして実装できます．この程度のアプリなら使った分だけ課金といってもたかが知れているので，良さそうです．AWSさん神！！
+ということでこんなデザインとなりました．
+serverless frameworkで関数を作成 AWSの諸々のサービスの作成には serverless framework を使用しました．言語はもちろんGoです．つくるのは大きく分けて3つ．
+タイマーの時間を受け取るLambda Function（及び API Gateway）． 1の中でキックするStep Functions．指定時間まで待ってからエアコン操作のFunctionを実行する． エアコン操作を行うLambda Function． まずyaml定義．1に相当する createTimer 関数と3に相当するturnOnAircon関数，最後に2のStepFunctionを定義します．
+ポイントはcreateTimer関数からStepFunctionsを実行するときに必要なARNを環境変数にセットしてあげること．次に，StepFunctionsがいつまで処理を待つのか（StatesのWaitUntil）を示すタイムスタンプをStateに渡すイベントstart_date として動的に設定してあげることです．
+service:google-home-aircon-timerplugins:- serverless-step-functionsprovider:name:awsruntime:go1.xfunctions:createTimer:handler:bin/create-timerevents:- http:path:apimethod:postenvironment:TurnOnAirconStepFuncARN:${self:resources.Outputs.TurnOnAirconStepFunc.Value}turnOnAircon:handler:bin/turn-on-airconstepFunctions:stateMachines:StateMachine1:name:TurnOnAirconStepFuncdefinition:StartAt:WaitUntilStates:WaitUntil:Type:WaitTimestampPath:$.start_dateNext:MainMain:Type:TaskResource:Fn::GetAtt:[turnOnAircon, Arn]End:trueresources:Outputs:TurnOnAirconStepFunc:Value:Ref:TurnOnAirconStepFunc1のハンドラは割愛しますが，これでGoogleHomeの方から指定時間をリクエストするとその時間まで待って関数が実行されるようになりました．
+最後に3でエアコンを操作します．tenntennさんがGoのNature Remo APIのクライアントを公開してくださっているのでそれを利用します．</description></item><item><title>DVDGAN - "Adversarial Video Generation on Complex Datasets"</title><link>https://raahii.github.io/posts/dvdgan-adversarial-video-generation-on-complex-datasets/</link><pubDate>Tue, 29 Oct 2019 11:34:06 +0900</pubDate><guid>https://raahii.github.io/posts/dvdgan-adversarial-video-generation-on-complex-datasets/</guid><description>DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでまとめました．DVDはDual Video Discriminatorの略です📀
+[1907.06571] Adversarial Video Generation on Complex Datasets Adversarial Video Generation on Complex Datasets | OpenReview（ICLR2020投稿中） TL;DR クラスベクトルを用いた条件付き動画生成タスクのGANを提案 高解像度で長い動画（ $48\times256\times256$ ）の生成に成功 BigGAN1ベースのアーキテクチャを採用 計算量の削減を目的に，2つの $\mathcal{D}$ を提案: 動画中の画像フレームを評価することに特化した$\mathcal{D}_S$ 時間的な変化を評価することに特化した $\mathcal{D}_T$ UCF-101データセットでSOTA UCFよりもさらに大きいKinetics-600データセットを使い，様々な動画長・画像サイズでベースラインを提示 Dual Video Discriminator GAN 従来のGANによる動画生成手法は，モデルアーキテクチャ（主にgenerator）に様々な工夫を行っていました．例えば…
+VideoGAN 2: 動画は「動的な前景」と「静的な背景」に分けられるという知識を活用．3DCNNで前景に当たる動画を生成し，2DCNNで1枚の背景を生成して合成する． FTGAN 3: 時間的に一貫性を持ったより良い動きを生成するために Optical Flow を活用．VideoGANのアーキテクチャに加えて Optical Flow に条件付けられた動画を生成する． MoCoGAN 4: 動画は時間的に不変である「内容」と，各時刻で異なる「動き」の概念に分けられると主張．1動画を生成する際に「内容」の潜在変数は固定しながら，各フレームごとに異なる「動き」の潜在変数を次々とRNNで生成し，それらを結合した$z$から画像フレームを生成する． などがありました．しかしながら，DVDGANではそのような特別な事前知識を用いず，代わりに「高容量のニューラルネットワークをデータドリブンマナーで学習させる」としており，実質，大量のデータと計算資源で殴る👊と言っています．
+ではDVDGANの主な貢献は何かというと，BigGAN1ベースのアーキテクチャを採用し，$\mathcal{D}$ で計算量を削減することで，より大きな動画の生成ができることを示したことだと思います．全体のモデルアーキテクチャは次のようになっています．
+Generator DVDGANでは動画のクラス情報を使った条件付き動画生成を行います．</description></item><item><title>Ubuntu16.04でnvidiaドライバが再起動の度に無効になる</title><link>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</link><pubDate>Wed, 16 Oct 2019 21:58:50 +0900</pubDate><guid>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</guid><description>症状 Cudaのインストール手順を一通り済ませているにも関わらず，Ubuntuを起動するたびに nvidia-smi コマンドが実行できない．下記のようなエラーが吐かれる．
+❯ nvidia-smi NVIDIA-SMI has failed because it couldn&amp;#39;t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running. 解決策 原因は .run ファイルを使ってドライバのインストールをしていたからだった．下記のページが参考になった．
+Nvidia driver not work after reboot on Ubuntu - NVIDIA Developer Forums とはいえ，Ubuntuの場合はパッケージマネージャからドライバを直接インストールできるので，aptを使ったほうが良いと思う．まずはppaを追加する．
+❯ sudo add-apt-repository ppa:graphics-drivers/ppa ❯ sudo apt update 肝心のドライバのパッケージだが，検索すると色々出てくるのでインストールされているGPU及びCUDAに合ったバージョンを入れる．NvidiaのHPから検索ができる．
+❯ sudo apt search &amp;#34;nvidia-[0-9]+\$&amp;#34; Sorting... Done Full Text Search... Done nvidia-304/xenial 304.137-0ubuntu0~gpu16.04.1 amd64 NVIDIA legacy binary driver - version 304.</description></item><item><title>なぜioutil.ReadFileはioutil.ReadAllより速いか</title><link>https://raahii.github.io/posts/read-file-faster-golang/</link><pubDate>Sun, 13 Oct 2019 00:36:12 +0900</pubDate><guid>https://raahii.github.io/posts/read-file-faster-golang/</guid><description>TL;DR Goでファイル内容を読む場合 には，ioutil.ReadFile の方が ioutil.ReadAll よりも高速．なぜなら，読み込むデータの大きさがあらかじめわかっている場合は，内部のバッファサイズを決定でき，無駄なメモリ確保を無くせるから．
+（いやなんでReadAllを使うんだよ，というのはさておき．）
+ioutilパッケージの関数たち Go言語には入力や出力を抽象化したインターフェース（io.Reader やio.Writer など）がある．このインターフェースはいわゆるファイル的な振る舞いをするものをまるっと同じように扱うためにとても便利なもの．ioutil パッケージも当然，それらをベースとしてさまざまな関数を実装している．
+io.Reader / io.Writer ただし，抽象化するということは，それぞれに特化できないということでもある．実際に ioutil.ReadAll のコードを読むと，最初に512 バイトのバッファを用意し，ファイルのEOFを検知するまで2倍，4倍，8倍…とそのサイズを大きくしながら読み込みを行っている．これは，io.Reader から一体どのくらいのデータを読み込むかわからないために行うバッファリングの処理である．
+func ReadAll - ioutil そこで，ioutil.ReadFile関数では，事前にosパッケージを使ってファイルの大きさを取得し，バッファサイズをそのとおりに確保することで一度にすべての内容を読み込んでいる．ioutil.ReadAll と同じAPIを使いたい場合には，ファイルオープンしてサイズを取得したあとに，io.ReadFull やio.ReadAtLeastを使うと良いと思う．
+ベンチマーク ソースコード
+最初の関数は固定長のバッファで読み込んだ場合．次は ioutil.ReadAll を使う場合．これは指数的にバッファサイズを大きくしていくので可変長のバッファで読み込むということ．次に iotuil.ReadFile．最後がioutil.ReadFileと同等の処理をファイルサイズ取得+io.ReadAllで実装したもの．
+package main import ( &amp;#34;io&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;os&amp;#34; &amp;#34;testing&amp;#34; ) var filename = &amp;#34;bigfile&amp;#34; // 804,335,663 bytes func BenchmarkFixedSizeBuffer(b *testing.B) { BUFSIZE := 4 * 1024 for i := 0; i &amp;lt; b.</description></item><item><title>HugoのビルドをGithub Actionで自動化する</title><link>https://raahii.github.io/posts/automating-hugo-builds-with-github-actions/</link><pubDate>Sat, 12 Oct 2019 18:20:16 +0900</pubDate><guid>https://raahii.github.io/posts/automating-hugo-builds-with-github-actions/</guid><description>台風が来て家に籠もるしかなくなったので，ブログのデザインをかえつつ，HugoのビルドをGithub Actionsで自動化した．公開にはGithub Pagesを使っている．
+基本的に
+GitHub Actions による GitHub Pages への自動デプロイ
+のとおりにWorkflowを作ればできます．記事書いてくださった方自身が次のようなモジュールを公開されてるので神．
+peaceiris/actions-gh-pages peaceiris/actions-hugo あえて注意点を上げるとすると，公開に &amp;lt;username&amp;gt;.github.io の直下？を使っている場合．このURLを使うには，名前を &amp;lt;username&amp;gt;.github.io としたリポジトリでGithub Pagesを設定する必要があるが，公開するソースはmaster ブランチのルートでなければならない（本来であれば他のブランチや特定のディレクトリを指定できる）．よって先の記事のような gh-pages ブランチにプッシュするやり方では実現できない．
+そこで今回は，そもそも source ブランチをデフォルトブランチとすることにして，workflowでビルドしたものを master にプッシュするように変更した．
+raahii.github.io/gh-pages.yml - GitHub 最近，研究に使ってるリポジトリにもGithub Actionsを設定したが，Dockerfileを使えば大体のことはできるし，直感的で使いやすい印象．ただドキュメントはあまり充実してないので複雑なことはできないかもしれない（以前もDockerfileのbuildのキャッシングがまだできないようだった）．今後も積極的に使っていこうと思う．
+最後に，これは余談ですが，今回採用したLithiumというテーマにコードブロックのデザインが無かったので足してみました．Hugoのバージョン0.28以降にはChromaというGo製のシンタックスハイライターがついていて，設定ファイルに書き足すだけで色付けできるので便利ですね（今回はそもそも コードブロックの要素自体にcssが当たってなかったので外枠のデザインは作りました）．Hugoも相変わらずとっても良きです．
+Syntax Highlighting | Hugo</description></item><item><title>画像データをサーバーにPOSTする</title><link>https://raahii.github.io/posts/files-upload/</link><pubDate>Sun, 04 Aug 2019 04:13:59 +0900</pubDate><guid>https://raahii.github.io/posts/files-upload/</guid><description>機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ．
+1枚しか送らない場合 今の所自分はこのパターンが多いです．いくつか実現方法はあると思いますが，リクエストボディに直接画像データのバイナリを入れて送る方法がシンプルで好きです．クライアント側のコードはこんな感じ．
+import json import urllib.parse import urllib.request # read image data f = open(&amp;#34;example.jpg&amp;#34;, &amp;#34;rb&amp;#34;) reqbody = f.read() f.close() # create request with urllib url = &amp;#34;http://localhost:5000&amp;#34; req = urllib.request.Request( url, reqbody, method=&amp;#34;POST&amp;#34;, headers={&amp;#34;Content-Type&amp;#34;: &amp;#34;application/octet-stream&amp;#34;}, ) # send the request and print response with urllib.request.urlopen(req) as res: print(json.loads(res.read())) 注意点として Content-Type に application/octet-stream を指定すると良いです．このMIMEタイプは曖昧なバイナリデータを指しており，ファイル種別を特に指定しないことを意味します（ref: MIME type: application/octet-stream ）．
+urllibの場合，これを指定しないとPOSTのデフォルトのMIMEタイプである application/x-www-form-urlencoded となり，サーバー側で正しく受け取れないので気をつけてください．
+一方でサーバー側（flaskの場合）のコードはこのようになります．画像データをOpenCVで読んで画像のshapeをjsonで返しています．
+@app.route(&amp;#34;/&amp;#34;, methods=[&amp;#34;POST&amp;#34;]) def example(): # read request body as byte array _bytes = np.</description></item><item><title>Goで順列（permutation）を実装する</title><link>https://raahii.github.io/posts/permutations-in-go/</link><pubDate>Sun, 07 Apr 2019 12:22:55 +0900</pubDate><guid>https://raahii.github.io/posts/permutations-in-go/</guid><description>配列の並び替えのパターンの列挙をする関数をgolangで書く．ABC123で必要になったので．
+TL;DR QuickPermを使うと良さそうです．
+上記はコピペ用でこっからはいくつか方法を試して最後に速度比較します．
+方法1: naive dfs 素直にdfsをする．前から数字を決めていって，決めたらその数字を選択肢から消して次へ行く．全部使ったら（選択肢が無くなったら）1つのパターンとして採択する．
+上のコードで使ってるサブ関数たちです．この後の方法でも使ってるのですが面倒なので1度だけ掲載．
+方法2: Heap Algorithm Heapのアルゴリズム を使う．
+方法3: QuickPerm QuickPermを使う．
+方法4（おまけ）: QuickPerm + Channel Generate all permutations in goとかを見ているとChannelを使った実装をしているので早いのか？と思って試してみた．
+速度比較 go testでベンチマーク取ります．
+方法3のQuickPermが一番早そうです．方法4は非同期でやっても単に結果くるまでブロッキングしてるので，goroutineやchannelの生成の分で普通に遅そうですね．まだgoroutineを書くの慣れてないのでコードが怪しいかもしれません．
+goos: darwin goarch: amd64 pkg: github.com/raahii/go-sandbox/permutations BenchmarkPermute1-4 2 684403978 ns/op 637542560 B/op 9895161 allocs/op BenchmarkPermute2-4 5 285790686 ns/op 377401424 B/op 3628802 allocs/op BenchmarkPermute3-4 5 216943042 ns/op 377401440 B/op 3628802 allocs/op BenchmarkPermute4-4 1 1215330546 ns/op 290305888 B/op 3628817 allocs/op PASS ok github.</description></item><item><title>ABC122 D - We Like AGC</title><link>https://raahii.github.io/posts/abc122/</link><pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate><guid>https://raahii.github.io/posts/abc122/</guid><description>前回のコンテスト，ABC122の復習メモを残しておく．
+問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求めてください。
+A, C, G, T 以外の文字を含まない。 AGC を部分文字列として含まない。 隣接する 2 文字の入れ替えを 1 回行うことで上記の条件に違反させることはできない。 制約 $3\leq N\leq100$ 解法（考え方） 単純な全探索の計算量は $O(4^N)$ ．しかし「隣り合う文字列を入れ替えた時に&amp;quot;AGC&amp;quot;を含んではいけない」という制約は，新しくi番目の文字を決定するには直前の3文字のみが関与することがわかる．
+ダメなケースというのは例えば
+3文字: &amp;ldquo;AGC&amp;rdquo;, &amp;ldquo;GAC&amp;rdquo;, &amp;ldquo;ACG&amp;rdquo; 4文字: &amp;ldquo;A?GC&amp;rdquo;, &amp;ldquo;AG?C&amp;rdquo; であるが，コツとして，文字列が制約を守っているかどうかを↑のように自分でパターンを書き出しすのではなく，プログラムしてあげるほうが良いということ（公式の解答でやられている）．こういう感じ．
+これがまた，Goだと string は要素の入れ替えができなくて辛い感じになるのですが笑（まぁ全角文字が入ったりするとstringの要素はきちんと1文字に対応しないので，できない方が良いとも言える？）．
+あとはオーバーフローするので余りを取ることを忘れないようにすること．dpテーブルの構築時，最後の和を取る部分の両方で使う．
+DPによる解法 解法の方向性がわかったところで，DPで解く方法を考える．この場合，i番目に文字jを採用できる場合の数をテーブルに埋めていく．
+制約の全くない単純な数え上げをするケースをまず考えると，遷移式は
+$$ dp[i+1][j] = \sum_{k} dp[i][k] $$
+のように書くことができ，コードは次のようになる．
+この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを dp[i][j][k][l] のように拡張する．添字はそれぞれ直近3番目(j)，直近2番目(k)，直近1番目(l)を示す．そうすると遷移式は次のようにかける．
+$$ dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l] $$</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
+しかし， $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．
+ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．
+ついに同解法でGoなら通るがPythonだと駄目ってのを観測した pic.twitter.com/Qd6V2PsGgX
+&amp;mdash; raahii (@raahiiy) March 23, 2019</description></item><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
+問題 以下，問題ページ（D: Decayed Bridges）より引用．
+問題文:
+$N$ 個の島と $M$ 本の橋があります。
+$i$ 番目の橋は $A_i$ 番目の島と $B_i$ 番目の島を繋いでおり、双方向に行き来可能です。
+はじめ、どの 2 つの島についてもいくつかの橋を渡って互いに行き来できます。調査の結果、老朽化のためこれら $M$ 本の橋は 1 番目の橋から順に全て崩落することがわかりました。
+「いくつかの橋を渡って互いに行き来できなくなった 2 つの島の組$ (a,b) (a&amp;lt;b) $の数」を不便さと呼ぶことにします。
+各 $i (1\leq i \leq M)$ について、$i$ 番目の橋が崩落した直後の不便さを求めてください。
+制約:
+入力は全て整数である
+$2\leq N \leq 10^5$ $1 \leq M \leq 10^5$ $1 \leq A_i \lt B_i \leq N$ $(A_i, B_i)$の組はすべて異なる 初期状態における不便さは0である 全探索による解法 今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．</description></item><item><title>dotfilesを整備した</title><link>https://raahii.github.io/posts/update-dotfiles/</link><pubDate>Wed, 13 Feb 2019 00:13:24 +0900</pubDate><guid>https://raahii.github.io/posts/update-dotfiles/</guid><description>最近インターンが始まり、そのとき開発環境の構築に手間取ったので「やらねば…」となった．正直始まる前にやっとけやという感じなので反省．
+前々からGithubで管理はしていたものの、fishに移行してからほったらかしになっていたので、今回、要らないものをぶち消して、makeとsetup.shで自動的にインストール、アンインストール、更新など出来るようにした．
+ついでに、deinの設定をtomlにして、そこに各パッケージの設定を書くことで.vimrcをスッキリさせた．久しく触ってなかったBrewfileも更新して、iTermの設定もダンプしたので、大分環境構築しやすくなったと思う．めでたし．
+ところで前はzshだったけれどfishはデフォルトでも使える感じなのが良いですね．若干気になる点もあって，まずtmuxとの相性が良くない印象です．コマンドの補完やpecoの画面から戻った後にコンソールがずれるのは自分だけ…？
+あとは…文法が違うのもたまに気になりますが、これは慣れですね．ブラウザやSlackからコピーして実行したらシンタックスエラーでコケてあれっとなります．でも最近&amp;amp;&amp;amp;や||がサポートされたようですし，全体的にとても使いやすいので良い感じです．
+ついでに，プロンプトのテーマは今んとこpureをちょっと改造したやつを使ってます．個人的に2行のやつが良くて、1行目にカレントディレクトリやgitの情報、2行目にインプットのが使いやすいと思ってます．カレントディレクトリを深く掘っても入力のスペースに影響がないからです．もしおすすめがあったら教えてください．
+てな感じで、相変わらずtmux+vimで開発してます．インターンではGoを書いていて，やっぱりシンプルなところがいいなと思います．がんばります．</description></item><item><title>Conditional Batch Normalizationについて</title><link>https://raahii.github.io/posts/conditional-batch-normalization/</link><pubDate>Wed, 12 Dec 2018 15:31:51 +0900</pubDate><guid>https://raahii.github.io/posts/conditional-batch-normalization/</guid><description>Batch Normalization Batch Normalization(BN)は，内部共変量シフトを軽減することで学習を効率化する手法である．特に学習の初期段階において，前段の層の出力分布が変化すると，後段の層はその変化自体に対応する必要がでてくるため，本質的な非線形関数の学習が阻害されてしまうという問題がある．この問題は層を増やせば増やすほど深刻となる．BNは各層の出力をミニバッチごとに正規化することにより分布の変化を抑制する．また重みの初期値への依存度を下げ，正則化を行う効果もある．
+具体的には，入力バッチ $\mathcal{B}= {x_1,\cdot\cdot\cdot,x_m }$ に対して
+$$\mu_{\mathcal{B}} \leftarrow \frac{1}{m} \sum_{i=0}^{m} x_i$$
+$$\sigma^2_{\mathcal{B}} \leftarrow \frac{1}{m}\sum_{i=1}^{m}x_i$$
+$$\hat{x}_i \leftarrow \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma_{\mathcal{B}}^2+\epsilon}}$$
+$$y_i \leftarrow \gamma\hat{x}_i + \beta$$
+のように，標準化を施し，アフィン変換を行う（新たに平均$\beta$と分散$\gamma^2$を与えるとも言える?）．この$\beta$と$\gamma$がBNの学習パラメータである．また通常，上記の操作は入力特徴マップのチャネルごとに行う．よってパラメータ$\beta$と$\gamma$は長さチャネル数のベクトルとなる．
+Conditional Batch Normalization Conditional Batch Normalization1(CBN)の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．
+具体的には，入力データのラベルベクトル$c$があったとき，
+$$ \Delta\mathcal{B} = MLP(c),\ \ \ \Delta \gamma = MLP(c) $$
+のようにクラスラベルをBNのパラメータのチャネル数に合うようにMLPで変換し，
+$$ \hat{\beta} = \beta + \Delta\mathcal{B},\ \ \ \hat{\gamma} = \gamma + \Delta\mathcal{\gamma},$$
+のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN2などではクラスラベルの1-of-Kベクタを用いているはず．
+なにが嬉しいのか このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN3，BigGAN4でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．
+また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．
+一方，DCGAN5でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．
+実装 BigGANsのPyTorchによる再現実装にそのコードがあります．標準のBN実装に+αすることでとてもシンプルになっています．</description></item><item><title>tensorboard-chainerにビデオを記録するためのPRを出した</title><link>https://raahii.github.io/posts/add-video-method-for-tensorboard-chainer/</link><pubDate>Sun, 13 May 2018 21:37:27 +0900</pubDate><guid>https://raahii.github.io/posts/add-video-method-for-tensorboard-chainer/</guid><description>機械学習における可視化ツールの1つにTensorBoardがある。これはTensorflowに付属しているソフトウェアで、学習時のlossやaccuracy、重みのヒストグラムなどを記録することができる。加えて、画像や音声などのデータも記録出来るので、生成モデルの学習でも便利に使える。
+自分は普段Chainerで書いていてそのままではtensorboardは使えないのでtensorboard-chainerを使わせてもらっている。これとてもありがたい。
+ただ、研究テーマが動画生成なので、動画も記録できれば便利なのに…とずっと思っていた。最近真面目にどうにか出来ないかと思って調べたら.gifの記録は元々できるらしいことがわかった。
+Video summary support · Issue #39 · tensorflow/tensorboard · GitHub ということで、動画を記録できるメソッドを実装してプルリクエストを出した。初めて出したのだけれど、カバレッジやコード規約をチェックしてくれるツールに初めて触れた。外からだとテストが通らなかった理由がいまいちわからないので若干困ったけど、慣れれば便利そう。とりあえずマージはされたので良かったです。
+add method &amp;ldquo;add_video&amp;rdquo; to SummaryWriter by raahii · Pull Request #2 · neka-nat/tensorboard-chainer · GitHub ということでtensorboard-chainerのadd_videoメソッドで動画記録できます。fpsも指定できます。便利。</description></item><item><title>TeXShopでバックスラッシュが円マークになる問題</title><link>https://raahii.github.io/posts/texshop-yen-mark-problem/</link><pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate><guid>https://raahii.github.io/posts/texshop-yen-mark-problem/</guid><description>これまでTeX資料はTeXShopで書いていたのだけど、最近になってoverleaf (v2)を使うようになった。そこで、TeXShopから文章をコピペしてみたら\が¥に変換されるという問題が起こった。これだとoverleafに貼り付けた時に全部置換しなくてはならない。
+この現象を見た時、何故か.texの文章自体がTeXShopに書き換えられておかしくなってるのかと勘違いしてしまったのだけど、vimで開いても普通に\で表示されるので、どうやらこれはTeXShopがあえてクリップボードをいじってるらしいということがわかった。
+ぐぐってみたところその通りで、TeXShopはデフォルトでクリップボードの中身の\を¥に書き換えるようだった。編集 &amp;gt; クリップボードで\を¥に変換で設定を変更できる。なぜそのような機能がデフォルトでONになっているのかはわからない。
+TeXShopからソースをコピーすると\が¥でコピーされてしまう ─ TeXShop FAQ
+TeXShopの設定 おそらく勘違いしたのは、これまでもOS Xでこんな感じの現象を見たことがある気がしていて、まさかTeXShop固有の問題とは思わなかったのが原因だろうと思う。とりあえず置換すれば良いか〜などと思って、
+pbpaste | sed -e &amp;#34;s/¥/\\\/g&amp;#34; | pbcopy みたいなことをしていたので恥ずかしい。反射的に手っ取り早い解決方法に手をつけてしまうのではなく、一旦手を止めて問題の本質的な原因を考える癖を付けないといけないなぁと思った。もちろん当たり前でやってるつもりなんだけど改めて…。</description></item><item><title>草津温泉へ行った</title><link>https://raahii.github.io/posts/kusatsu-onsen/</link><pubDate>Sun, 01 Apr 2018 12:13:45 +0900</pubDate><guid>https://raahii.github.io/posts/kusatsu-onsen/</guid><description>初めて草津温泉に行った。草津は群馬県吾妻郡にある。適当に浦和辺りまで出て、特急草津号で長野原草津口（2時間くらい）まで出て、最後はバス（20分）で草津温泉の最寄り駅という感じでした。
+特急草津号は指定席にするかどうか迷ったけれど、とりあえず自由席買っておいて、実際に電車に乗り込んで座れなさそうだったら車掌さんに追加料金を払って指定席にするのが良さそうでした。直前の特急券の混雑度で自由席の混み具合もおおよそ予想できるのと、できるだけ始発駅に近いところに乗れば良さそうです。追加料金の場合もSuicaで払えるので便利。一方帰りは結構混んでいたので、荷物持って並ぶの面倒くさいと思う場合は指定席の方が楽そうです。
+草津温泉といえば湯畑と湯もみが有名（どうしてもテロマエ・ロマエのシーンが思い浮かんでしまう）。湯畑はその名の通り畑をイメージしたもので、畝を模した温泉の通り道みたいなのがあって独特な風景でした。湯もみの方は湯もみショーというのが午前午後で3回ずつあったんだけど時間合わなかったので見ず。（しかも¥600くらいしたはずなので、家でYoutubeで見ます…笑）
+近くの西の河原公園でも温泉が流れる川はあったけれど、湯畑の”畑に見立てる”というコンセプトは独特の良さにつながっているし、湯もみも板を転がしてお湯を混ぜてるだけなんだけど、ネーミングセンス良いなと思ったので、ブランディング(?)のうまさを感じました。
+あとはところどころに足湯があってゆっくりできるのと、もちろん夜は温泉をいくつか巡ったりして、かなりリラックスできました。ただ湯が熱すぎてどうしようもない温泉がぼちぼちあったのでそこはちょっと残念。笑　ちなみにこの時期だと気温がまだ若干低くて、最低気温がまだ氷点下なので、温泉回る時は湯冷めしないように気を付けたほうが良いですね。
+その他写真など…。
+&amp;lsquo;草津&amp;rsquo;がどうしてもうまく捉えられない。 3Fに図書館があり温泉のことを勉強できるらしい… なんかセブンイレブンが小豆色でかっこいい。 湯畑良い。夜は湯気に対して青色のスポットライト当てたりしてるのでまたかなり違う雰囲気になります。
+足湯も良かった。 ここ行きそびれたんだけど、多分快適にコード書ける。 あとグルメの方は宿のご飯があったのであまり食べずという感じでしたが、おそば、焼き鳥、お饅頭、ソフトクリームなどが美味しそうな感じでした。食べたものとして、気になってた揚げ饅頭はおいしかったですが、温泉卵ソフトクリームは卵の味しなくて普通のバニラアイスでした。笑　次行くときはお蕎麦とかいろいろ食べたいですね。</description></item><item><title>『イノベーション・オブ・ライフ』を読んだ</title><link>https://raahii.github.io/posts/innovation-of-life/</link><pubDate>Tue, 13 Mar 2018 16:00:38 +0900</pubDate><guid>https://raahii.github.io/posts/innovation-of-life/</guid><description>TL;DR 『イノベーション・オブ・ライフ』を読んだので感想と読書メモを残しておく。
+感想 友人に勧められて本書を読むことにしたが、個人的には今後も振り返りたくなる内容で良本だと思った。特にインパクトが強いのは第一部で、私は来年度から本格的に就活に向き合わなければいけないので、「どんなキャリアを築くことが人生の幸せにつながるのか」の考え方を学べたのは良かった。（もちろんこれは就活に限らず今後ずっと考えてるべきことだと思う。）
+本書を読んで、これまで高専・大学と情報工学を学んできたことを活かし、ソフトウェアエンジニアになりたいという気持ちはより強くなった。一方で、自分の視野の狭さを感じるシーンは多々あるので、もっと視野を広げればやりたい職種は他にもあるんだろうなと思った。残りの学生生活は短いが、社会人になるまでは創発的な機会を見逃さないよう、様々なことに興味を持つ姿勢を持ちたいと思った。
+他にも、本書の最初の方で研究員のダイアナにまつわるエピソードがあり、そこでのマネジメントという職業についての言及は印象的だった。
+だが、ダイアナが研究所で過ごす毎日が、彼女の家庭におよぼす影響について思いをめぐらせるうちに、こう確信するようになった。人のためになる仕事をするには経営者になればいいのだと。マネジメントとは、立派に実践すれば最も崇高な職業の一つだ。経営者は自分の元で働く一人ひとりから、毎日八時間ないし、十時間という時間を預かる立場にある。また、従業員が毎日仕事を終えて、良い一日を過ごした時のダイアナのように、動機づけ要因に満ち溢れた生活を送っているという満足感をいだきながら家に帰れるよう、ひとりひとりの仕事を組み立てる責任を担っている。
+上記の引用では主語が経営者となっているが、この主張はチームや組織の上に立つ役職であれば同様に当てはまると思った。これを読んで、マネジメントとはまさに「人のためになる仕事である」と考えを改めたし、これくらい高い視座で働けたら本当に素晴らしいと思った。
+いまのところ、本書に載っている理論は簡単な例を通してわかった気になっているものが多いので、また時間を空けて読んでみたい。重要なのは「何を考えるか」ではなく「どう考えるか」を知ることだとあり、たしかにその通りなのでちゃんとそこまでできればと思う。
+内容（読書メモ） 本書は「自分の人生を評価するものさしは何か？」を見出すために、経営学の理論を用いて、次の3つの問いに答えようとするものである。
+どうすれば幸せで成功するキャリアを歩めるだろう？ どうすれば伴侶や家族、親族、親しい友人たちとの関係を、ゆるぎない幸せのよりどころにできるだろう？ どうすれば誠実な人生を送り、罪人にならずにいられるだろう？ 各部では経営学の理論とその理論が引き起こす直感的な事例が紹介される。
+本書で紹介する理論は、人間の営みに対する深い理解──「何が、何を、なぜ引き起こすのか」──に支えられており、また、世界中の組織によって徹底的に検証、活用されてきた。
+優れた理論は、「気が変わる」ことがない。一部の企業や人にだけあてはまり、ほかにはあてはまらないということはない。
+本書では各章で一つずつ理論を取り上げ、それを一つの問題にあてはめるという構成を取っている。
+第一部： 幸せなキャリアを歩む 「幸せなキャリアを歩めているならば、きっと毎朝、自分のやっていることをやれる幸せをかみしめながら目覚めることができる」
+優先事項（あなたがキャリアで最も重視すること）について 動機づけ理論。
+衛生要因と動機づけ要因をちゃんと分けて捉えること。自分にとっての動機づけ要因をみつけること。
+理想のキャリアを探す計画、計画と思いがけない機会のバランスについて 発見志向計画法。
+意図的戦略と創発的戦略を理解して行動すること。複数の創発的機会に対しては、「どの仮定の正しさが証明されればよいか」を考え選択すること。
+戦略の実行、資源配分について 資源配分のパラドックス。
+資源配分のプロセスを意識して管理すること。正しい戦略を脳内で描いていたとしても、人は無意識のうちに、短期的に見返りが得られる安易な選択をしてしまう。
+達成動機の高い人たち陥りやすい危険は、いますぐ目に見える成果を生む活動に、無意識のうちに資源を配分してしまうことだ。
+同級生たちは昇進や昇給、ボーナスなどの見返りがいますぐ得られるものを優先し、立派な子供を育てると言った、長い間手をかける必要があるもの、何十年も経たないと見返りが得られないものをおろそかにした。
+第二部： 幸せな関係を築く 「家族や親しい友人との、親密で愛情に満ちた、揺るぎない関係は、人生で最も深い喜びを与えてくれる物の一つだ。」
+資源配分の優先順位、人間関係の性質について 良い資本と悪い資本。
+キャリアの中だけでなく、キャリアとその他のもの（本章では家族や友人）においても、資源配分を自分の優先順位とすり合わせて行わなければならない。この時注意しなければならないのは、家族や子供を相手にする場合は、（企業やキャリアと異なり）思うようにコントロールできないことが多いこと、そして、人生においては投資の順番を好きなように変えられる物ばかりではないということ。（本章は理論でいう所の「成長」と「利益」が人生においてどう対応するのかうまく理解できなかった。「時間や労力の量」と「幸福」だろうか。）
+モノや人の役割について 片付けるべき用事。
+ミルクシェイクの企業施策の例にもある通り、人間関係においても自分がどのような用事を片付けるために雇われているかを自問することが重要である。自分の中で勝手に決めつけるのではなく、真に相手が大切にしていること、必要としていることを理解しようと努めることが大切である。そして、その役割を実際に実行に移し、献身的にならなければならない。献身は愛情に転化する。そのために時には自分の優先事項や希みを後回しにする必要があるかもしれない。同じように相手にも献身的になれる機会を与えよう。
+片付けるべき用事のレンズを通して結婚生活を見れば、お互いに対しても最も誠実な夫婦とは、お互いが片付けなければならない用事を理解した二人であり、その仕事を確実に、そしてうまく片付けている2人だとわかる。</description></item><item><title>『スタンフォード式　最高の睡眠』を読んだ</title><link>https://raahii.github.io/posts/stanford-awesome-sleep-method/</link><pubDate>Thu, 08 Mar 2018 14:04:10 +0900</pubDate><guid>https://raahii.github.io/posts/stanford-awesome-sleep-method/</guid><description>TL;DR 『スタンフォード式 最高の睡眠』 を読んだ。睡眠の質を最大限に高めるためには、**最初の90分の睡眠の質を高めることを心がける**ことが大事。 そのために具体的に何をすべきかというと、
+寝る前はできるだけ脳みそ使わず、リラックスしとく 寝る90分前にお風呂に入る（90分も時間がないときは、ぬるめのシャワーか足湯） 朝起きたら陽を浴びる アラームは起床時間の20分前と起床時間の2つかける 要点 レム睡眠とノンレム睡眠 人は寝ている間に深い睡眠（ノンレム睡眠）と浅い睡眠（レム睡眠）を周期的に繰り返す。しかし、この深くなったり浅くなったりする波形の振幅は就寝から起床にかけて徐々に減少していく。そのため著者は、**単に最所の90分の（ノンレム）睡眠の質を高めることに注力すること**で睡眠の質が高められることを主張している。
+交感神経と副交感神経 人間の体では意思とは関係なく自律神経が常に働いている。体温を維持し、心臓を動かし、呼吸し、消化し、ホルモンや代謝を調整するのが自律神経である。この自律神経には活動モードの交感神経と、リラックスモードの副交感神経がある。日中は交感神経が優位だがノンレム睡眠中は副交感神経が優位となる。よって夜になったらスムーズに副交感神経が優位の状態に移行しなければ、最初の90分の質を確保することはできない。
+そのため、寝る直前まで仕事をして頭を回転させていたり、ネットを見て脳が興奮状態にあるようなことはできるだけ避けた方が良い。（なので、夜はこういう作業をするのがおすすめ）ちなみに、ブルーライトが悪いと巷でよく言われるが、実際には相当目を近づけない限り問題にはならない。とにかく、できるだけリラックスすることが重要らしい。
+体温と脳 体温と脳の状態は入眠に大きな関わりがある。例えば、質の良い睡眠を取っているときには体温が下がることがわかっている。人間の体温は深部体温と皮膚温度に分けて考えるとわかりやすい。入眠前には手足が温かくなり皮膚温度が上昇する。これにより手足から熱が放散され、深部体温が下がることになる。
+よって、この皮膚温度が上昇→深部体温が下降の流れを意図的につくることで睡眠の質を上げるのがポイントとなる。そこで入浴である。深部体温には温度の急激な変化（あるいは一時的な変化？）に対してそれ打ち消そうとする働きがある。すなわち、入浴によって深部体温が上昇すると、入浴後には深部体温は下がろうとするのである。これを利用し、就寝の90分前に入浴することによってスムーズに眠れるということになる。また、就寝まで90分も確保できない場合には、同じような変化をゆるやかに起こすという意味で、ぬるめのシャワーを浴びることで代替できる。また足湯の場合には深部体温ではなく意図的に皮膚温度を上げることで熱放散を促す（ことで深部体温を下げる）という意味で、終身の間際でも効果があると述べられている。
+サーカディアンリズム 良い睡眠と良い覚醒は2つでセットである。サーカディアンリズムとは、24時間のリズム（地球の自転周期）のことであり、要は体内時計である。日中は活発に活動し、夜はぐっすり眠るという流れはこのリズムが正しく体内で働くことで起こるものである。
+このサーカディアンリズムは陽の光を浴びることで調整される。そのため、朝起きたら陽の光を浴びることが重要である（有名）。また、目を覚ますという点では、朝シャワーを浴びること（深部体温を上げるため。ただし上げすぎると、夜の入浴と同じで深部体温はその後下がろうとするため、逆に午前眠くなるので注意）や、朝ご飯をきちんと食べる（咀嚼し体内時計をリセットする、汁物で深部温度を上げる）ことが挙げられている。
+睡眠サイクル 自分としては効果がある実感はこれまで全然なかったのだけれど、たまに本当に90分サイクルを考慮して寝てますと言う人がいる。確かに、この90分という睡眠サイクルは人間の平均としてはそうらしいので、この理論が合う人が一定数いるのはわかる。が、そもそも睡眠サイクルというのはそこまで厳密な周期で起こるものではなく、普通、起床時間に近づくにつれて周期が短くなり、頻繁にサイクルが回るようになる。（なので、むしろそれが安定しているならば、就寝と起床をしっかりリズムよく行えており、かなり良い睡眠なのでは？という気もする）加えて、周期の90分という時間には個人差がある。よって、無条件に90分という理論は成り立たないのがほとんどである。
+では、睡眠サイクルを考慮した覚醒をするためにはどうすればよいかというと、アラームを2つの時間でセットすることを本書では推奨している。その2つの時間とは、起床時間と、その20分程度前である。ここで、1回目の方はアラーム音は小さく、短いものにしておく。これにより、朝短時間で回っている睡眠サイクルから、レム睡眠（覚醒に近い状態で目覚めやすい時間）のタイミングをより確実に捉えることが出来る。なぜなら、レム睡眠の場合は覚醒に近く小さな音でも聞こえやすいため、1回目のアラームが聞こえれば無理なく起きることができる。一方、1回目で起きなければそのときはノンレム睡眠であるため、その20分後の2回目のアラームで無理なく起きれるためである。これも少しメソッドとしては違うがこの前の「ためしてガッテン」でもやっていた。
+その他（メモ） 睡眠医学のエビデンスを持ってはっきり「こうだ」と言えることはまだ少なく、加えて睡眠は個人差が大きいので万能法はなかなかない。
+理想の睡眠時間は遺伝子で決まるため個人差がある（エンペラーペンギンの眠らない特性、アメリカの男子高校生のギネスの不眠記録などの例より）。
+ショートスリーパーは短命（ショウジョウバエの例より）。
+「睡眠不足」という言葉は古い。感覚的に「睡眠負債」という言葉が正しい。
+睡眠負債を返済すればパフォーマンスは確実に上がる（スタンフォードのバスケットボールの選手の例より）。
+しかし睡眠負債の返済には滅茶苦茶時間がかかる（例えば40分の睡眠負債を返すのに、毎日14時間ベッドに居るのを3週間続ける必要があるという例より）。
+夢の中で作業ができるという人がいる（梨大の森勢先生はよくそんなことを言っている）が、それは本書では不可能と言っている。
+どうしても夜遅くまで作業しなければならない場合、最初の睡眠サイクルが最も深い睡眠であることから、とりあえずいつもどおりの時間で寝てしまってから、早めに起きるほうがよいらしい（現実的かというと微妙だけど）。
+ランチは食べても食べなくてもその後眠い。よく、「食事をとると、消化のために腸に行く血流が増えて、脳に行く血流が減るため」といわれるが、どんな状況でも脳血流は第一に確保されるためその説は偽、とのこと。
+仮眠を取るなら20分。それ以上取ると認知症のリスクが高まる。
+睡眠の役割
+脳と体に「休息」を与える　 「記憶」を整理して定着させる 「ホルモンバランス」を調整する 「免疫力」を挙げて病気を遠ざける 「脳の老廃物」を取る 感想 自分は予定がないと平気で8〜12時間くらい寝てしまう上に、目覚めがすっきりしないことが多いので本書を読んでみた。とりあえず、前のエントリで書いたmiband2を最近使っていなかったので、またこれで睡眠計測が始めようかなと思った。morninはカーテンが手で開けられなくなるのでやっぱだめですね。笑</description></item><item><title>Kinectを用いたRGB-Dデータセットのまとめ</title><link>https://raahii.github.io/posts/kinect-rgbd-dataset/</link><pubDate>Thu, 01 Mar 2018 18:23:10 +0900</pubDate><guid>https://raahii.github.io/posts/kinect-rgbd-dataset/</guid><description>はじめに 卒研でRGB-Dデータを使う研究をやっていたので、その時に調べた内容について軽くまとめます。
+タイトルでは&amp;quot;Kinectを用いた&amp;quot;となっていますが、実際はそこに拘りはありません。ただ、研究分野でかなりよくKinectが使われているので、RGB-Dに関わる研究を探す場合には同時にKinectの文脈でも探したほうが良いと思います。Google Scholarでも&amp;quot;kinect&amp;quot;の方がよくヒットします。
+Google Scholar &amp;#39;rgbd&amp;#39; Google Scholar &amp;#39;kinect&amp;#39; さて、実際にデータセットについてまとめようと作業を始めたのですが、せっかくなので表にまとめようと思い、早々に挫折しました。そこで、調べる中で見つけたRGB-Dデータセットのサーベイ論文をシェアすることにします。
+文献リスト まず、Kinectから取得されるRGB-Dデータ（及び音声データ）の応用をまとめている論文があります。Kinectから取ったデータの使い道のイメージをつかめると思うのでおすすめです。
+A Survey of Applications and Human Motion Recognition with Microsoft Kinect 論文 RGBD datasets: Past, present and future (2016) データセットの種類（タスク）毎に表で整理してありわかりやすいです。データセットの説明や作成年だけでなく、サムネイルが付いていて、形式（Video?/Skelton?）についても言及があります。 表の例（本項の論文より引用） RGB-D datasets using microsoft kinect or similar sensors: a survey. (2017) これも種類に応じて章分けしてまとめてくれています。一応表もありますが見づらいです。個々のデータセットに対し、サンプル数やラベル情報を簡潔に文章でまとめてくれています。最初のツリー画像が良い感じです。 データセット木（本項の論文より引用） RGB-D-based Action Recognition Datasets: A Survey (2016) アクション認識に絞ってまとめられているのですが、文章でも表でもかなりよくまとめられています。とうか逆にタスクを絞ったからこそまとめやすいのかもしれませんね。ラベル数とサンプル数で図に落とし込まれているのもわかりやすかったです。 データセットの比較の図（本項の論文より引用） A Survey of Datasets for Human Gesture Recognition (2014) これはジェスチャ認識に絞ってまとめられたものです。これも表あるのでわかりやすいです。あと、Availability (Public, Public on Request or Not Yet)の項もあるのが特徴です。</description></item><item><title>3DGANをchainerで実装した</title><link>https://raahii.github.io/posts/chainer-implementation-3dgan/</link><pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate><guid>https://raahii.github.io/posts/chainer-implementation-3dgan/</guid><description>タイトルの通り，3DGANのchainer実装をgithubに上げた．当初はKerasで書いていたが良い結果が得られず，ソースコードの間違い探しをするモチベーションが下がってきたので，思い切ってchainerで書き直した．
+実はmnistなどのサンプルレベルのものを超えてちゃんとディープラーニングのタスクに取り組むのは今回が初めてだった． ChainerによるGANの実装自体は公式のexampleやchainer-gan-libが非常に参考になった．
+モデル 3DGANはその名の通り3Dモデルを生成するためのGAN（Voxelです）．Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modelingで提案されているもの．前回の記事でも触れた．
+構造はDCGANと同様で200次元のベクトルよりGeneratorでサンプルを生成，Discriminatorでデータセット由来かGenerator由来か（real/fake）を分類しそのロスをフィードバックする．
+Generatorは以下の図（論文より引用）のようなネットワークで，Discriminatorはこれを反転したようなモデルになっている．各ネットワーク内では3次元畳み込みを使用する．最適化手法はAdamで，論文ではDiscriminatorがバッチを8割以上正しく分類できた場合はパラメータを更新しないようにしたとあった．
+![f🆔bonhito:20171024233301p:plain](https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024233301.png "f🆔bonhito:20171024233301p:plain") 3Dモデル データセットにはShapeNet-v2を用いた．このデータセットには様々な種類の3Dモデルが収録されているが，今回は椅子のモデルのみを抽出した．椅子はおよそ6700サンプルが収録されており，ファイル形式は.binvoxが直接収録されていたのでそれを使用した．
+ただ，6700サンプルの3Dデータを全てメモリに乗せることはできなかったため，初期実装では毎回のループで読み込み処理を行っていた．その後，.binvoxファイルのヘッダー読み込みなどが不要であり，処理速度に支障があると感じたので事前に.h5に書き出して使うようにした．
+ShapeNet-v2に収録されているデータのサンプルを示す．
+実装 3DGANの実装をやろうと決めてから，実験を始める前に3Dモデルの取扱について理解するためのツールをつくっていた．主にはSimple Voxel Viewerで，.binvox形式について理解したり，matplotlibでボクセルをどうやってプロットしようかということについて考えていた．
+64x64x64のボクセルを可視化するため，最初はmatplotlibの3Dplotを試したが，scatter plotやsurface plotを使うとマインクラフトのような箱を集積した見映えのプロットが実現できない上，一つ描画するのに数十秒かかることがわかった．そこからまず自作してみようと思いTHREE.jsを使ってSimple Voxel Viewerを作ってみた．ところが結局こっちもいくらか高速化は試したものの，64x64x64のサイズでも密なボクセルになるとメモリーエラーが起こってしまいうまく動作しない問題が起こった．加えて当たり前だがPythonのコードにも組み込めない．
+そうして結局，matplotlibの3D volxe plotを採用した．しかしこの関数はまだリリースされていないため（2017/10時点），githubから直接インストールする必要があった．動作も遅いままだが妥協することにした．
+ネットワークはKerasやTensorflowなどによる実装がいくつかgithubに上がっていたためそれらも参考にしつつ実装した．加えて，有名なGANのベストプラクティスのページを参考にした．ポイントをかいつまむと以下のような感じで実装した．
+ランダムベクトルzは論文では一様分布だったがガウス分布を使った． GeneratorはDeconv3D+BN+ReLUの繰り返しで，最後だけsigmoid． DiscriminatorはConv3D+BN+Leaky-ReLUの繰り返しで，最後だけsigmoid． Chainerの公式のexampleを真似してロスはsoftplusを使って実装．ただ，実はsigmoid + Adversarial lossがsoftplusと同じなのでDiscriminatorの最後のsigmidは不要なのだが，加えた方がうまくいった(謎)． 結果 成功例 良さげな感じを出すためにきれいなものを集めた．学習の初期段階ではでたらめなものが出力されるが，徐々に椅子が形成され，50エポックから100エポックくらいでましなものが出来た．
+学習の途中では椅子とは独立した無意味なかたまりのオブジェクトが所々に浮かんでいたりしたが，それが消えてくるとかなり見栄えが良くなっていった．
+失敗例 ボクセルが全て1になったり0になって消滅したりした．今回幾度も学習をさせてみて，初期の段階からほぼ1なボクセル，あるいはほぼ0なボクセルが生成されたり，規則的なパターン（模様）を持つボクセルが生成されたりすると多くの場合失敗となるという微妙な知見を得た．
+また，ボクセルが消滅したらその後復活しないこともわかった．ただこれは実装のところで述べたようにロスが間違っているせいかもしれない．
+わかったこと GANはロスは全くあてにならない．生成結果が全て． zはガウス分布から取ってきたほうが良さそう． 学習を調整する(Discriminatorのlossやaccを見て更新しないなど）のはうまくいかないと感じた． 今回のコードではsigmoid + adversarial lossをsoftplusで実装しているので，Discriminatorの最後のsigmoidは不要なはずなのだが，誤って入れていたらうまくいき，外したらうまくいかなくなった．動きゃ勝ちみたいなところがあって釈然としない． 論文では1000エポック学習したとあったが100エポック行かないくらいでかなり形になった． また，今回はGANのベストプラクティスの内，以下のトリックは実践しても効果がなかった.
+Discriminatorに学習させるミニバッチをrealのみまたはfakeのみにする．(項目4) GeneratorにもDiscriminatorにもLeaky-ReLUをつかう．(項目5) GeneratorにADAMを使ってDiscriminatorにはSGDを使う．(項目10) GeneratorにDropoutを使う．(項目17) 所感 実装に関して，やはりコード自体はKerasの方が圧倒的に簡単にかけるようになっているなと感じた．モデルのインスタンスを作ってバッチをmodel.</description></item><item><title>ボクセルデータを描画するツールを作った</title><link>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</link><pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate><guid>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</guid><description> 最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で初めて3Dオブジェクトの生成にGANを適用した論文です。後者はその3D-GANを応用した研究のようです。
+どんなものか知るには著者らが公開している動画が非常にわかりやすいです。静止画と同じようにGANを3Dモデルにも適用できそうだということがわかります。
+ということでgithubにあがっている実装などを参考に実際にやろうとしているところなのですが、これらの手法では主に3Dオブジェクトを「ボクセル」として扱っています。
+このボクセルというのは「体積 (volume)」と「ピクセル (pixel)」を組み合わせたかばん語らしいのですが、要は画像と同じ要領で3Dモデルを3次元配列に格納して表したものです。イメージとしてはマインクラフトみたいな感じです。
+CGでは頂点情報や法線、テクスチャなどを保存する.obj, .3dsなどが有名（らしい）ですが、それらに比べると非常に簡単で取り扱いやすくなっています。
+その一方でボクセルデータを保存する形式には.binvoxがあるのですが、メジャーではないためかツールが少なめです（まぁただの3次元配列だしね…）。ざっくり探したところ以下のものは便利そうだなと思いました。
+.binvoxを3次元配列に変換: dimatura/binvox-rw-py(python)
+.objや.mtlを読み込んで変換し、ボクセルとして可視化: Online Voxelizer(web)
+ただ、単に.binvoxファイルをアップロードしてすぐに中身を見れるツールはなさそうだったので今回はそれを作ってみました（というエントリです）。ここから試せます。
+github.com
+ボクセルは形式そのものがシンプルなのでmatplotlibを使って3dplotするのでも良いのですが、結構重いんですよね。three.jsを使えばWeb上でマウスでグリグリできるインターフェースを簡単に作れるので楽しいですし、いつかフロントエンドで使えるかも…。
+先程紹介したOnline Voxelizerに比べると動作がかなり遅いしメモリも結構消費してしまうのでそこが今後の課題です。うーん…おしまい。</description></item><item><title>LaTeXiTで数式が表示されない問題</title><link>https://raahii.github.io/posts/latexit-bug/</link><pubDate>Sat, 01 Jul 2017 23:12:00 +0900</pubDate><guid>https://raahii.github.io/posts/latexit-bug/</guid><description>LaTeXiTはTeX数式を画像に変換できるツールですが、ついさっき使ったらプレビューに数式が表示されず、というか数式画像の生成自体に失敗しているみたいで全く使えないという事態に遭遇しました。
+思い当たったのは最近brew updateした時にghostscriptがアップデートされたことだったので確認。
+brew info ghostscript ghostscript: stable 9.21 (bottled), HEAD Interpreter for PostScript and PDF https://www.ghostscript.com/ /usr/local/Cellar/ghostscript/9.21_1 (8,484 files, 98.2MB) Poured from bottle on 2017-05-23 at 13:32:45 /usr/local/Cellar/ghostscript/9.21_2 (717 files, 64MB) * Poured from bottle on 2017-06-22 at 00:29:33 From: https://github.com/Homebrew/homebrew-core/blob/master/Formula/ghostscript.rb ==&amp;gt; Dependencies Build: pkg-config ✔ Required: little-cms2 ✔ ==&amp;gt; Requirements Optional: x11 ✔ ==&amp;gt; Options --with-x11 Build with x11 support --HEAD Install HEAD version 確かに06/22に更新している。なんとなく怪しいのでバージョンを下げたらなおった。</description></item><item><title>「ヘルシープログラマ」を読んだ感想</title><link>https://raahii.github.io/posts/review-healthy-programmer/</link><pubDate>Tue, 03 Jan 2017 10:14:00 +0900</pubDate><guid>https://raahii.github.io/posts/review-healthy-programmer/</guid><description>ヘルシープログラマ ―プログラミングを楽しく続けるための健康Hack
+作者: Joe Kutner,Sky株式会社玉川竜司 出版社/メーカー: オライリージャパン 発売日: 2015/07/23 メディア: 単行本（ソフトカバー） この商品を含むブログ (9件) を見る 感想 本書はプログラミングを職業とする人が、一日中座り続けるという習慣から慢性的に運動不足に陥ることの危険性や、よく引き起こす疾患の事例とその対策について説明している。一方、タイトルから匂い立つ"プログラマは如何にして健康になれるか“というような方法論だけにとどまらず、単にプログラマとしてより良いパフォーマンスを発揮するためにどのように身体と付き合うべきかということも書いてある。
+私は大学の図書館でたまたま本書を見つけ、また最近ではタイピングによって右手首に負担をかけていることを認識していたので手に取ったが、本書の前半で述べられている
+「習慣」そのものについて 脳と身体の関係について プログラマがよく引き起こす疾患について などのトピックは、今現在なんらかの疾患に陥っている人や、いかにも不健康な見た目をした職業的プログラマだけでなく、デスクワークを日常的にする人なら誰が読んでもためになると感じたのでおすすめしたいと思った。
+特に私の印象に残っているのは、ウォーキングが脳にもたらす効果について説明した2章である。1章で既に脳と身体のつながりについて触れられ、物理的な健康が頭脳に対して直接的にメリットをもたらすことが強調されている。そして2章では、フェルマーの最終定理に8年間注力し、実際にその証明を成し遂げたAndrew Wilesを例に、作業の前後にウォーキング（エクササイズ）を行うことで集中力、記憶力、創造力を高めることができると述べられている。
+これは、プログラマがコードを夜遅くまでハックしたり、最新の技術書を読んだりすることと同様に、ウォーキングが我々の能力を強化するための最高の方法の一つであることを示している。
+それ以外にも、習慣のメカニズムやスタンディングデスクの真実を知ることも出来る。これらは多くの人々が関心のある一般的なトピックだと思う。最後に、本書で紹介されていた健康のユニットテストに対する自分の状況をメモして、今後も意識したいと思う。
+健康のユニットテスト 踊り場まで階段を上がると息が切れるか 1時間以上立ち上がることなく座り続けることが、日常的にあるか 昨年、仕事に差し支えるほどの腰痛、首痛、肩痛、手首痛が生じたことがあるか 先週、コンピュータの画面を見た時に、ドライアイ、目の充血や炎症、あるいは目の焦点を合わせづらくなったことがあったか 先月、苦しくなるほど食べすぎたことが複数階あったか 今日、直射日光に当たった時間は10分以下だったか 過去5年間に、虫歯の数は増えたか 見をかがめて靴紐を結ぶのは苦しいか 過去5年間でズボンのサイズが明らかに大きくなったか 目次 1章　変化を起こそう 2章　健康のブートストラップ 3章　椅子よさらば？ 4章　アジャイルなダイエット 5章　頭痛と眼精疲労の対策 6章　腰痛への対策 7章　手首痛への対策 8章　実践的なエクササイズ 9章　個室の外で考えよう 10章　健康のリファクタリング 11章　チームを作ろう 12章　進め、健康なプログラマ 追記 メモ。</description></item><item><title>AboutMe</title><link>https://raahii.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://raahii.github.io/about/</guid><description>About Me Contact Github Twitter Likes web service, deep learning football clothes, coffee, beer Work ・おそうじぶーぶー (2019 / 12, M2) &amp;ldquo;小さくなって楽しくお掃除&amp;rdquo;
+遊びながら掃除できちゃう掃除機．ラジコンと掃除機を組み合わたハードを開発。ユーザーはVRゴーグルを装着すると、まるで掃除機を運転しているかのような景色に入り込めます。思い存分に部屋を走りまわってゴミを捕まえよう！集めたゴミは，画像認識と機械学習技術でスコア化されます．
+HackDay2019で制作・最優秀賞。ラジコンカメラの動画配信、画像認識ベースのゴミ収集判定機能を担当して実装。
+Links: Github, プレゼン動画
+・ShowTime (2019 / 08, M2) &amp;ldquo;あなたのプレゼンをもっと面白く&amp;rdquo;
+プレゼン発表者のポーズに応じてスライドを進めたり，効果音を鳴らすことで，発表にメリハリと笑いを与えてくれるツールです．
+HackU2019 Tokyoにて制作・最優秀賞．発表者のポーズ認識（機械学習）の実装，及びサーバーサイドを担当．
+Links: Github, Hack U 2019 TOKYO Student Hackathon - Yahoo! JAPAN
+・ばえるーポン (2018 / 10, M1) &amp;ldquo;インスタ映えでクーポンゲット！&amp;rdquo;</description></item></channel></rss>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vim on 1ミリもわからん</title><link>https://raahii.github.io/tags/vim/</link><description>Recent content in vim on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Mon, 11 May 2020 11:34:15 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>coc.nvim で golint を使う</title><link>https://raahii.github.io/posts/setup-golint-coc-nvim/</link><pubDate>Mon, 11 May 2020 11:34:15 +0900</pubDate><guid>https://raahii.github.io/posts/setup-golint-coc-nvim/</guid><description>coc.nvim は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がきれい。
+ただ、個人的にLSPプラグインはリント・コードフォーマットの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるというのがなかなか難しいからである。拡張が設定を用意していない限り、カスタマイズが難しい。
+なので自分は、LSPには基本的な補完機能とリントを、aleにコードフォーマットを任せている。こうすることで、cocの快適な機能を享受しつつも、aleで非同期に（カーソル動作をブロックせずに）コードフォーマットも行えている。
+本題になるが、今、自分はGoのLSPである gopls を使っており、これは coc-go が提供するが、残念がら golint を使うことはできない。リントをcocに任せている以上、golintもLSPとして連携されなければならない、という問題がある。
+こう言うときに使えるのが diagnostic-languageserver である。これは、任意のコマンドをLSP化してくれるもので、coc向けには coc-diagnostic が提供されている。これを活用することで、例えば JSのeslintやdockerfileのhadolintなんかもLSPとして組み込むことができる（！）
+以下、導入方法を順に説明すると、
+coc-diagnosticをインストールする。
+:CocInstall coc-diagnostic でも良いし、 Vim Plugで管理しているのであれば
+Plug &amp;#39;iamcco/coc-diagnostic&amp;#39;, {&amp;#39;do&amp;#39;: &amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;} と書くこともできる。
+golintをインストールする。
+地味に気づかなかったりるけど、入っていないと当然動かない。
+go get github.com/golang/lint coc-settings.json に下記を設定する
+{ ... &amp;#34;languageserver&amp;#34;: { &amp;#34;dls&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;diagnostic-languageserver&amp;#34;, &amp;#34;args&amp;#34;: [&amp;#34;--stdio&amp;#34;], &amp;#34;filetypes&amp;#34;: [ &amp;#34;go&amp;#34; ], &amp;#34;initializationOptions&amp;#34;: { &amp;#34;linters&amp;#34;: { &amp;#34;golint&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;rootPatterns&amp;#34;: [], &amp;#34;isStdout&amp;#34;: true, &amp;#34;isStderr&amp;#34;: false, &amp;#34;debounce&amp;#34;: 100, &amp;#34;args&amp;#34;: [&amp;#34;%filepath&amp;#34;], &amp;#34;offsetLine&amp;#34;: 0, &amp;#34;offsetColumn&amp;#34;: 0, &amp;#34;sourceName&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;formatLines&amp;#34;: 1, &amp;#34;formatPattern&amp;#34;: [ &amp;#34;^[^:]+:(\\d+):(\\d+):\\s(.</description></item></channel></rss>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技術 on 1ミリもわからん</title><link>https://raahii.github.io/categories/%E6%8A%80%E8%A1%93/</link><description>Recent content in 技術 on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Thu, 28 May 2020 23:43:16 +0900</lastBuildDate><atom:link href="https://raahii.github.io/categories/%E6%8A%80%E8%A1%93/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQLのmaster slave構成をDockerで試す</title><link>https://raahii.github.io/posts/docker-mysql-master-slave-replication/</link><pubDate>Thu, 28 May 2020 23:43:16 +0900</pubDate><guid>https://raahii.github.io/posts/docker-mysql-master-slave-replication/</guid><description>研修で触ったときにサクッと動かなかったので追試的に。MySQLは8.0を使う。
+レプリケーション自体の仕組みは 進化を続けるMySQLのド定番機能　MySQLレプリケーション最新機能 がわかりやすかった。
+必要なこと How To Set Up Master Slave Replication in MySQL | DigitalOcean
+このページを見ながらmasterとslaveのmysqldを1つずつ用意して、設定を行う。異なる点は下記。
+master, slave共に bind-addressを0.0.0.0として、dockerのネットワークエイリアスで繋ぐ
+masterのMySQLにレプリケーション用のユーザーを作成するが、MySQL8.0ではGRANT構文でユーザを作成できない ので下記のようにする
+create user &amp;#39;slave_user&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;password&amp;#39;; grant replication slave on *.* to &amp;#39;slave_user&amp;#39;@&amp;#39;%&amp;#39; with grant option; flush privileges; GTIDを有効にして MASTER_LOG_FILE と MASTER_LOG_POS は自動で検知されるようにする。 CHANGE MASTER TO MASTER_HOST=&amp;#39;mysql-master&amp;#39;,MASTER_USER=&amp;#39;slave_user&amp;#39;,MASTER_PASSWORD=&amp;#39;password&amp;#39;,MASTER_AUTO_POSITION=1; START SLAVE; レプリケーションを確認する $ git clone https://github.com/raahii/docker-mysql-master-slave.git $ cd docker-mysql-master-slave $ docker-compose up -d $ docker-compose ps Name Command State Ports -------------------------------------------------------------------------------------- mysql-master docker-entrypoint.</description></item><item><title>coc.nvim で golint を使う</title><link>https://raahii.github.io/posts/setup-golint-coc-nvim/</link><pubDate>Mon, 11 May 2020 11:34:15 +0900</pubDate><guid>https://raahii.github.io/posts/setup-golint-coc-nvim/</guid><description>coc.nvim は VimのLSPプラグインの一つで、コード補完や定義ジャンプを提供したり、ドキュメントを良い感じに出してくれる。cocはプラグインであるにも関わらず、それ自体が拡張機能（エクステンション）を持っており、使いたい言語の拡張を入れるだけで細かい設定が要らないのが大きな特徴である。あとFloating Windowの表示がきれい。
+ただ、個人的にLSPプラグインはリント・コードフォーマットの組み合わせ方が難しいと思っている。なぜなら、cocはいずれの機能も提供するものの、特定のフォーマッタをピンポイントで入れるというのがなかなか難しいからである。拡張が設定を用意していない限り、カスタマイズが難しい。
+なので自分は、LSPには基本的な補完機能とリントを、aleにコードフォーマットを任せている。こうすることで、cocの快適な機能を享受しつつも、aleで非同期に（カーソル動作をブロックせずに）コードフォーマットも行えている。
+本題になるが、今、自分はGoのLSPである gopls を使っており、これは coc-go が提供するが、残念がら golint を使うことはできない。リントをcocに任せている以上、golintもLSPとして連携されなければならない、という問題がある。
+こう言うときに使えるのが diagnostic-languageserver である。これは、任意のコマンドをLSP化してくれるもので、coc向けには coc-diagnostic が提供されている。これを活用することで、例えば JSのeslintやdockerfileのhadolintなんかもLSPとして組み込むことができる（！）
+以下、導入方法を順に説明すると、
+coc-diagnosticをインストールする。
+:CocInstall coc-diagnostic でも良いし、 Vim Plugで管理しているのであれば
+Plug &amp;#39;iamcco/coc-diagnostic&amp;#39;, {&amp;#39;do&amp;#39;: &amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;} と書くこともできる。
+golintをインストールする。
+地味に気づかなかったりるけど、入っていないと当然動かない。
+go get github.com/golang/lint coc-settings.json に下記を設定する
+{ ... &amp;#34;languageserver&amp;#34;: { &amp;#34;dls&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;diagnostic-languageserver&amp;#34;, &amp;#34;args&amp;#34;: [&amp;#34;--stdio&amp;#34;], &amp;#34;filetypes&amp;#34;: [ &amp;#34;go&amp;#34; ], &amp;#34;initializationOptions&amp;#34;: { &amp;#34;linters&amp;#34;: { &amp;#34;golint&amp;#34;: { &amp;#34;command&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;rootPatterns&amp;#34;: [], &amp;#34;isStdout&amp;#34;: true, &amp;#34;isStderr&amp;#34;: false, &amp;#34;debounce&amp;#34;: 100, &amp;#34;args&amp;#34;: [&amp;#34;%filepath&amp;#34;], &amp;#34;offsetLine&amp;#34;: 0, &amp;#34;offsetColumn&amp;#34;: 0, &amp;#34;sourceName&amp;#34;: &amp;#34;golint&amp;#34;, &amp;#34;formatLines&amp;#34;: 1, &amp;#34;formatPattern&amp;#34;: [ &amp;#34;^[^:]+:(\\d+):(\\d+):\\s(.</description></item><item><title>Goでオプショナルパラメータをどう扱うか</title><link>https://raahii.github.io/posts/optional-parameters-in-go/</link><pubDate>Tue, 31 Dec 2019 13:13:35 +0900</pubDate><guid>https://raahii.github.io/posts/optional-parameters-in-go/</guid><description>TL; DR 状況によって下記を使い分けるのが良さそう．とりあえずFunctional Option Patternでも良いかも．
+複数の関数を用意する
+オプショナル引数が少ない場合に有効．シンプルだが拡張性が低い．
+引数用の構造体を用意する
+構造体を使うのでユーザービリティが良く実装も容易．ただし，引数の未指定とゼロ値を分離するためには値のポインタを使う必要がある．
+Functional Option Patternを使う
+デザインパターンとして提案されているだけあって，クリーンで拡張性が高い．敢えてデメリットを挙げるとすると，このパターンを知らないユーザーからするとやや直感的でない．実装側は引数毎に関数を定義する必要があり記述量が増える．
+はじめに Goには関数のオプショナルパラメータ（デフォルトパラメータ）がありません．しかし，「必要最低限の挙動をする分にはユーザーが意識する必要のない引数」というのはよくあり，必要に迫られます．
+実際，先日 Kutt.it というURL短縮サービスのAPIのクライアントをGoで書いたときに，Web API側にデフォルトパラメータがあったので，これをGoでどう実装すべきか迷いました．何番煎じかわかりませんが，せっかくなので実装パターンをまとめておきます．
+異なるシグネチャの関数を用意する 最も簡単なのはいくつも関数を用意してしまうことです．ここではname を受け取って Hello, {name}!と出力するだけの関数 Greet を例に見てみます．
+func Greet(name string) { fmt.Printf(&amp;#34;Hello, %s!\n&amp;#34;, name) } func main() { Greet(&amp;#34;gopher&amp;#34;) // Hello, gopher! } このとき挨拶の言葉を”Hello”ではなく”Hey”にも出来るようにしたくなりました．そこで，今回のパターンでは新たに関数 GreetWithOpts を定義して，挨拶の言葉greetingWord を受け取れるようにします．
+func GreetWithOpts(name string, greetingWord string) { fmt.Printf(&amp;#34;%s, %s!\n&amp;#34;, greetingWord, name) } func main() { GreetWithOpts(&amp;#34;gopher&amp;#34;, &amp;#34;Hey&amp;#34;) // Hey, gopher!</description></item><item><title>Google HomeとNature Remoでエアコンのタイマーを快適にセットする</title><link>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</link><pubDate>Thu, 26 Dec 2019 09:52:39 +0900</pubDate><guid>https://raahii.github.io/posts/aircon-timer-with-google-home-and-nature-remo/</guid><description>動画を再生するにはvideoタグをサポートしたブラウザが必要です。
+はじめに この時期になると朝寒くてお布団から出るのが辛いですね…．せっかく一度目を覚ましたのに部屋が寒すぎてエアコンを付けて二度寝…．あるあるです．
+なので我々はエアコンのタイマーをセットしますね．でもこのタイマーがちょいと曲者．
+まず明日何時に起きるかを考えて… 今から逆算して何時間後かを計算して… 入タイマーボタンを何度も押してその時間をセット と機種によりますが大体こんな感じ．すごく面倒．
+これ本当は「明日○時にエアコン付けて」のワンステップで良くないですか？
+というか…何か変ですよね…
+この時代にもなって人間が時間を逆算…？ボタンを何度も…押す…！？ 由々しき事態です．
+エアコンの入タイマーを自動化する そこで，Google HomeとNature Remoを活用して所望の時間に自動でエアコンをONにする機能を作ります．
+皆さん家電リモコンは持ってますか？外から予め暖房を付けておいたり，行方不明になりがちな部屋のリモコンに代わって電気を付けてくれたり，ベッドで寝落ちするときも部屋の電気を消すのがとっても簡単です．最高なのでぜひ買ってみてください．
+話がそれました．今回作成する機能の大まかな利用ステップは次のとおりです．
+Google Homeに○時にエアコンを付けるように指示を出す． ○時に処理を走らせ，エアコンを付ける さて，1 についてはGoogle Homeのアプリを作成するしかありません．ただDialogFlowというチャットボット作成用のツールが利用できるので，これを使えばユーザーの音声から時間を取り出すのは難しくはないでしょう．
+次に2です．Nature Remoを用意している時点でエアコンの操作も可能です．APIがあるので，アクセストークンさえ発行すればどこからでも指示を出すことができます．
+問題は「どうやって○時に処理を実行するか」です．簡単なバックエンドのWeb APIを作成して時間を登録＆cronやatコマンドなんかを用いて指定時間に実行…というのをまず考えました．しかしタイマーのためだけに常駐サービスをデプロイするのはやや大げさな感があります．Herokuなどで実現できれば良いですが，そうでなければVPSやEC2を借りる必要がありコストもかかりそうです．
+「なんとかならないものか…」と考えあぐねていたところ，なんと AWSのStepFunctionsに指定日実行 の機能があるというではありませんか．
+これなら必要なときに必要な分だけ関数を走らせるサーバーレスアプリとして実装できます．この程度のアプリなら使った分だけ課金といってもたかが知れているので，良さそうです．AWSさん神！！
+ということでこんなデザインとなりました．
+serverless frameworkで関数を作成 AWSの諸々のサービスの作成には serverless framework を使用しました．言語はもちろんGoです．つくるのは大きく分けて3つ．
+タイマーの時間を受け取るLambda Function（及び API Gateway）． 1の中でキックするStep Functions．指定時間まで待ってからエアコン操作のFunctionを実行する． エアコン操作を行うLambda Function． まずyaml定義．1に相当する createTimer 関数と3に相当するturnOnAircon関数，最後に2のStepFunctionを定義します．
+ポイントはcreateTimer関数からStepFunctionsを実行するときに必要なARNを環境変数にセットしてあげること．次に，StepFunctionsがいつまで処理を待つのか（StatesのWaitUntil）を示すタイムスタンプをStateに渡すイベントstart_date として動的に設定してあげることです．
+service:google-home-aircon-timerplugins:- serverless-step-functionsprovider:name:awsruntime:go1.xfunctions:createTimer:handler:bin/create-timerevents:- http:path:apimethod:postenvironment:TurnOnAirconStepFuncARN:${self:resources.Outputs.TurnOnAirconStepFunc.Value}turnOnAircon:handler:bin/turn-on-airconstepFunctions:stateMachines:StateMachine1:name:TurnOnAirconStepFuncdefinition:StartAt:WaitUntilStates:WaitUntil:Type:WaitTimestampPath:$.start_dateNext:MainMain:Type:TaskResource:Fn::GetAtt:[turnOnAircon, Arn]End:trueresources:Outputs:TurnOnAirconStepFunc:Value:Ref:TurnOnAirconStepFunc1のハンドラは割愛しますが，これでGoogleHomeの方から指定時間をリクエストするとその時間まで待って関数が実行されるようになりました．
+最後に3でエアコンを操作します．tenntennさんがGoのNature Remo APIのクライアントを公開してくださっているのでそれを利用します．</description></item><item><title>Ubuntu16.04でnvidiaドライバが再起動の度に無効になる</title><link>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</link><pubDate>Wed, 16 Oct 2019 21:58:50 +0900</pubDate><guid>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</guid><description>症状 Cudaのインストール手順を一通り済ませているにも関わらず，Ubuntuを起動するたびに nvidia-smi コマンドが実行できない．下記のようなエラーが吐かれる．
+❯ nvidia-smi NVIDIA-SMI has failed because it couldn&amp;#39;t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running. 解決策 原因は .run ファイルを使ってドライバのインストールをしていたからだった．下記のページが参考になった．
+Nvidia driver not work after reboot on Ubuntu - NVIDIA Developer Forums とはいえ，Ubuntuの場合はパッケージマネージャからドライバを直接インストールできるので，aptを使ったほうが良いと思う．まずはppaを追加する．
+❯ sudo add-apt-repository ppa:graphics-drivers/ppa ❯ sudo apt update 肝心のドライバのパッケージだが，検索すると色々出てくるのでインストールされているGPU及びCUDAに合ったバージョンを入れる．NvidiaのHPから検索ができる．
+❯ sudo apt search &amp;#34;nvidia-[0-9]+\$&amp;#34; Sorting... Done Full Text Search... Done nvidia-304/xenial 304.137-0ubuntu0~gpu16.04.1 amd64 NVIDIA legacy binary driver - version 304.</description></item><item><title>なぜioutil.ReadFileはioutil.ReadAllより速いか</title><link>https://raahii.github.io/posts/read-file-faster-golang/</link><pubDate>Sun, 13 Oct 2019 00:36:12 +0900</pubDate><guid>https://raahii.github.io/posts/read-file-faster-golang/</guid><description>TL;DR Goでファイル内容を読む場合 には，ioutil.ReadFile の方が ioutil.ReadAll よりも高速．なぜなら，読み込むデータの大きさがあらかじめわかっている場合は，内部のバッファサイズを決定でき，無駄なメモリ確保を無くせるから．
+（いやなんでReadAllを使うんだよ，というのはさておき．）
+ioutilパッケージの関数たち Go言語には入力や出力を抽象化したインターフェース（io.Reader やio.Writer など）がある．このインターフェースはいわゆるファイル的な振る舞いをするものをまるっと同じように扱うためにとても便利なもの．ioutil パッケージも当然，それらをベースとしてさまざまな関数を実装している．
+io.Reader / io.Writer ただし，抽象化するということは，それぞれに特化できないということでもある．実際に ioutil.ReadAll のコードを読むと，最初に512 バイトのバッファを用意し，ファイルのEOFを検知するまで2倍，4倍，8倍…とそのサイズを大きくしながら読み込みを行っている．これは，io.Reader から一体どのくらいのデータを読み込むかわからないために行うバッファリングの処理である．
+func ReadAll - ioutil そこで，ioutil.ReadFile関数では，事前にosパッケージを使ってファイルの大きさを取得し，バッファサイズをそのとおりに確保することで一度にすべての内容を読み込んでいる．ioutil.ReadAll と同じAPIを使いたい場合には，ファイルオープンしてサイズを取得したあとに，io.ReadFull やio.ReadAtLeastを使うと良いと思う．
+ベンチマーク ソースコード
+最初の関数は固定長のバッファで読み込んだ場合．次は ioutil.ReadAll を使う場合．これは指数的にバッファサイズを大きくしていくので可変長のバッファで読み込むということ．次に iotuil.ReadFile．最後がioutil.ReadFileと同等の処理をファイルサイズ取得+io.ReadAllで実装したもの．
+package main import ( &amp;#34;io&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;os&amp;#34; &amp;#34;testing&amp;#34; ) var filename = &amp;#34;bigfile&amp;#34; // 804,335,663 bytes func BenchmarkFixedSizeBuffer(b *testing.B) { BUFSIZE := 4 * 1024 for i := 0; i &amp;lt; b.</description></item><item><title>HugoのビルドをGithub Actionで自動化する</title><link>https://raahii.github.io/posts/automating-hugo-builds-with-github-actions/</link><pubDate>Sat, 12 Oct 2019 18:20:16 +0900</pubDate><guid>https://raahii.github.io/posts/automating-hugo-builds-with-github-actions/</guid><description>台風が来て家に籠もるしかなくなったので，ブログのデザインをかえつつ，HugoのビルドをGithub Actionsで自動化した．公開にはGithub Pagesを使っている．
+基本的に
+GitHub Actions による GitHub Pages への自動デプロイ
+のとおりにWorkflowを作ればできます．記事書いてくださった方自身が次のようなモジュールを公開されてるので神．
+peaceiris/actions-gh-pages peaceiris/actions-hugo あえて注意点を上げるとすると，公開に &amp;lt;username&amp;gt;.github.io の直下？を使っている場合．このURLを使うには，名前を &amp;lt;username&amp;gt;.github.io としたリポジトリでGithub Pagesを設定する必要があるが，公開するソースはmaster ブランチのルートでなければならない（本来であれば他のブランチや特定のディレクトリを指定できる）．よって先の記事のような gh-pages ブランチにプッシュするやり方では実現できない．
+そこで今回は，そもそも source ブランチをデフォルトブランチとすることにして，workflowでビルドしたものを master にプッシュするように変更した．
+raahii.github.io/gh-pages.yml - GitHub 最近，研究に使ってるリポジトリにもGithub Actionsを設定したが，Dockerfileを使えば大体のことはできるし，直感的で使いやすい印象．ただドキュメントはあまり充実してないので複雑なことはできないかもしれない（以前もDockerfileのbuildのキャッシングがまだできないようだった）．今後も積極的に使っていこうと思う．
+最後に，これは余談ですが，今回採用したLithiumというテーマにコードブロックのデザインが無かったので足してみました．Hugoのバージョン0.28以降にはChromaというGo製のシンタックスハイライターがついていて，設定ファイルに書き足すだけで色付けできるので便利ですね（今回はそもそも コードブロックの要素自体にcssが当たってなかったので外枠のデザインは作りました）．Hugoも相変わらずとっても良きです．
+Syntax Highlighting | Hugo</description></item><item><title>画像データをサーバーにPOSTする</title><link>https://raahii.github.io/posts/files-upload/</link><pubDate>Sun, 04 Aug 2019 04:13:59 +0900</pubDate><guid>https://raahii.github.io/posts/files-upload/</guid><description>機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ．
+1枚しか送らない場合 今の所自分はこのパターンが多いです．いくつか実現方法はあると思いますが，リクエストボディに直接画像データのバイナリを入れて送る方法がシンプルで好きです．クライアント側のコードはこんな感じ．
+import json import urllib.parse import urllib.request # read image data f = open(&amp;#34;example.jpg&amp;#34;, &amp;#34;rb&amp;#34;) reqbody = f.read() f.close() # create request with urllib url = &amp;#34;http://localhost:5000&amp;#34; req = urllib.request.Request( url, reqbody, method=&amp;#34;POST&amp;#34;, headers={&amp;#34;Content-Type&amp;#34;: &amp;#34;application/octet-stream&amp;#34;}, ) # send the request and print response with urllib.request.urlopen(req) as res: print(json.loads(res.read())) 注意点として Content-Type に application/octet-stream を指定すると良いです．このMIMEタイプは曖昧なバイナリデータを指しており，ファイル種別を特に指定しないことを意味します（ref: MIME type: application/octet-stream ）．
+urllibの場合，これを指定しないとPOSTのデフォルトのMIMEタイプである application/x-www-form-urlencoded となり，サーバー側で正しく受け取れないので気をつけてください．
+一方でサーバー側（flaskの場合）のコードはこのようになります．画像データをOpenCVで読んで画像のshapeをjsonで返しています．
+@app.route(&amp;#34;/&amp;#34;, methods=[&amp;#34;POST&amp;#34;]) def example(): # read request body as byte array _bytes = np.</description></item><item><title>Goで順列（permutation）を実装する</title><link>https://raahii.github.io/posts/permutations-in-go/</link><pubDate>Sun, 07 Apr 2019 12:22:55 +0900</pubDate><guid>https://raahii.github.io/posts/permutations-in-go/</guid><description>配列の並び替えのパターンの列挙をする関数をgolangで書く．ABC123で必要になったので．
+TL;DR QuickPermを使うと良さそうです．
+上記はコピペ用でこっからはいくつか方法を試して最後に速度比較します．
+方法1: naive dfs 素直にdfsをする．前から数字を決めていって，決めたらその数字を選択肢から消して次へ行く．全部使ったら（選択肢が無くなったら）1つのパターンとして採択する．
+上のコードで使ってるサブ関数たちです．この後の方法でも使ってるのですが面倒なので1度だけ掲載．
+方法2: Heap Algorithm Heapのアルゴリズム を使う．
+方法3: QuickPerm QuickPermを使う．
+方法4（おまけ）: QuickPerm + Channel Generate all permutations in goとかを見ているとChannelを使った実装をしているので早いのか？と思って試してみた．
+速度比較 go testでベンチマーク取ります．
+方法3のQuickPermが一番早そうです．方法4は非同期でやっても単に結果くるまでブロッキングしてるので，goroutineやchannelの生成の分で普通に遅そうですね．まだgoroutineを書くの慣れてないのでコードが怪しいかもしれません．
+goos: darwin goarch: amd64 pkg: github.com/raahii/go-sandbox/permutations BenchmarkPermute1-4 2 684403978 ns/op 637542560 B/op 9895161 allocs/op BenchmarkPermute2-4 5 285790686 ns/op 377401424 B/op 3628802 allocs/op BenchmarkPermute3-4 5 216943042 ns/op 377401440 B/op 3628802 allocs/op BenchmarkPermute4-4 1 1215330546 ns/op 290305888 B/op 3628817 allocs/op PASS ok github.</description></item><item><title>ABC122 D - We Like AGC</title><link>https://raahii.github.io/posts/abc122/</link><pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate><guid>https://raahii.github.io/posts/abc122/</guid><description>前回のコンテスト，ABC122の復習メモを残しておく．
+問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求めてください。
+A, C, G, T 以外の文字を含まない。 AGC を部分文字列として含まない。 隣接する 2 文字の入れ替えを 1 回行うことで上記の条件に違反させることはできない。 制約 $3\leq N\leq100$ 解法（考え方） 単純な全探索の計算量は $O(4^N)$ ．しかし「隣り合う文字列を入れ替えた時に&amp;quot;AGC&amp;quot;を含んではいけない」という制約は，新しくi番目の文字を決定するには直前の3文字のみが関与することがわかる．
+ダメなケースというのは例えば
+3文字: &amp;ldquo;AGC&amp;rdquo;, &amp;ldquo;GAC&amp;rdquo;, &amp;ldquo;ACG&amp;rdquo; 4文字: &amp;ldquo;A?GC&amp;rdquo;, &amp;ldquo;AG?C&amp;rdquo; であるが，コツとして，文字列が制約を守っているかどうかを↑のように自分でパターンを書き出しすのではなく，プログラムしてあげるほうが良いということ（公式の解答でやられている）．こういう感じ．
+これがまた，Goだと string は要素の入れ替えができなくて辛い感じになるのですが笑（まぁ全角文字が入ったりするとstringの要素はきちんと1文字に対応しないので，できない方が良いとも言える？）．
+あとはオーバーフローするので余りを取ることを忘れないようにすること．dpテーブルの構築時，最後の和を取る部分の両方で使う．
+DPによる解法 解法の方向性がわかったところで，DPで解く方法を考える．この場合，i番目に文字jを採用できる場合の数をテーブルに埋めていく．
+制約の全くない単純な数え上げをするケースをまず考えると，遷移式は
+$$ dp[i+1][j] = \sum_{k} dp[i][k] $$
+のように書くことができ，コードは次のようになる．
+この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを dp[i][j][k][l] のように拡張する．添字はそれぞれ直近3番目(j)，直近2番目(k)，直近1番目(l)を示す．そうすると遷移式は次のようにかける．
+$$ dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l] $$</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
+しかし， $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．
+ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．
+ついに同解法でGoなら通るがPythonだと駄目ってのを観測した pic.twitter.com/Qd6V2PsGgX
+&amp;mdash; raahii (@raahiiy) March 23, 2019</description></item><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
+問題 以下，問題ページ（D: Decayed Bridges）より引用．
+問題文:
+$N$ 個の島と $M$ 本の橋があります。
+$i$ 番目の橋は $A_i$ 番目の島と $B_i$ 番目の島を繋いでおり、双方向に行き来可能です。
+はじめ、どの 2 つの島についてもいくつかの橋を渡って互いに行き来できます。調査の結果、老朽化のためこれら $M$ 本の橋は 1 番目の橋から順に全て崩落することがわかりました。
+「いくつかの橋を渡って互いに行き来できなくなった 2 つの島の組$ (a,b) (a&amp;lt;b) $の数」を不便さと呼ぶことにします。
+各 $i (1\leq i \leq M)$ について、$i$ 番目の橋が崩落した直後の不便さを求めてください。
+制約:
+入力は全て整数である
+$2\leq N \leq 10^5$ $1 \leq M \leq 10^5$ $1 \leq A_i \lt B_i \leq N$ $(A_i, B_i)$の組はすべて異なる 初期状態における不便さは0である 全探索による解法 今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．</description></item><item><title>dotfilesを整備した</title><link>https://raahii.github.io/posts/update-dotfiles/</link><pubDate>Wed, 13 Feb 2019 00:13:24 +0900</pubDate><guid>https://raahii.github.io/posts/update-dotfiles/</guid><description>最近インターンが始まり、そのとき開発環境の構築に手間取ったので「やらねば…」となった．正直始まる前にやっとけやという感じなので反省．
+前々からGithubで管理はしていたものの、fishに移行してからほったらかしになっていたので、今回、要らないものをぶち消して、makeとsetup.shで自動的にインストール、アンインストール、更新など出来るようにした．
+ついでに、deinの設定をtomlにして、そこに各パッケージの設定を書くことで.vimrcをスッキリさせた．久しく触ってなかったBrewfileも更新して、iTermの設定もダンプしたので、大分環境構築しやすくなったと思う．めでたし．
+ところで前はzshだったけれどfishはデフォルトでも使える感じなのが良いですね．若干気になる点もあって，まずtmuxとの相性が良くない印象です．コマンドの補完やpecoの画面から戻った後にコンソールがずれるのは自分だけ…？
+あとは…文法が違うのもたまに気になりますが、これは慣れですね．ブラウザやSlackからコピーして実行したらシンタックスエラーでコケてあれっとなります．でも最近&amp;amp;&amp;amp;や||がサポートされたようですし，全体的にとても使いやすいので良い感じです．
+ついでに，プロンプトのテーマは今んとこpureをちょっと改造したやつを使ってます．個人的に2行のやつが良くて、1行目にカレントディレクトリやgitの情報、2行目にインプットのが使いやすいと思ってます．カレントディレクトリを深く掘っても入力のスペースに影響がないからです．もしおすすめがあったら教えてください．
+てな感じで、相変わらずtmux+vimで開発してます．インターンではGoを書いていて，やっぱりシンプルなところがいいなと思います．がんばります．</description></item><item><title>tensorboard-chainerにビデオを記録するためのPRを出した</title><link>https://raahii.github.io/posts/add-video-method-for-tensorboard-chainer/</link><pubDate>Sun, 13 May 2018 21:37:27 +0900</pubDate><guid>https://raahii.github.io/posts/add-video-method-for-tensorboard-chainer/</guid><description>機械学習における可視化ツールの1つにTensorBoardがある。これはTensorflowに付属しているソフトウェアで、学習時のlossやaccuracy、重みのヒストグラムなどを記録することができる。加えて、画像や音声などのデータも記録出来るので、生成モデルの学習でも便利に使える。
+自分は普段Chainerで書いていてそのままではtensorboardは使えないのでtensorboard-chainerを使わせてもらっている。これとてもありがたい。
+ただ、研究テーマが動画生成なので、動画も記録できれば便利なのに…とずっと思っていた。最近真面目にどうにか出来ないかと思って調べたら.gifの記録は元々できるらしいことがわかった。
+Video summary support · Issue #39 · tensorflow/tensorboard · GitHub ということで、動画を記録できるメソッドを実装してプルリクエストを出した。初めて出したのだけれど、カバレッジやコード規約をチェックしてくれるツールに初めて触れた。外からだとテストが通らなかった理由がいまいちわからないので若干困ったけど、慣れれば便利そう。とりあえずマージはされたので良かったです。
+add method &amp;ldquo;add_video&amp;rdquo; to SummaryWriter by raahii · Pull Request #2 · neka-nat/tensorboard-chainer · GitHub ということでtensorboard-chainerのadd_videoメソッドで動画記録できます。fpsも指定できます。便利。</description></item><item><title>TeXShopでバックスラッシュが円マークになる問題</title><link>https://raahii.github.io/posts/texshop-yen-mark-problem/</link><pubDate>Sun, 06 May 2018 23:46:20 +0900</pubDate><guid>https://raahii.github.io/posts/texshop-yen-mark-problem/</guid><description>これまでTeX資料はTeXShopで書いていたのだけど、最近になってoverleaf (v2)を使うようになった。そこで、TeXShopから文章をコピペしてみたら\が¥に変換されるという問題が起こった。これだとoverleafに貼り付けた時に全部置換しなくてはならない。
+この現象を見た時、何故か.texの文章自体がTeXShopに書き換えられておかしくなってるのかと勘違いしてしまったのだけど、vimで開いても普通に\で表示されるので、どうやらこれはTeXShopがあえてクリップボードをいじってるらしいということがわかった。
+ぐぐってみたところその通りで、TeXShopはデフォルトでクリップボードの中身の\を¥に書き換えるようだった。編集 &amp;gt; クリップボードで\を¥に変換で設定を変更できる。なぜそのような機能がデフォルトでONになっているのかはわからない。
+TeXShopからソースをコピーすると\が¥でコピーされてしまう ─ TeXShop FAQ
+TeXShopの設定 おそらく勘違いしたのは、これまでもOS Xでこんな感じの現象を見たことがある気がしていて、まさかTeXShop固有の問題とは思わなかったのが原因だろうと思う。とりあえず置換すれば良いか〜などと思って、
+pbpaste | sed -e &amp;#34;s/¥/\\\/g&amp;#34; | pbcopy みたいなことをしていたので恥ずかしい。反射的に手っ取り早い解決方法に手をつけてしまうのではなく、一旦手を止めて問題の本質的な原因を考える癖を付けないといけないなぁと思った。もちろん当たり前でやってるつもりなんだけど改めて…。</description></item></channel></rss>

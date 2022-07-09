@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>競プロ on 1ミリもわからん</title><link>https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD/</link><description>Recent content in 競プロ on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Sun, 07 Apr 2019 12:22:55 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/%E7%AB%B6%E3%83%97%E3%83%AD/index.xml" rel="self" type="application/rss+xml"/><item><title>Goで順列（permutation）を実装する</title><link>https://raahii.github.io/posts/permutations-in-go/</link><pubDate>Sun, 07 Apr 2019 12:22:55 +0900</pubDate><guid>https://raahii.github.io/posts/permutations-in-go/</guid><description>配列の並び替えのパターンの列挙をする関数をgolangで書く．ABC123で必要になったので．
+TL;DR QuickPermを使うと良さそうです．
+上記はコピペ用でこっからはいくつか方法を試して最後に速度比較します．
+方法1: naive dfs 素直にdfsをする．前から数字を決めていって，決めたらその数字を選択肢から消して次へ行く．全部使ったら（選択肢が無くなったら）1つのパターンとして採択する．
+上のコードで使ってるサブ関数たちです．この後の方法でも使ってるのですが面倒なので1度だけ掲載．
+方法2: Heap Algorithm Heapのアルゴリズム を使う．
+方法3: QuickPerm QuickPermを使う．
+方法4（おまけ）: QuickPerm + Channel Generate all permutations in goとかを見ているとChannelを使った実装をしているので早いのか？と思って試してみた．
+速度比較 go testでベンチマーク取ります．
+方法3のQuickPermが一番早そうです．方法4は非同期でやっても単に結果くるまでブロッキングしてるので，goroutineやchannelの生成の分で普通に遅そうですね．まだgoroutineを書くの慣れてないのでコードが怪しいかもしれません．
+goos: darwin goarch: amd64 pkg: github.com/raahii/go-sandbox/permutations BenchmarkPermute1-4 2 684403978 ns/op 637542560 B/op 9895161 allocs/op BenchmarkPermute2-4 5 285790686 ns/op 377401424 B/op 3628802 allocs/op BenchmarkPermute3-4 5 216943042 ns/op 377401440 B/op 3628802 allocs/op BenchmarkPermute4-4 1 1215330546 ns/op 290305888 B/op 3628817 allocs/op PASS ok github.</description></item><item><title>ABC122 D - We Like AGC</title><link>https://raahii.github.io/posts/abc122/</link><pubDate>Wed, 03 Apr 2019 23:43:42 +0900</pubDate><guid>https://raahii.github.io/posts/abc122/</guid><description>前回のコンテスト，ABC122の復習メモを残しておく．
+問題 問題文 整数 $N$ が与えられます。次の条件を満たす長さ $N$ の文字列の数を $10^9$ で割った余りを求めてください。
+A, C, G, T 以外の文字を含まない。 AGC を部分文字列として含まない。 隣接する 2 文字の入れ替えを 1 回行うことで上記の条件に違反させることはできない。 制約 $3\leq N\leq100$ 解法（考え方） 単純な全探索の計算量は $O(4^N)$ ．しかし「隣り合う文字列を入れ替えた時に&amp;quot;AGC&amp;quot;を含んではいけない」という制約は，新しくi番目の文字を決定するには直前の3文字のみが関与することがわかる．
+ダメなケースというのは例えば
+3文字: &amp;ldquo;AGC&amp;rdquo;, &amp;ldquo;GAC&amp;rdquo;, &amp;ldquo;ACG&amp;rdquo; 4文字: &amp;ldquo;A?GC&amp;rdquo;, &amp;ldquo;AG?C&amp;rdquo; であるが，コツとして，文字列が制約を守っているかどうかを↑のように自分でパターンを書き出しすのではなく，プログラムしてあげるほうが良いということ（公式の解答でやられている）．こういう感じ．
+これがまた，Goだと string は要素の入れ替えができなくて辛い感じになるのですが笑（まぁ全角文字が入ったりするとstringの要素はきちんと1文字に対応しないので，できない方が良いとも言える？）．
+あとはオーバーフローするので余りを取ることを忘れないようにすること．dpテーブルの構築時，最後の和を取る部分の両方で使う．
+DPによる解法 解法の方向性がわかったところで，DPで解く方法を考える．この場合，i番目に文字jを採用できる場合の数をテーブルに埋めていく．
+制約の全くない単純な数え上げをするケースをまず考えると，遷移式は
+$$ dp[i+1][j] = \sum_{k} dp[i][k] $$
+のように書くことができ，コードは次のようになる．
+この基本形を意識しながら，直前の3文字の状態を保持するためにテーブルを dp[i][j][k][l] のように拡張する．添字はそれぞれ直近3番目(j)，直近2番目(k)，直近1番目(l)を示す．そうすると遷移式は次のようにかける．
+$$ dp[i+1][k][l][m] = \sum_{j,k,l}dp[i][j][k][l] $$</description></item><item><title>約数の全列挙の高速化</title><link>https://raahii.github.io/posts/divisor-enumeration/</link><pubDate>Sat, 23 Mar 2019 18:05:02 +0900</pubDate><guid>https://raahii.github.io/posts/divisor-enumeration/</guid><description>ある整数 $n​$ の約数を全て探すとき，普通は $1​$ から $n​$ までを走査するfor文で1つ1つ約数判定を行う．この場合の計算量は $O(n)​$ であり，制約が $n \leq 10^9​$ のような競プロのコンテストでは通常通らないと考える．
+しかし， $n=a \times b$ を満たすような整数ペア $a, b (a \leq b)$ を考えると， $a \leq\sqrt{n}$ を満たすため，これを利用することで $O(\sqrt{n})$ で約数を全列挙できる．
+ちなみにこれは Atcoder ABC112 D で使用した．実はGoで書くと $n$ が $10^9$ でも通るのだけど，まぁ増やされたらそれまでなのでまとめてみた．
+ついに同解法でGoなら通るがPythonだと駄目ってのを観測した pic.twitter.com/Qd6V2PsGgX
+&amp;mdash; raahii (@raahiiy) March 23, 2019</description></item><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
+問題 以下，問題ページ（D: Decayed Bridges）より引用．
+問題文:
+$N$ 個の島と $M$ 本の橋があります。
+$i$ 番目の橋は $A_i$ 番目の島と $B_i$ 番目の島を繋いでおり、双方向に行き来可能です。
+はじめ、どの 2 つの島についてもいくつかの橋を渡って互いに行き来できます。調査の結果、老朽化のためこれら $M$ 本の橋は 1 番目の橋から順に全て崩落することがわかりました。
+「いくつかの橋を渡って互いに行き来できなくなった 2 つの島の組$ (a,b) (a&amp;lt;b) $の数」を不便さと呼ぶことにします。
+各 $i (1\leq i \leq M)$ について、$i$ 番目の橋が崩落した直後の不便さを求めてください。
+制約:
+入力は全て整数である
+$2\leq N \leq 10^5$ $1 \leq M \leq 10^5$ $1 \leq A_i \lt B_i \leq N$ $(A_i, B_i)$の組はすべて異なる 初期状態における不便さは0である 全探索による解法 今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．</description></item></channel></rss>

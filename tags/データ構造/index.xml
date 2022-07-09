@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>データ構造 on 1ミリもわからん</title><link>https://raahii.github.io/tags/%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0/</link><description>Recent content in データ構造 on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Tue, 12 Mar 2019 17:50:37 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0/index.xml" rel="self" type="application/rss+xml"/><item><title>Union FindのメモとGoによる実装</title><link>https://raahii.github.io/posts/union-find/</link><pubDate>Tue, 12 Mar 2019 17:50:37 +0900</pubDate><guid>https://raahii.github.io/posts/union-find/</guid><description>AtCoder Beginners Content 120のD問題でUnionFindを使う問題が出題されたので学習した流れと実装をメモ．
+問題 以下，問題ページ（D: Decayed Bridges）より引用．
+問題文:
+$N$ 個の島と $M$ 本の橋があります。
+$i$ 番目の橋は $A_i$ 番目の島と $B_i$ 番目の島を繋いでおり、双方向に行き来可能です。
+はじめ、どの 2 つの島についてもいくつかの橋を渡って互いに行き来できます。調査の結果、老朽化のためこれら $M$ 本の橋は 1 番目の橋から順に全て崩落することがわかりました。
+「いくつかの橋を渡って互いに行き来できなくなった 2 つの島の組$ (a,b) (a&amp;lt;b) $の数」を不便さと呼ぶことにします。
+各 $i (1\leq i \leq M)$ について、$i$ 番目の橋が崩落した直後の不便さを求めてください。
+制約:
+入力は全て整数である
+$2\leq N \leq 10^5$ $1 \leq M \leq 10^5$ $1 \leq A_i \lt B_i \leq N$ $(A_i, B_i)$の組はすべて異なる 初期状態における不便さは0である 全探索による解法 今回の問題は$O(NM)$が通らないので全探索は無理なのですが，そもそもグラフの問題をきちんと解いたことがなかったので，まずは素直に実装してみた．前から順番に橋を落としていき，毎回独立に0から隣接行列を計算して到達可能でない島の数を数えています．</description></item></channel></rss>

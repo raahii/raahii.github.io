@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>深層学習 on 1ミリもわからん</title><link>https://raahii.github.io/tags/%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92/</link><description>Recent content in 深層学習 on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Tue, 29 Oct 2019 11:34:06 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92/index.xml" rel="self" type="application/rss+xml"/><item><title>DVDGAN - "Adversarial Video Generation on Complex Datasets"</title><link>https://raahii.github.io/posts/dvdgan-adversarial-video-generation-on-complex-datasets/</link><pubDate>Tue, 29 Oct 2019 11:34:06 +0900</pubDate><guid>https://raahii.github.io/posts/dvdgan-adversarial-video-generation-on-complex-datasets/</guid><description>DeepMindから出た新たな動画生成GANであるDVDGANを読んだのでまとめました．DVDはDual Video Discriminatorの略です📀
+[1907.06571] Adversarial Video Generation on Complex Datasets Adversarial Video Generation on Complex Datasets | OpenReview（ICLR2020投稿中） TL;DR クラスベクトルを用いた条件付き動画生成タスクのGANを提案 高解像度で長い動画（ $48\times256\times256$ ）の生成に成功 BigGAN1ベースのアーキテクチャを採用 計算量の削減を目的に，2つの $\mathcal{D}$ を提案: 動画中の画像フレームを評価することに特化した$\mathcal{D}_S$ 時間的な変化を評価することに特化した $\mathcal{D}_T$ UCF-101データセットでSOTA UCFよりもさらに大きいKinetics-600データセットを使い，様々な動画長・画像サイズでベースラインを提示 Dual Video Discriminator GAN 従来のGANによる動画生成手法は，モデルアーキテクチャ（主にgenerator）に様々な工夫を行っていました．例えば…
+VideoGAN 2: 動画は「動的な前景」と「静的な背景」に分けられるという知識を活用．3DCNNで前景に当たる動画を生成し，2DCNNで1枚の背景を生成して合成する． FTGAN 3: 時間的に一貫性を持ったより良い動きを生成するために Optical Flow を活用．VideoGANのアーキテクチャに加えて Optical Flow に条件付けられた動画を生成する． MoCoGAN 4: 動画は時間的に不変である「内容」と，各時刻で異なる「動き」の概念に分けられると主張．1動画を生成する際に「内容」の潜在変数は固定しながら，各フレームごとに異なる「動き」の潜在変数を次々とRNNで生成し，それらを結合した$z$から画像フレームを生成する． などがありました．しかしながら，DVDGANではそのような特別な事前知識を用いず，代わりに「高容量のニューラルネットワークをデータドリブンマナーで学習させる」としており，実質，大量のデータと計算資源で殴る👊と言っています．
+ではDVDGANの主な貢献は何かというと，BigGAN1ベースのアーキテクチャを採用し，$\mathcal{D}$ で計算量を削減することで，より大きな動画の生成ができることを示したことだと思います．全体のモデルアーキテクチャは次のようになっています．
+Generator DVDGANでは動画のクラス情報を使った条件付き動画生成を行います．</description></item><item><title>Ubuntu16.04でnvidiaドライバが再起動の度に無効になる</title><link>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</link><pubDate>Wed, 16 Oct 2019 21:58:50 +0900</pubDate><guid>https://raahii.github.io/posts/nvidia-driver-not-work-after-reboot-on-ubuntu/</guid><description>症状 Cudaのインストール手順を一通り済ませているにも関わらず，Ubuntuを起動するたびに nvidia-smi コマンドが実行できない．下記のようなエラーが吐かれる．
+❯ nvidia-smi NVIDIA-SMI has failed because it couldn&amp;#39;t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running. 解決策 原因は .run ファイルを使ってドライバのインストールをしていたからだった．下記のページが参考になった．
+Nvidia driver not work after reboot on Ubuntu - NVIDIA Developer Forums とはいえ，Ubuntuの場合はパッケージマネージャからドライバを直接インストールできるので，aptを使ったほうが良いと思う．まずはppaを追加する．
+❯ sudo add-apt-repository ppa:graphics-drivers/ppa ❯ sudo apt update 肝心のドライバのパッケージだが，検索すると色々出てくるのでインストールされているGPU及びCUDAに合ったバージョンを入れる．NvidiaのHPから検索ができる．
+❯ sudo apt search &amp;#34;nvidia-[0-9]+\$&amp;#34; Sorting... Done Full Text Search... Done nvidia-304/xenial 304.137-0ubuntu0~gpu16.04.1 amd64 NVIDIA legacy binary driver - version 304.</description></item><item><title>Conditional Batch Normalizationについて</title><link>https://raahii.github.io/posts/conditional-batch-normalization/</link><pubDate>Wed, 12 Dec 2018 15:31:51 +0900</pubDate><guid>https://raahii.github.io/posts/conditional-batch-normalization/</guid><description>Batch Normalization Batch Normalization(BN)は，内部共変量シフトを軽減することで学習を効率化する手法である．特に学習の初期段階において，前段の層の出力分布が変化すると，後段の層はその変化自体に対応する必要がでてくるため，本質的な非線形関数の学習が阻害されてしまうという問題がある．この問題は層を増やせば増やすほど深刻となる．BNは各層の出力をミニバッチごとに正規化することにより分布の変化を抑制する．また重みの初期値への依存度を下げ，正則化を行う効果もある．
+具体的には，入力バッチ $\mathcal{B}= {x_1,\cdot\cdot\cdot,x_m }$ に対して
+$$\mu_{\mathcal{B}} \leftarrow \frac{1}{m} \sum_{i=0}^{m} x_i$$
+$$\sigma^2_{\mathcal{B}} \leftarrow \frac{1}{m}\sum_{i=1}^{m}x_i$$
+$$\hat{x}_i \leftarrow \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma_{\mathcal{B}}^2+\epsilon}}$$
+$$y_i \leftarrow \gamma\hat{x}_i + \beta$$
+のように，標準化を施し，アフィン変換を行う（新たに平均$\beta$と分散$\gamma^2$を与えるとも言える?）．この$\beta$と$\gamma$がBNの学習パラメータである．また通常，上記の操作は入力特徴マップのチャネルごとに行う．よってパラメータ$\beta$と$\gamma$は長さチャネル数のベクトルとなる．
+Conditional Batch Normalization Conditional Batch Normalization1(CBN)の”Conditional”の気持ちはクラスラベルをBNのパラメータ$\gamma$と$\beta$に組み込むところにある．どのように組み込むかというと，下図(右)のように両方のパラメータをクラスラベルを基にMLPでモデル化する（だけ）．
+具体的には，入力データのラベルベクトル$c$があったとき，
+$$ \Delta\mathcal{B} = MLP(c),\ \ \ \Delta \gamma = MLP(c) $$
+のようにクラスラベルをBNのパラメータのチャネル数に合うようにMLPで変換し，
+$$ \hat{\beta} = \beta + \Delta\mathcal{B},\ \ \ \hat{\gamma} = \gamma + \Delta\mathcal{\gamma},$$
+のように新たなアフィン変換のパラメータとして用いる．引用したCBNの論文では自然言語のembeddingを用いているが，SNGAN2などではクラスラベルの1-of-Kベクタを用いているはず．
+なにが嬉しいのか このあたりが自分もよく把握できていないのが正直なところ．CBN自体は先程触れたSNGANをきっかけに，SAGAN3，BigGAN4でも使われているが，その有無がどれほど精度に影響するのかはあまり言及されていない．おそらく直感的には，従来のような$G$および$D$の最初の層のみにクラスラベルを与えるよりも，様々なレベルの特徴マップに対してクラスラベルを活用するように仕向けることができるのだと思う．
+また，各層にクラスラベルを組み込む方法を考えたとき，最もベーシックな方法は1-of-K表現のベクトルを特徴マップのサイズ（FHxFW）に拡大してチャネル方向に結合する手法だが，かなり冗長で，畳み込み演算との相性も微妙と思われる．そういう意味ではCBNを通してクラスラベルを組み込む方が理に適っている可能性はある．
+一方，DCGAN5でBNの有効性が示されて以降，GANのgeneratorにBNを用いるのはスタンダードになってきている．そのため，BNをCBNに置き換えたときの計算量の増加，$G$の学習パラメータ増加による学習バランスの悪化が懸念される．
+実装 BigGANsのPyTorchによる再現実装にそのコードがあります．標準のBN実装に+αすることでとてもシンプルになっています．</description></item><item><title>3DGANをchainerで実装した</title><link>https://raahii.github.io/posts/chainer-implementation-3dgan/</link><pubDate>Wed, 25 Oct 2017 20:14:00 +0900</pubDate><guid>https://raahii.github.io/posts/chainer-implementation-3dgan/</guid><description>タイトルの通り，3DGANのchainer実装をgithubに上げた．当初はKerasで書いていたが良い結果が得られず，ソースコードの間違い探しをするモチベーションが下がってきたので，思い切ってchainerで書き直した．
+実はmnistなどのサンプルレベルのものを超えてちゃんとディープラーニングのタスクに取り組むのは今回が初めてだった． ChainerによるGANの実装自体は公式のexampleやchainer-gan-libが非常に参考になった．
+モデル 3DGANはその名の通り3Dモデルを生成するためのGAN（Voxelです）．Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modelingで提案されているもの．前回の記事でも触れた．
+構造はDCGANと同様で200次元のベクトルよりGeneratorでサンプルを生成，Discriminatorでデータセット由来かGenerator由来か（real/fake）を分類しそのロスをフィードバックする．
+Generatorは以下の図（論文より引用）のようなネットワークで，Discriminatorはこれを反転したようなモデルになっている．各ネットワーク内では3次元畳み込みを使用する．最適化手法はAdamで，論文ではDiscriminatorがバッチを8割以上正しく分類できた場合はパラメータを更新しないようにしたとあった．
+![f🆔bonhito:20171024233301p:plain](https://cdn-ak.f.st-hatena.com/images/fotolife/b/bonhito/20171024/20171024233301.png "f🆔bonhito:20171024233301p:plain") 3Dモデル データセットにはShapeNet-v2を用いた．このデータセットには様々な種類の3Dモデルが収録されているが，今回は椅子のモデルのみを抽出した．椅子はおよそ6700サンプルが収録されており，ファイル形式は.binvoxが直接収録されていたのでそれを使用した．
+ただ，6700サンプルの3Dデータを全てメモリに乗せることはできなかったため，初期実装では毎回のループで読み込み処理を行っていた．その後，.binvoxファイルのヘッダー読み込みなどが不要であり，処理速度に支障があると感じたので事前に.h5に書き出して使うようにした．
+ShapeNet-v2に収録されているデータのサンプルを示す．
+実装 3DGANの実装をやろうと決めてから，実験を始める前に3Dモデルの取扱について理解するためのツールをつくっていた．主にはSimple Voxel Viewerで，.binvox形式について理解したり，matplotlibでボクセルをどうやってプロットしようかということについて考えていた．
+64x64x64のボクセルを可視化するため，最初はmatplotlibの3Dplotを試したが，scatter plotやsurface plotを使うとマインクラフトのような箱を集積した見映えのプロットが実現できない上，一つ描画するのに数十秒かかることがわかった．そこからまず自作してみようと思いTHREE.jsを使ってSimple Voxel Viewerを作ってみた．ところが結局こっちもいくらか高速化は試したものの，64x64x64のサイズでも密なボクセルになるとメモリーエラーが起こってしまいうまく動作しない問題が起こった．加えて当たり前だがPythonのコードにも組み込めない．
+そうして結局，matplotlibの3D volxe plotを採用した．しかしこの関数はまだリリースされていないため（2017/10時点），githubから直接インストールする必要があった．動作も遅いままだが妥協することにした．
+ネットワークはKerasやTensorflowなどによる実装がいくつかgithubに上がっていたためそれらも参考にしつつ実装した．加えて，有名なGANのベストプラクティスのページを参考にした．ポイントをかいつまむと以下のような感じで実装した．
+ランダムベクトルzは論文では一様分布だったがガウス分布を使った． GeneratorはDeconv3D+BN+ReLUの繰り返しで，最後だけsigmoid． DiscriminatorはConv3D+BN+Leaky-ReLUの繰り返しで，最後だけsigmoid． Chainerの公式のexampleを真似してロスはsoftplusを使って実装．ただ，実はsigmoid + Adversarial lossがsoftplusと同じなのでDiscriminatorの最後のsigmidは不要なのだが，加えた方がうまくいった(謎)． 結果 成功例 良さげな感じを出すためにきれいなものを集めた．学習の初期段階ではでたらめなものが出力されるが，徐々に椅子が形成され，50エポックから100エポックくらいでましなものが出来た．
+学習の途中では椅子とは独立した無意味なかたまりのオブジェクトが所々に浮かんでいたりしたが，それが消えてくるとかなり見栄えが良くなっていった．
+失敗例 ボクセルが全て1になったり0になって消滅したりした．今回幾度も学習をさせてみて，初期の段階からほぼ1なボクセル，あるいはほぼ0なボクセルが生成されたり，規則的なパターン（模様）を持つボクセルが生成されたりすると多くの場合失敗となるという微妙な知見を得た．
+また，ボクセルが消滅したらその後復活しないこともわかった．ただこれは実装のところで述べたようにロスが間違っているせいかもしれない．
+わかったこと GANはロスは全くあてにならない．生成結果が全て． zはガウス分布から取ってきたほうが良さそう． 学習を調整する(Discriminatorのlossやaccを見て更新しないなど）のはうまくいかないと感じた． 今回のコードではsigmoid + adversarial lossをsoftplusで実装しているので，Discriminatorの最後のsigmoidは不要なはずなのだが，誤って入れていたらうまくいき，外したらうまくいかなくなった．動きゃ勝ちみたいなところがあって釈然としない． 論文では1000エポック学習したとあったが100エポック行かないくらいでかなり形になった． また，今回はGANのベストプラクティスの内，以下のトリックは実践しても効果がなかった.
+Discriminatorに学習させるミニバッチをrealのみまたはfakeのみにする．(項目4) GeneratorにもDiscriminatorにもLeaky-ReLUをつかう．(項目5) GeneratorにADAMを使ってDiscriminatorにはSGDを使う．(項目10) GeneratorにDropoutを使う．(項目17) 所感 実装に関して，やはりコード自体はKerasの方が圧倒的に簡単にかけるようになっているなと感じた．モデルのインスタンスを作ってバッチをmodel.</description></item><item><title>ボクセルデータを描画するツールを作った</title><link>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</link><pubDate>Mon, 09 Oct 2017 01:32:00 +0900</pubDate><guid>https://raahii.github.io/posts/tool-preview-3d-voxel-data/</guid><description> 最近、GANで3Dオブジェクトを生成する論文を読んでいました。下のスライドは雑なまとめなのですが、前者が所謂3D-GANと呼ばれている論文で初めて3Dオブジェクトの生成にGANを適用した論文です。後者はその3D-GANを応用した研究のようです。
+どんなものか知るには著者らが公開している動画が非常にわかりやすいです。静止画と同じようにGANを3Dモデルにも適用できそうだということがわかります。
+ということでgithubにあがっている実装などを参考に実際にやろうとしているところなのですが、これらの手法では主に3Dオブジェクトを「ボクセル」として扱っています。
+このボクセルというのは「体積 (volume)」と「ピクセル (pixel)」を組み合わせたかばん語らしいのですが、要は画像と同じ要領で3Dモデルを3次元配列に格納して表したものです。イメージとしてはマインクラフトみたいな感じです。
+CGでは頂点情報や法線、テクスチャなどを保存する.obj, .3dsなどが有名（らしい）ですが、それらに比べると非常に簡単で取り扱いやすくなっています。
+その一方でボクセルデータを保存する形式には.binvoxがあるのですが、メジャーではないためかツールが少なめです（まぁただの3次元配列だしね…）。ざっくり探したところ以下のものは便利そうだなと思いました。
+.binvoxを3次元配列に変換: dimatura/binvox-rw-py(python)
+.objや.mtlを読み込んで変換し、ボクセルとして可視化: Online Voxelizer(web)
+ただ、単に.binvoxファイルをアップロードしてすぐに中身を見れるツールはなさそうだったので今回はそれを作ってみました（というエントリです）。ここから試せます。
+github.com
+ボクセルは形式そのものがシンプルなのでmatplotlibを使って3dplotするのでも良いのですが、結構重いんですよね。three.jsを使えばWeb上でマウスでグリグリできるインターフェースを簡単に作れるので楽しいですし、いつかフロントエンドで使えるかも…。
+先程紹介したOnline Voxelizerに比べると動作がかなり遅いしメモリも結構消費してしまうのでそこが今後の課題です。うーん…おしまい。</description></item></channel></rss>

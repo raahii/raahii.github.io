@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>dotfile on 1ミリもわからん</title><link>https://raahii.github.io/tags/dotfile/</link><description>Recent content in dotfile on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Wed, 13 Feb 2019 00:13:24 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/dotfile/index.xml" rel="self" type="application/rss+xml"/><item><title>dotfilesを整備した</title><link>https://raahii.github.io/posts/update-dotfiles/</link><pubDate>Wed, 13 Feb 2019 00:13:24 +0900</pubDate><guid>https://raahii.github.io/posts/update-dotfiles/</guid><description>最近インターンが始まり、そのとき開発環境の構築に手間取ったので「やらねば…」となった．正直始まる前にやっとけやという感じなので反省．
+前々からGithubで管理はしていたものの、fishに移行してからほったらかしになっていたので、今回、要らないものをぶち消して、makeとsetup.shで自動的にインストール、アンインストール、更新など出来るようにした．
+ついでに、deinの設定をtomlにして、そこに各パッケージの設定を書くことで.vimrcをスッキリさせた．久しく触ってなかったBrewfileも更新して、iTermの設定もダンプしたので、大分環境構築しやすくなったと思う．めでたし．
+ところで前はzshだったけれどfishはデフォルトでも使える感じなのが良いですね．若干気になる点もあって，まずtmuxとの相性が良くない印象です．コマンドの補完やpecoの画面から戻った後にコンソールがずれるのは自分だけ…？
+あとは…文法が違うのもたまに気になりますが、これは慣れですね．ブラウザやSlackからコピーして実行したらシンタックスエラーでコケてあれっとなります．でも最近&amp;amp;&amp;amp;や||がサポートされたようですし，全体的にとても使いやすいので良い感じです．
+ついでに，プロンプトのテーマは今んとこpureをちょっと改造したやつを使ってます．個人的に2行のやつが良くて、1行目にカレントディレクトリやgitの情報、2行目にインプットのが使いやすいと思ってます．カレントディレクトリを深く掘っても入力のスペースに影響がないからです．もしおすすめがあったら教えてください．
+てな感じで、相変わらずtmux+vimで開発してます．インターンではGoを書いていて，やっぱりシンプルなところがいいなと思います．がんばります．</description></item></channel></rss>

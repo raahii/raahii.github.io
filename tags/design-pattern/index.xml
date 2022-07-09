@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>design pattern on 1ミリもわからん</title><link>https://raahii.github.io/tags/design-pattern/</link><description>Recent content in design pattern on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Tue, 31 Dec 2019 13:13:35 +0900</lastBuildDate><atom:link href="https://raahii.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml"/><item><title>Goでオプショナルパラメータをどう扱うか</title><link>https://raahii.github.io/posts/optional-parameters-in-go/</link><pubDate>Tue, 31 Dec 2019 13:13:35 +0900</pubDate><guid>https://raahii.github.io/posts/optional-parameters-in-go/</guid><description>TL; DR 状況によって下記を使い分けるのが良さそう．とりあえずFunctional Option Patternでも良いかも．
+複数の関数を用意する
+オプショナル引数が少ない場合に有効．シンプルだが拡張性が低い．
+引数用の構造体を用意する
+構造体を使うのでユーザービリティが良く実装も容易．ただし，引数の未指定とゼロ値を分離するためには値のポインタを使う必要がある．
+Functional Option Patternを使う
+デザインパターンとして提案されているだけあって，クリーンで拡張性が高い．敢えてデメリットを挙げるとすると，このパターンを知らないユーザーからするとやや直感的でない．実装側は引数毎に関数を定義する必要があり記述量が増える．
+はじめに Goには関数のオプショナルパラメータ（デフォルトパラメータ）がありません．しかし，「必要最低限の挙動をする分にはユーザーが意識する必要のない引数」というのはよくあり，必要に迫られます．
+実際，先日 Kutt.it というURL短縮サービスのAPIのクライアントをGoで書いたときに，Web API側にデフォルトパラメータがあったので，これをGoでどう実装すべきか迷いました．何番煎じかわかりませんが，せっかくなので実装パターンをまとめておきます．
+異なるシグネチャの関数を用意する 最も簡単なのはいくつも関数を用意してしまうことです．ここではname を受け取って Hello, {name}!と出力するだけの関数 Greet を例に見てみます．
+func Greet(name string) { fmt.Printf(&amp;#34;Hello, %s!\n&amp;#34;, name) } func main() { Greet(&amp;#34;gopher&amp;#34;) // Hello, gopher! } このとき挨拶の言葉を”Hello”ではなく”Hey”にも出来るようにしたくなりました．そこで，今回のパターンでは新たに関数 GreetWithOpts を定義して，挨拶の言葉greetingWord を受け取れるようにします．
+func GreetWithOpts(name string, greetingWord string) { fmt.Printf(&amp;#34;%s, %s!\n&amp;#34;, greetingWord, name) } func main() { GreetWithOpts(&amp;#34;gopher&amp;#34;, &amp;#34;Hey&amp;#34;) // Hey, gopher!</description></item></channel></rss>

@@ -1,0 +1,283 @@
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.85.0"><title>ProxySQLでMySQLの負荷分散をする - 1ミリもわからん</title><link rel=canonical href=https://raahii.github.io/posts/docker-proxysql-mysql-replication/><link href=https://raahii.github.io/favicon.ico rel=icon type=image/x-icon><meta property="description" content="ProxySQLでMySQLを負荷分散する "><meta property="keywords" content="proxysql, mysql, replication, grafana, prometheus, load balancing"><meta property="og:title" content="ProxySQLでMySQLの負荷分散をする"><meta property="og:description" content="ProxySQLでMySQLを負荷分散する "><meta property="og:type" content="article"><meta property="og:url" content="https://raahii.github.io/posts/docker-proxysql-mysql-replication/"><meta property="og:image" content="https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png"><meta property="article:section" content="post"><meta property="article:published_time" content="2020-05-31T17:20:27+09:00"><meta property="article:modified_time" content="2020-05-31T17:20:27+09:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png"><meta name=twitter:title content="ProxySQLでMySQLの負荷分散をする"><meta name=twitter:description content="ProxySQLでMySQLを負荷分散する "><link rel=icon href=https://raahii.github.io/images/favicon.ico type=image/x-icon><link rel=stylesheet href=https://raahii.github.io/css/main.css media=all><link rel=stylesheet href="//fonts.googleapis.com/css?family=Merriweather:400|Lato:400,400italic,700"></head><body><div class=wrapper><header class=header><nav class=nav><a href=https://raahii.github.io/ class=nav-logo><img src=https://raahii.github.io/images/bird.svg width=45 height=45 alt=Logo><p class=nav-title>1ミリもわからん</p></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/raahii target=_blank>GitHub</a></li><li><a href=https://twitter.com/raahiiy target=_blank>Twitter</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>ProxySQLでMySQLの負荷分散をする</h1><span class=article-date>May 31, 2020</span>
+<span class=article-duration>5 min read</span><ul class="cp_tag01 article-categories">Categories:<li><a href=/categories/%e9%96%8b%e7%99%ba/>開発</a></li></ul><ul class="cp_tag01 article-tags">Tags:<li><a href=/tags/proxysql/>proxysql</a></li><li><a href=/tags/mysql/>mysql</a></li><li><a href=/tags/replication/>replication</a></li><li><a href=/tags/grafana/>grafana</a></li><li><a href=/tags/prometheus/>prometheus</a></li></ul><div class=article-content><h2>TL; DR</h2><ul><li>Docker上にProxySQLとMySQL（構成: master1 + slave2）を構築</li><li>sysbenchを使ってリクエストを送り、負荷分散されることを確認</li><li>様子を Prometheus + Grafana を使ってモニタリングしてみる</li></ul><div class=thumnail><a href=https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png class=dont-hightlight><img src=https://user-images.githubusercontent.com/13511520/83347412-e2c4f280-a35f-11ea-8048-2b0645e99245.png width=90% alt=overview></a></div><aside class=x-toc><div class=x-toc-title>目次</div><nav id=TableOfContents><ul><li><a href=#はじめに>はじめに</a></li><li><a href=#mysqlのセットアップ>MySQLのセットアップ</a></li><li><a href=#proxysqlのセットアップ>ProxySQLのセットアップ</a></li><li><a href=#sysbenchで負荷をかけてみる>sysbenchで負荷をかけてみる</a></li><li><a href=#おわりに>おわりに</a></li><li><a href=#appendix>Appendix</a></li></ul></nav></aside><h2 id=はじめに>はじめに</h2><p>前回、<a href=https://raahii.github.io/posts/docker-mysql-master-slave-replication/>MySQLのmaster slave構成をDockerで作ってみた</a> が、実際の開発では複数DBをアプリケーションから使うには一工夫必要である。もっとも素朴な方法は使用するDBの接続情報をアプリケーションですべて保持しておき、read系/write系で使い分けることだと思う。しかし、これは次のような問題がある。</p><ul><li>DBの接続情報は途中で変わりうる</li><li>アプリケーションのロジックにDBの使い分けが入るのは面倒（だし複雑）</li></ul><p>そこで、今回は <a href=https://proxysql.com/>ProxySQL</a> を試してみる。ProxySQLは アプリケーションとDBの間に入って、次のようなことをしてくれる。</p><ul><li>クエリに応じたmaster / slave への自動プロキシ</li><li>負荷分散</li><li>シームレスな接続設定の変更</li></ul><p>どの程度メジャーなのかはいまいちわかっていないが、公式の <a href=https://github.com/mysql/mysql-proxy>mysql-proxy</a>よりは使われているようだったので選んだ。ちなみにProxySQLはMysQL以外のDBでも使える。</p><h2 id=mysqlのセットアップ>MySQLのセットアップ</h2><p>前回に続いてMySQL8.0を使い、masterを1つ、slaveを2つ用意してレプリケーション設定を組んでおいた。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-docker data-lang=docker>version: <span style=color:#d14>&#34;3&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>services:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>  mysql-master:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    image: mysql:8.0<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    container_name: proxysql-mysql-replication-master<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    environment:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_ROOT_PASSWORD: password<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_DATABASE: sbtest<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    volumes:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./master/my.cnf:/etc/mysql/my.cnf<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./master/data:/var/lib/mysql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./master/init.sql:/docker-entrypoint-initdb.d/init.sql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    ports:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - 3306:3306<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>  mysql-slave1:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    image: mysql:8.0<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    container_name: proxysql-mysql-replication-slave1<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    environment:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_ROOT_PASSWORD: password<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_DATABASE: sbtest<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    volumes:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/my-slave1.cnf:/etc/mysql/my.cnf<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/data/slave1:/var/lib/mysql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/init.sql:/docker-entrypoint-initdb.d/init.sql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    ports:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - 3307:3306<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    depends_on:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - mysql-master<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>  mysql-slave2:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    image: mysql:8.0<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    container_name: proxysql-mysql-replication-slave2<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    environment:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_ROOT_PASSWORD: password<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      MYSQL_DATABASE: sbtest<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    volumes:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/my-slave2.cnf:/etc/mysql/my.cnf<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/data/slave2:/var/lib/mysql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./slave/init.sql:/docker-entrypoint-initdb.d/init.sql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    ports:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - 3308:3306<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    depends_on:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - mysql-master<span style=color:#a61717;background-color:#e3d2d2>
+</span></code></pre></div><p>立ち上げて、masterとslaveの状態を確認。まずmaster。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>❯ docker-compose <span style=color:#0086b3>exec</span> mysql-master sh -c <span style=color:#d14>&#34;export MYSQL_PWD=password; mysql -u root sbtest -e &#39;show master status\G&#39;&#34;</span>
+*************************** 1. row ***************************
+             File: mysql-bin.000001
+         Position: <span style=color:#099>156</span>
+     Binlog_Do_DB: sbtest
+ Binlog_Ignore_DB:
+Executed_Gtid_Set: 0efd14cd-a27a-11ea-9d90-0242ac1a0002:1-67
+</code></pre></div><p>slave1。もう一つも同様。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>❯ docker-compose <span style=color:#0086b3>exec</span> mysql-slave1 sh -c <span style=color:#d14>&#34;export MYSQL_PWD=password; mysql -u root sbtest -e &#39;show slave status\G&#39;&#34;</span>
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting <span style=color:#000;font-weight:700>for</span> master to send event
+                  Master_Host: mysql-master
+                  Master_User: slave_user
+                  Master_Port: <span style=color:#099>3306</span>
+                Connect_Retry: <span style=color:#099>60</span>
+              Master_Log_File: mysql-bin.000003
+          Read_Master_Log_Pos: <span style=color:#099>196</span>
+               Relay_Log_File: mysql-relay-bin.000007
+                Relay_Log_Pos: <span style=color:#099>411</span>
+        Relay_Master_Log_File: mysql-bin.000003
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+...
+</code></pre></div><p>良さそう。</p><h2 id=proxysqlのセットアップ>ProxySQLのセットアップ</h2><p>次にProxySQL。設定ファイルは次のようにした。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-docker data-lang=docker><span style=color:#998;font-style:italic># proxysql.cnf</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>datadir</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;/var/lib/proxysql&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>admin_variables</span><span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>{</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>admin_credentials</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;admin:admin;admin2:pass2&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>mysql_ifaces</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;0.0.0.0:6032&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>refresh_interval</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>2000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>stats_credentials</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;stats:admin&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>mysql_variables</span><span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>{</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>threads</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>4</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>max_connections</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>2048</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>default_query_delay</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>0</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>default_query_timeout</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>36000000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>have_compress</span><span style=color:#000;font-weight:700>=</span>true<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>poll_timeout</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>2000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>interfaces</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;0.0.0.0:6033;/tmp/proxysql.sock&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>default_schema</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;information_schema&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>stacksize</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1048576</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>server_version</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;8.0&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>connect_timeout_server</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>10000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>monitor_history</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>60000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>monitor_connect_interval</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>200000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>monitor_ping_interval</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>200000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>ping_interval_server_msec</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>10000</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>ping_timeout_server</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>200</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>commands_stats</span><span style=color:#000;font-weight:700>=</span>true<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>sessions_sort</span><span style=color:#000;font-weight:700>=</span>true<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>monitor_username</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;monitor&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:teal>monitor_password</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;monitor&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>mysql_replication_hostgroups</span> <span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>(</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span> <span style=color:teal>writer_hostgroup</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>10</span> , <span style=color:teal>reader_hostgroup</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>20</span> , <span style=color:teal>comment</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;host groups&#34;</span> <span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>)</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>mysql_servers</span> <span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>(</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span> <span style=color:teal>address</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;mysql-master&#34;</span> , <span style=color:teal>port</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>3306</span> , <span style=color:teal>hostgroup</span><span style=color:#000;font-weight:700>=</span>10, <span style=color:teal>max_connections</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>100</span> , <span style=color:teal>max_replication_lag</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#099>5</span> <span style=color:#000;font-weight:700>}</span>,<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span> <span style=color:teal>address</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;mysql-slave1&#34;</span> , <span style=color:teal>port</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>3306</span> , <span style=color:teal>hostgroup</span><span style=color:#000;font-weight:700>=</span>20, <span style=color:teal>max_connections</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>100</span> , <span style=color:teal>max_replication_lag</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#099>5</span> <span style=color:#000;font-weight:700>}</span>,<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span> <span style=color:teal>address</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;mysql-slave2&#34;</span> , <span style=color:teal>port</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>3306</span> , <span style=color:teal>hostgroup</span><span style=color:#000;font-weight:700>=</span>20, <span style=color:teal>max_connections</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>100</span> , <span style=color:teal>max_replication_lag</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#099>5</span> <span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>)</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>mysql_query_rules</span> <span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>(</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>rule_id</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>100</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>active</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>match_pattern</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;^SELECT .* FOR UPDATE&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>destination_hostgroup</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>10</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>apply</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>}</span>,<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>rule_id</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>200</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>active</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>match_pattern</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;^SELECT .*&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>destination_hostgroup</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>20</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>apply</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>}</span>,<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>rule_id</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>300</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>active</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>match_pattern</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;.*&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>destination_hostgroup</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>10</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>        <span style=color:teal>apply</span><span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>)</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:teal>mysql_users</span> <span style=color:#000;font-weight:700>=</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>(</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    <span style=color:#000;font-weight:700>{</span> <span style=color:teal>username</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#34;root&#34;</span> , <span style=color:teal>password</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#34;password&#34;</span> , <span style=color:teal>default_hostgroup</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#099>10</span> , <span style=color:teal>active</span> <span style=color:#000;font-weight:700>=</span> <span style=color:#099>1</span> <span style=color:#000;font-weight:700>}</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#000;font-weight:700>)</span><span style=color:#a61717;background-color:#e3d2d2>
+</span></code></pre></div><p>色々書かれているけど、まず<code>mysql_replication_hostgroups</code> でmaster / slaveのホストグループを設定し、実際の接続情報を <code>mysql_servers</code> に記述している。</p><p>さらに、<code>mysql_query_rules</code> ではクエリ毎にどのホストグループへとリクエストを流すのか記述できる。<code>SELECT</code> クエリをslaveに、それ以外はmasterへと送るように設定した。</p><p>設定ファイル以外に必要なことは、接続先のMySQLでProxySQL用のユーザーを作ること。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000;font-weight:700>CREATE</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>USER</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>IF</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>NOT</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>EXISTS</span><span style=color:#bbb> </span><span style=color:#d14>&#39;monitor&#39;</span><span style=color:#000;font-weight:700>@</span><span style=color:#d14>&#39;%&#39;</span><span style=color:#bbb> </span>IDENTIFIED<span style=color:#bbb> </span><span style=color:#000;font-weight:700>BY</span><span style=color:#bbb> </span><span style=color:#d14>&#39;monitor&#39;</span>;<span style=color:#bbb>
+</span></code></pre></div><p>ちなみに、<a href=https://proxysql.com/documentation/MySQL-8.0/>MySQL 8.0</a>のデフォルトの認証プラグインである <code>caching_sha2_password</code> はProxySQLでは非対応なので、<code>my.cnf</code>に下記を追加しておく必要もある。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>[mysqld]
+...
+default_authentication_plugin=mysql_native_password
+</code></pre></div><p>docker-compose に追加して、ProxySQLを立ち上げてみる。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-docker data-lang=docker>version: <span style=color:#d14>&#34;3&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>services:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>  ...<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>  proxysql:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    image: proxysql/proxysql:2.0.12<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    container_name: proxysql-mysql-replication-proxysql<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    ports:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - 6032:6032<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - 6033:6033<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    volumes:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - ./proxysql/proxysql.cnf:/etc/proxysql.cnf<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>    depends_on:<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - mysql-master<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - mysql-slave1<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span>      - mysql-slave2<span style=color:#a61717;background-color:#e3d2d2>
+</span></code></pre></div><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>❯ $ mysql -h 0.0.0.0 -P <span style=color:#099>6032</span> -u admin2 -p -e <span style=color:#d14>&#39;select * from mysql_servers&#39;</span>
+  Enter password:
+  +--------------+--------------+------+-----------+--------+--------+-------------+-----------------+---------------------+---------+----------------+---------+
+  | hostgroup_id | hostname     | port | gtid_port | status | weight | compression | max_connections | max_replication_lag | use_ssl | max_latency_ms | comment |
+  +--------------+--------------+------+-----------+--------+--------+-------------+-----------------+---------------------+---------+----------------+---------+
+  | <span style=color:#099>10</span>           | mysql-master | <span style=color:#099>3306</span> | <span style=color:#099>0</span>         | ONLINE | <span style=color:#099>1</span>      | <span style=color:#099>0</span>           | <span style=color:#099>100</span>             | <span style=color:#099>5</span>                   | <span style=color:#099>0</span>       | <span style=color:#099>0</span>              |         |
+  | <span style=color:#099>20</span>           | mysql-slave1 | <span style=color:#099>3306</span> | <span style=color:#099>0</span>         | ONLINE | <span style=color:#099>1</span>      | <span style=color:#099>0</span>           | <span style=color:#099>100</span>             | <span style=color:#099>5</span>                   | <span style=color:#099>0</span>       | <span style=color:#099>0</span>              |         |
+  | <span style=color:#099>20</span>           | mysql-slave2 | <span style=color:#099>3306</span> | <span style=color:#099>0</span>         | ONLINE | <span style=color:#099>1</span>      | <span style=color:#099>0</span>           | <span style=color:#099>100</span>             | <span style=color:#099>5</span>                   | <span style=color:#099>0</span>       | <span style=color:#099>0</span>              |         |
+  +--------------+--------------+------+-----------+--------+--------+-------------+-----------------+---------------------+---------+----------------+---------+
+</code></pre></div><p>きちんとmasterとslaveが認識されている！あとは、ProxySQLの6033ポートをDBの宛先として使えばオッケー 🎉</p><h2 id=sysbenchで負荷をかけてみる>sysbenchで負荷をかけてみる</h2><p>ここまでProxySQLを使って複数DBを扱えているので、<a href=https://github.com/akopytov/sysbench>sysbench</a>でベンチマークを取ってみる。同時に、負荷分散が行われているか確認するために、<a href=https://github.com/prometheus/mysqld_exporter>mysqld-exporter</a> を使ってMySQLの各種メトリクスを<a href=https://prometheus.io/>Prometheus</a>で取得し、<a href=https://grafana.com/>Grafana</a>で可視化してみる。</p><p>これらのセットアップについては本筋から逸れるので割愛する。簡単に説明すると、mysqld-exporterをすべてのMySQLに設定し、Prometheusのtargetとして登録、あとはGrafanaからPrometheusのデータをimportすればよい。詳細はコードを見てほしい。</p><p>また、Grafanaのダッシュボードは <a href=https://github.com/percona/grafana-dashboards>percona/grafana-dashboards</a> に良い感じのものが上がっているので、ありがたく使わせていただく。<a href=https://github.com/percona/grafana-dashboards/blob/master/dashboards/MySQL_Overview.json>MySQL_Overview</a> をロードすると、初期状態はこんな感じ。ProxySQLのmonitorユーザーからのアクセスだろうか、QPSは4前後を推移している。</p><div style=text-align:center><figure style="margin:30px 0"><a class=dont-hightlight href=https://user-images.githubusercontent.com/13511520/83348222-73ea9800-a365-11ea-9162-acf5c99c76e5.png target=_blank><img loading=lazy src=https://user-images.githubusercontent.com/13511520/83348222-73ea9800-a365-11ea-9162-acf5c99c76e5.png alt=master width=100%></a><figcaption></figcaption></figure></div><p>まずは、masterの <code>sb_test</code> データベースに対し、テーブル数10、各10000個のレコードを生成する。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>❯ sysbench --db-driver<span style=color:#000;font-weight:700>=</span>mysql <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-host<span style=color:#000;font-weight:700>=</span>0.0.0.0 <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-port<span style=color:#000;font-weight:700>=</span><span style=color:#099>6033</span> <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-user<span style=color:#000;font-weight:700>=</span>root <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-password<span style=color:#000;font-weight:700>=</span>password <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-db<span style=color:#000;font-weight:700>=</span>sbtest <span style=color:#d14>\
+</span><span style=color:#d14></span>        --threads<span style=color:#000;font-weight:700>=</span><span style=color:#099>10</span> <span style=color:#d14>\
+</span><span style=color:#d14></span>        --tables<span style=color:#000;font-weight:700>=</span><span style=color:#099>10</span> <span style=color:#d14>\
+</span><span style=color:#d14></span>        --table-size<span style=color:#000;font-weight:700>=</span><span style=color:#099>10000</span> <span style=color:#d14>\
+</span><span style=color:#d14></span>        oltp_read_only <span style=color:#d14>\
+</span><span style=color:#d14></span>        prepare
+</code></pre></div><p>今回は、ProxySQLでDB構成を変更しながら、次のような4つのベンチマークを取ってみた。</p><ol><li>master単体に対して、同時接続数100で1分間readクエリをかける</li><li>master単体に対して、同時接続数50で1分間readクエリをかける</li><li>master + slave x2 に対して、同時接続数100で1分間readクエリをかける</li><li>master + slave x2 に対して、同時接続数60で1分間readクエリをかける</li></ol><p>ベンチマークのコマンド例。</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>❯ sysbench --db-driver<span style=color:#000;font-weight:700>=</span>mysql <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-host<span style=color:#000;font-weight:700>=</span>0.0.0.0 <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-port<span style=color:#000;font-weight:700>=</span><span style=color:#099>6033</span> <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-user<span style=color:#000;font-weight:700>=</span>root <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-password<span style=color:#000;font-weight:700>=</span>password <span style=color:#d14>\
+</span><span style=color:#d14></span>        --mysql-db<span style=color:#000;font-weight:700>=</span>sbtest <span style=color:#d14>\
+</span><span style=color:#d14></span>        --threads<span style=color:#000;font-weight:700>=</span>&lt;同時接続数&gt; <span style=color:#d14>\
+</span><span style=color:#d14></span>        --time<span style=color:#000;font-weight:700>=</span>&lt;時間<span style=color:#000;font-weight:700>[</span>s<span style=color:#000;font-weight:700>]</span>＞ <span style=color:#d14>\
+</span><span style=color:#d14></span>        oltp_read_only <span style=color:#d14>\
+</span><span style=color:#d14></span>        run
+</code></pre></div><p>すると、結果は次のようになった。（詳細は最後に記載）</p><ol><li>MaxConnectionを超えたためエラー</li><li>成功（Average Latency= 643.54 [ms]）</li><li>成功（Average Latency = 1825.77 [ms]）</li><li>成功（Average Latency = 917.97 [ms]）</li></ol><p>どうやら、今回のdocker環境では、master単体では同時接続数100は耐えられないらしい。しかし、slave2つを加えた構成にすることで耐えることが出来た。</p><p>ちなみに、1のエラーの原因だが、MaxConnectionsは151に設定されており、これを超えたことがGrafanaでも確認できた。（なぜ同時接続数100のベンチでそこまで大きな値をとるのか謎で調べてみたが、わからなかった。とにかくProxySQLを介すると本来の接続数の2倍近い値が出てしまうようだ。Connection Poolがうまく再利用できていないのだろうか…？要調査）</p><p>MaxConnectionの値は変更可能だが、今回これを限界だと捉えれば、冗長化によってより多くの同時リクエストを捌けたと言える。Slaveにもきちんとリクエストが飛んでいるのが確認できた。</p><ul><li><p>master<div style=text-align:center><figure style="margin:30px 0"><a class=dont-hightlight href=https://user-images.githubusercontent.com/13511520/83347951-a5626400-a363-11ea-9d60-dfd75c12ee28.png target=_blank><img loading=lazy src=https://user-images.githubusercontent.com/13511520/83347951-a5626400-a363-11ea-9d60-dfd75c12ee28.png alt=master width=90%></a><figcaption></figcaption></figure></div></p></li><li><p>slave1<div style=text-align:center><figure style="margin:30px 0"><a class=dont-hightlight href=#ZgotmplZ target=_blank><img loading=lazy src=https://user-images.githubusercontent.com/13511520/83347954-a7c4be00-a363-11ea-87b8-b1d7466d2b5e.png alt=master width=90%></a><figcaption></figcaption></figure></div></p></li><li><p>slave2</p><div style=text-align:center><figure style="margin:30px 0"><a class=dont-hightlight href=https://user-images.githubusercontent.com/13511520/83347956-aa271800-a363-11ea-942e-a13efcd58128.png target=_blank><img loading=lazy src=https://user-images.githubusercontent.com/13511520/83347956-aa271800-a363-11ea-942e-a13efcd58128.png alt=master width=90%></a><figcaption></figcaption></figure></div></li></ul><p>ちなみに、Grafanaのダッシュボードは簡単にsnapshotが取れたので掲載しておく。</p><ul><li><a href="https://snapshot.raintank.io/dashboard/snapshot/Ve4OefZud4ZchPoYuyrZCYnrKQ8fJIEw?orgId=2">masterのダッシュボード</a></li><li><a href="https://snapshot.raintank.io/dashboard/snapshot/j8iLJRXhnz0JGMn5Zl5onpLS66Yfs73x?orgId=2">slave1のダッシュボード</a></li><li><a href="https://snapshot.raintank.io/dashboard/snapshot/IEH258Pt3AXPYWOlMKZ4eFz55nwxaVdS?orgId=2&refresh=5s">slave2のダッシュボード</a></li></ul><h2 id=おわりに>おわりに</h2><p>アプリケーションから使う場合を想定して、MySQLのmaster-slaveノードをProxySQLで使う構成を試してみた。ProxySQLは簡単にセットアップできて様々な恩恵を受けられるものの、実用ではこれ自体のチューニングやクラスター化をしていかないと、新たなボトルネックが生まれそうな気もする。</p><p>次は時間があったらfailoverについて調べてみたい。</p><div style=text-align:center><figure style="margin:30px 0"><a class=dont-hightlight href=https://github.com/raahii/proxysql-mysql-replication target=_blank><img loading=lazy src=https://user-images.githubusercontent.com/13511520/83348184-1bb39600-a365-11ea-9fe9-768be9470fc8.png alt="repo image" width=60%></a><figcaption></figcaption></figure></div><h2 id=appendix>Appendix</h2><p>sysbenchの詳細な結果。</p><ol><li>master単体に対して、同時接続数100で1分間</li></ol><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>FATAL: mysql_stmt_execute() returned error 9001 (Max connect timeout reached while reaching hostgroup 20 after 10004ms) for query &#39;SELECT SUM(k) FROM sbtest1 WHERE id BETWEEN ? AND ?&#39;
+FATAL: mysql_stmt_execute() returned error 9001 (Max connect timeout reached while reaching hostgroup 20 after 10004ms) for query &#39;SELECT c FROM sbtest1 WHERE id=?&#39;
+FATAL: `thread_run&#39; function failed: ...al/Cellar/sysbench/1.0.20/share/sysbench/oltp_common.lua:419: SQL error, errno = 9001, state = &#39;HY000&#39;: Max connect timeout reached while reaching hostgroup 20 after 10004ms
+FATAL: `thread_run&#39; function failed: ...al/Cellar/sysbench/1.0.20/share/sysbench/oltp_common.lua:432: SQL error, errno = 9001, state = &#39;HY000&#39;: Max connect timeout reached while reaching hostgroup 20 after 10004ms
+FATAL: mysql_stmt_execute() returned error 9001 (Max connect timeout reached while reaching hostgroup 20 after 10009ms) for query &#39;SELECT c FROM sbtest1 WHERE id=?&#39;
+(last message repeated 1 times)
+FATAL: `thread_run&#39; function failed: ...al/Cellar/sysbench/1.0.20/share/sysbench/oltp_common.lua:419: SQL error, errno = 9001, state = &#39;HY000&#39;: Max connect timeout reached while reaching hostgroup 20 after 10009ms
+FATAL: mysql_stmt_execute() returned error 9001 (Max connect timeout reached while reaching hostgroup 20 after 10009ms) for query &#39;SELECT c FROM sbtest1 WHERE id=?&#39;
+FATAL: `thread_run&#39; function failed: ...al/Cellar/sysbench/1.0.20/share/sysbench/oltp_common.lua:419: SQL error, errno = 9001, state = &#39;HY000&#39;: Max connect timeout reached while reaching hostgroup 20 after 10009ms
+(last message repeated 1 times)
+FATAL: mysql_stmt_execute() returned error 9001 (Max connect timeout reached while reaching hostgroup 20 after 10000ms) for query &#39;SELECT c FROM sbtest1 WHERE id BETWEEN ? AND ?&#39;
+FATAL: `thread_run&#39; function failed: ...al/Cellar/sysbench/1.0.20/share/sysbench/oltp_common.lua:432: SQL error, errno = 9001, state = &#39;HY000&#39;: Max connect timeout reached while reaching hostgroup 20 after 10000ms
+</code></pre></div><ol start=2><li>master単体に対して、同時接続数50で1分間</li></ol><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>SQL statistics:
+    queries performed:
+        read:                            65422
+        write:                           0
+        other:                           9346
+        total:                           74768
+    transactions:                        4673   (77.50 per sec.)
+    queries:                             74768  (1240.08 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          60.2910s
+    total number of events:              4673
+
+Latency (ms):
+         min:                                  111.09
+         avg:                                  643.54
+         max:                                 3138.66
+         95th percentile:                     1533.66
+         sum:                              3007283.24
+
+Threads fairness:
+    events (avg/stddev):           93.4600/4.89
+    execution time (avg/stddev):   60.1457/0.09
+</code></pre></div><ol start=3><li>master + slave x2 に対して、同時接続数100で1分間</li></ol><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>SQL statistics:
+    queries performed:
+        read:                            46298
+        write:                           0
+        other:                           6614
+        total:                           52912
+    transactions:                        3307   (54.54 per sec.)
+    queries:                             52912  (872.63 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          60.6335s
+    total number of events:              3307
+
+Latency (ms):
+         min:                                  213.29
+         avg:                                 1825.77
+         max:                                 5333.50
+         95th percentile:                     3267.19
+         sum:                              6037808.20
+
+Threads fairness:
+    events (avg/stddev):           33.0700/3.55
+    execution time (avg/stddev):   60.3781/0.16
+</code></pre></div><ol start=4><li>master + slave x2 に対して、同時接続数50で1分間</li></ol><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>SQL statistics:
+    queries performed:
+        read:                            46354
+        write:                           0
+        other:                           6622
+        total:                           52976
+    transactions:                        3311   (53.75 per sec.)
+    queries:                             52976  (859.98 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          61.5994s
+    total number of events:              3311
+
+Latency (ms):
+         min:                                  133.54
+         avg:                                  917.97
+         max:                                 3431.71
+         95th percentile:                     2159.29
+         sum:                              3039408.90
+
+Threads fairness:
+    events (avg/stddev):           66.2200/8.72
+    execution time (avg/stddev):   60.7882/0.55
+</code></pre></div></div></article><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//raahii.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a><h3>こちらの記事もどうぞ</h3><ul class="related-content article-content"><li><a href=/posts/docker-mysql-master-slave-replication/>MySQLのmaster slave構成をDockerで試す</a></li></ul></main><footer class=footer><ul class=footer-links><li><a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=https://raahii.github.io/images/hugo-logo.png width=22 height=22 alt="hugo log"></a></li></ul></footer></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-D4N0KPT2K2"></script><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-D4N0KPT2K2',{anonymize_ip:!1})}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css integrity=sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js integrity=sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script></body></html>

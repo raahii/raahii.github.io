@@ -1,0 +1,107 @@
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.85.0"><title>Goでオプショナルパラメータをどう扱うか - 1ミリもわからん</title><link rel=canonical href=https://raahii.github.io/posts/optional-parameters-in-go/><link href=https://raahii.github.io/favicon.ico rel=icon type=image/x-icon><meta property="description" content="Goのオプショナル引数の実装パターン"><meta property="keywords" content="オプショナル引数, デフォルト引数, オプショナルパラメータ, オプショナル引数, 関数オプション引数, Functional Options, Functional Option Pattern, Go, golang"><meta property="og:title" content="Goでオプショナルパラメータをどう扱うか"><meta property="og:description" content="Goのオプショナル引数の実装パターン"><meta property="og:type" content="article"><meta property="og:url" content="https://raahii.github.io/posts/optional-parameters-in-go/"><meta property="og:image" content="https://i.ytimg.com/vi/xBYzglyidIc/maxresdefault.jpg"><meta property="article:section" content="post"><meta property="article:published_time" content="2019-12-31T13:13:35+09:00"><meta property="article:modified_time" content="2019-12-31T13:13:35+09:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://i.ytimg.com/vi/xBYzglyidIc/maxresdefault.jpg"><meta name=twitter:title content="Goでオプショナルパラメータをどう扱うか"><meta name=twitter:description content="Goのオプショナル引数の実装パターン"><link rel=icon href=https://raahii.github.io/images/favicon.ico type=image/x-icon><link rel=stylesheet href=https://raahii.github.io/css/main.css media=all><link rel=stylesheet href="//fonts.googleapis.com/css?family=Merriweather:400|Lato:400,400italic,700"></head><body><div class=wrapper><header class=header><nav class=nav><a href=https://raahii.github.io/ class=nav-logo><img src=https://raahii.github.io/images/bird.svg width=45 height=45 alt=Logo><p class=nav-title>1ミリもわからん</p></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/raahii target=_blank>GitHub</a></li><li><a href=https://twitter.com/raahiiy target=_blank>Twitter</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Goでオプショナルパラメータをどう扱うか</h1><span class=article-date>December 31, 2019</span>
+<span class=article-duration>2 min read</span><ul class="cp_tag01 article-categories">Categories:<li><a href=/categories/%e6%8a%80%e8%a1%93/>技術</a></li></ul><ul class="cp_tag01 article-tags">Tags:<li><a href=/tags/golang/>golang</a></li><li><a href=/tags/design%20pattern/>design pattern</a></li></ul><div class=article-content><h2 id=tl-dr>TL; DR</h2><p>状況によって下記を使い分けるのが良さそう．とりあえずFunctional Option Patternでも良いかも．</p><ul><li><p>複数の関数を用意する</p><p>オプショナル引数が少ない場合に有効．シンプルだが拡張性が低い．</p></li><li><p>引数用の構造体を用意する</p><p>構造体を使うのでユーザービリティが良く実装も容易．ただし，引数の未指定とゼロ値を分離するためには値のポインタを使う必要がある．</p></li><li><p>Functional Option Patternを使う</p><p>デザインパターンとして提案されているだけあって，クリーンで拡張性が高い．敢えてデメリットを挙げるとすると，このパターンを知らないユーザーからするとやや直感的でない．実装側は引数毎に関数を定義する必要があり記述量が増える．</p></li></ul><h2 id=はじめに>はじめに</h2><p>Goには関数のオプショナルパラメータ（デフォルトパラメータ）がありません．しかし，「必要最低限の挙動をする分にはユーザーが意識する必要のない引数」というのはよくあり，必要に迫られます．</p><p>実際，先日 <a href=https://kutt.it>Kutt.it</a> というURL短縮サービスの<a href=https://github.com/raahii/kutt-go>APIのクライアントをGoで書いた</a>ときに，Web API側にデフォルトパラメータがあったので，これをGoでどう実装すべきか迷いました．何番煎じかわかりませんが，せっかくなので実装パターンをまとめておきます．</p><h2 id=異なるシグネチャの関数を用意する>異なるシグネチャの関数を用意する</h2><p>最も簡単なのはいくつも関数を用意してしまうことです．ここでは<code>name</code> を受け取って <code>Hello, {name}!</code>と出力するだけの関数 <code>Greet</code> を例に見てみます．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>Greet</span>(name <span style=color:#458;font-weight:700>string</span>) {
+	fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#d14>&#34;Hello, %s!\n&#34;</span>, name)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>) <span style=color:#998;font-style:italic>// Hello, gopher!
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>このとき挨拶の言葉を<code>”Hello”</code>ではなく<code>”Hey”</code>にも出来るようにしたくなりました．そこで，今回のパターンでは新たに関数 <code>GreetWithOpts</code> を定義して，挨拶の言葉<code>greetingWord</code> を受け取れるようにします．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>GreetWithOpts</span>(name <span style=color:#458;font-weight:700>string</span>, greetingWord <span style=color:#458;font-weight:700>string</span>) {
+	fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#d14>&#34;%s, %s!\n&#34;</span>, greetingWord, name)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	<span style=color:#900;font-weight:700>GreetWithOpts</span>(<span style=color:#d14>&#34;gopher&#34;</span>, <span style=color:#d14>&#34;Hey&#34;</span>) <span style=color:#998;font-style:italic>// Hey, gopher!
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>関数を分けることでオプショナルパラメータを実現しました．このパターンは引数が少ない場合や関数パターンをシンプルにとどめておく分には実用的ですが，引数が増えてくると辛くなりそうです．</p><h2 id=引数用の構造体を用意する>引数用の構造体を用意する</h2><p>ではもっと複雑な引数の場合はどうすべきでしょうか．デフォルトパラメータは引数を部分的に指定（＝可変長な引数の受け入れ）できれば良いので，構造体が使えそうです．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#998;font-style:italic>// 引数を示す構造体
+</span><span style=color:#998;font-style:italic>// フィールドが未指定だったのか，ゼロ値が指定されたのかを
+</span><span style=color:#998;font-style:italic>// 区別するため，型はポインタにする
+</span><span style=color:#998;font-style:italic></span><span style=color:#000;font-weight:700>type</span> GreetOpts <span style=color:#000;font-weight:700>struct</span> {
+	GreetingWord <span style=color:#000;font-weight:700>*</span><span style=color:#458;font-weight:700>string</span>
+}
+
+<span style=color:#998;font-style:italic>// オプショナルパラメータを構造体で受け取る
+</span><span style=color:#998;font-style:italic></span><span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>Greet</span>(name <span style=color:#458;font-weight:700>string</span>, opts <span style=color:#000;font-weight:700>*</span>GreetOpts) {
+	greetingWord <span style=color:#000;font-weight:700>:=</span> <span style=color:#d14>&#34;Hello&#34;</span>
+	<span style=color:#000;font-weight:700>if</span> opts.GreetingWord <span style=color:#000;font-weight:700>!=</span> <span style=color:#000;font-weight:700>nil</span> {
+      <span style=color:#998;font-style:italic>// 引数がnilだったら未指定なのでデフォルト値で埋める
+</span><span style=color:#998;font-style:italic></span>		greetingWord = <span style=color:#000;font-weight:700>*</span>opts.GreetingWord
+	}
+	fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#d14>&#34;%s, %s!\n&#34;</span>, greetingWord, name)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>, <span style=color:#000;font-weight:700>&amp;</span>GreetOpts{}) <span style=color:#998;font-style:italic>// Hello, gopher!
+</span><span style=color:#998;font-style:italic></span>
+	word <span style=color:#000;font-weight:700>:=</span> <span style=color:#d14>&#34;Hey&#34;</span>
+	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>, <span style=color:#000;font-weight:700>&amp;</span>GreetOpts{GreetingWord: <span style=color:#000;font-weight:700>&amp;</span>word}) <span style=color:#998;font-style:italic>// Hey, gopher!
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>構造体を渡す一手間が増えましたが，必須／オプショナルパラメータが明確に分離できています！また，構造体の定義を見れば受け取るパラメータが一目で分かるのも良いところです．</p><p>一点，構造体は初期化時に未指定のフィールドがゼロ値で埋まります．そのため，引数が実際に未指定だったのか，ゼロ値が指定されたのかを区別するため，型をポインタにして <code>nil</code> を受け取れるようにしています．パラメータが各プリミティブ型のゼロ値を取らないのであれば，ポインタを使う必要はないかもしれません．</p><p>このパターンは<a href=https://godoc.org/github.com/aws/aws-sdk-go>AWSのGoのSDK</a>で実際に使われています．例えば，S3からファイルをダウンロードするコードでは，GetObjectInput構造体を使って大半の引数を指定します．内部ではこの構造体に対してバリデーションを行い，必須パラメータのチェックを行っています．</p><ul><li><a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#hdr-Download_Manager>S3 ファイルダウンロードの例</a></li><li><a href=https://github.com/aws/aws-sdk-go/blob/a0d8dcfc0eb373ebe88dd1dde3a19374af4a8705/service/s3/api.go#L12757-L12832>GetObjectInput構造体</a> ※1万行目辺りに飛ぶので時間かかります</li><li><a href=https://github.com/aws/aws-sdk-go/blob/a0d8dcfc0eb373ebe88dd1dde3a19374af4a8705/service/s3/api.go#L12845-L12864>GetObjectInputのバリデーション</a></li></ul><p>また，各プリミティブ型のポインタを取る操作も，直接値を指定できるようにユーティリティ関数が用意してあります（↑の例でもそうですが定数”Hey”のポインタは取れないので一度変数に入れる必要がありました）．</p><ul><li><a href=https://github.com/aws/aws-sdk-go/blob/v1.26.8/aws/convert_types.go#L6-L8>aws.String()関数（stringのポインタ）</a></li></ul><h2 id=functional-option-pattern>Functional Option Pattern</h2><p>最後にDave Cheney氏が提案したデザインパターンである<a href=https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html>Functional Options</a>があります．先程と同様に内部では構造体を用いますが，ユーザーに構造体の状態を変更する関数を指定させます．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000;font-weight:700>type</span> GreetOpts <span style=color:#000;font-weight:700>struct</span> {
+	GreetingWord <span style=color:#458;font-weight:700>string</span>
+}
+
+<span style=color:#000;font-weight:700>type</span> option <span style=color:#000;font-weight:700>func</span>(<span style=color:#000;font-weight:700>*</span>GreetOpts)
+
+<span style=color:#998;font-style:italic>// GreetingWord引数を設定する関数
+</span><span style=color:#998;font-style:italic></span><span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>GreetingWord</span>(v <span style=color:#458;font-weight:700>string</span>) option {
+	<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>func</span>(g <span style=color:#000;font-weight:700>*</span>GreetOpts) {
+		g.GreetingWord = v
+	}
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>Greet</span>(name <span style=color:#458;font-weight:700>string</span>, opts <span style=color:#000;font-weight:700>...</span>option) {
+	<span style=color:#998;font-style:italic>// デフォルトパラメータを定義
+</span><span style=color:#998;font-style:italic></span>	g <span style=color:#000;font-weight:700>:=</span> <span style=color:#000;font-weight:700>&amp;</span>GreetOpts{
+		GreetingWord: <span style=color:#d14>&#34;Hello&#34;</span>,
+	}
+	
+	<span style=color:#998;font-style:italic>// ユーザーから渡された値だけ上書き
+</span><span style=color:#998;font-style:italic></span>	<span style=color:#000;font-weight:700>for</span> _, opt <span style=color:#000;font-weight:700>:=</span> <span style=color:#000;font-weight:700>range</span> opts {
+		<span style=color:#900;font-weight:700>opt</span>(g)
+	}
+
+	fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#d14>&#34;%s, %s!\n&#34;</span>, g.GreetingWord, name)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>)                      <span style=color:#998;font-style:italic>// Hello, gopher!
+</span><span style=color:#998;font-style:italic></span>	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>, <span style=color:#900;font-weight:700>GreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>)) <span style=color:#998;font-style:italic>// Hey, gopher!
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>確かに，このパターンを用いると，引数を何も指定しない場合は省略でき，ポインタの指定なども必要ないので，引数の構造体パターンよりも便利そうです！</p><p>ただ，実装によって引数とその引数を設定する関数の名前が異なるのが若干煩わしい気もします．実装者側もパラメータ毎に関数を定義する必要があるので記述量は増えそうですね．</p><h2 id=おわりに>おわりに</h2><p>やはり総合的にはFunctional Optionsが良さそうですね．正直オプショナル引数ぐらいあれば良いのに…と書きながら思ったのですが，そういう「あっても良いけどマストじゃない機能」を削ぎ落とした結果がGoのシンプルさに繋がっているのかなとも思いました．</p><p>あと，<a href="https://github.com/search?l=Go&o=desc&q=stars%3A%3E10000&s=stars&type=Repositories">GoのリポジトリのStar数ランキング</a>を見ながらデフォルト引数が使われているのか見ていたのですが，そもそもあまり使われてないようですね．そういう意味ではきちんと最初の「引数を変えるパターン」でシンプルに実装されているライブラリが多いということなのかもしれません．</p><p>デフォルト引数として使われているかは不明ですが，関数の引数が構造体を取るパターンは大規模なライブラリでもよく見られました．逆にFunctional Optionsは比較的新しめ・小さめのライブラリ（ex. <a href=https://github.com/vbauerster/mpb>vbauerster/mpb</a>）で使われている印象でした．</p><p>もしFunctional Optionsを採用している大きなプロジェクトとかあったらぜひ教えて下さい．</p><h2 id=参考>参考</h2><ul><li><a href=https://medium.com/@petomalina/dealing-with-optional-parameters-in-go-9780f9bfbd1d>Dealing with Optional Parameters in Go - Peter Malina - Medium</a></li><li><a href=https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html>Self-referential functions and the design of options</a></li><li><a href=https://blog.kazu69.net/2018/02/22/golang-functional-options/>golangの関数のオプション引数を実現する | 69log</a></li></ul><hr><h2 id=ps-appliable-functional-option-pattern-afop>P.S Appliable Functional Option Pattern (AFOP)</h2><ul><li><a href=https://ww24.jp/2019/07/go-option-pattern/>Functional Option Pattern に次ぐ、オプション引数を実現する方法</a></li></ul><p>Functional Option Patternの問題点として，パラメータに同じ値を設定する場合でも返り値の関数が同値とならないことが挙げられるそうです．これは mock を用いたテストにおいて問題となります．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	fmt.<span style=color:#900;font-weight:700>Println</span>(reflect.<span style=color:#900;font-weight:700>DeepEqual</span>(<span style=color:#900;font-weight:700>GreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>), <span style=color:#900;font-weight:700>GreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>))) <span style=color:#998;font-style:italic>// false
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>上の記事ではこれを解決するFOPとしてAFOPを提案しています．</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000;font-weight:700>type</span> GreetOpts <span style=color:#000;font-weight:700>struct</span> {
+	GreetingWord <span style=color:#458;font-weight:700>string</span>
+}
+
+<span style=color:#000;font-weight:700>type</span> option <span style=color:#000;font-weight:700>interface</span> {
+	<span style=color:#900;font-weight:700>Apply</span>(<span style=color:#000;font-weight:700>*</span>GreetOpts)
+}
+
+<span style=color:#000;font-weight:700>type</span> GreetingWord <span style=color:#458;font-weight:700>string</span>
+
+<span style=color:#000;font-weight:700>func</span> (o GreetingWord) <span style=color:#900;font-weight:700>Apply</span>(g <span style=color:#000;font-weight:700>*</span>GreetOpts) {
+	g.GreetingWord = <span style=color:#0086b3>string</span>(o)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>SetGreetingWord</span>(v <span style=color:#458;font-weight:700>string</span>) GreetingWord {
+	<span style=color:#000;font-weight:700>return</span> <span style=color:#900;font-weight:700>GreetingWord</span>(v)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>Greet</span>(name <span style=color:#458;font-weight:700>string</span>, opts <span style=color:#000;font-weight:700>...</span>option) {
+	g <span style=color:#000;font-weight:700>:=</span> <span style=color:#000;font-weight:700>&amp;</span>GreetOpts{
+		GreetingWord: <span style=color:#d14>&#34;Hello&#34;</span>,
+	}
+	<span style=color:#000;font-weight:700>for</span> _, opt <span style=color:#000;font-weight:700>:=</span> <span style=color:#000;font-weight:700>range</span> opts {
+		opt.<span style=color:#900;font-weight:700>Apply</span>(g)
+	}
+
+	fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#d14>&#34;%s, %s!\n&#34;</span>, g.GreetingWord, name)
+}
+
+<span style=color:#000;font-weight:700>func</span> <span style=color:#900;font-weight:700>main</span>() {
+	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>)                                                          <span style=color:#998;font-style:italic>// Hello, gopher!
+</span><span style=color:#998;font-style:italic></span>	<span style=color:#900;font-weight:700>Greet</span>(<span style=color:#d14>&#34;gopher&#34;</span>, <span style=color:#900;font-weight:700>SetGreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>))                                  <span style=color:#998;font-style:italic>// Hey, gopher!
+</span><span style=color:#998;font-style:italic></span>	fmt.<span style=color:#900;font-weight:700>Println</span>(reflect.<span style=color:#900;font-weight:700>DeepEqual</span>(<span style=color:#900;font-weight:700>GreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>), <span style=color:#900;font-weight:700>GreetingWord</span>(<span style=color:#d14>&#34;Hey&#34;</span>))) <span style=color:#998;font-style:italic>// true
+</span><span style=color:#998;font-style:italic></span>}
+</code></pre></div><p>またこのAFOPパターンは<a href=https://github.com/googleapis/google-api-go-client/blob/v0.7.0/option/option.go>googleapis/google-api-go-client</a> で使われているみたいですね．</p></div></article><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//raahii.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a><h3>こちらの記事もどうぞ</h3><ul class="related-content article-content"><li><a href=/posts/aircon-timer-with-google-home-and-nature-remo/>Google HomeとNature Remoでエアコンのタイマーを快適にセットする</a></li><li><a href=/posts/read-file-faster-golang/>なぜioutil.ReadFileはioutil.ReadAllより速いか</a></li><li><a href=/posts/automating-hugo-builds-with-github-actions/>HugoのビルドをGithub Actionで自動化する</a></li><li><a href=/posts/permutations-in-go/>Goで順列（permutation）を実装する</a></li><li><a href=/posts/abc122/>ABC122 D - We Like AGC</a></li></ul></main><footer class=footer><ul class=footer-links><li><a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=https://raahii.github.io/images/hugo-logo.png width=22 height=22 alt="hugo log"></a></li></ul></footer></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-D4N0KPT2K2"></script><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-D4N0KPT2K2',{anonymize_ip:!1})}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css integrity=sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js integrity=sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script></body></html>
