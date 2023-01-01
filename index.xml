@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>1ミリもわからん</title><link>https://raahii.github.io/</link><description>Recent content on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Sun, 06 Nov 2022 12:30:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>「働くことについての本当に大切なこと」を読んだ</title><link>https://raahii.github.io/posts/meaning-of-work-for-you/</link><pubDate>Sun, 06 Nov 2022 12:30:00 +0900</pubDate><guid>https://raahii.github.io/posts/meaning-of-work-for-you/</guid><description>「『働く』ことについての本当に大切なこと」を再読した。就活のときに一度読んでおり、2019年だったと思うのでなんと3年ぶりになる、もうそんなに時間が経ったのか…。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>1ミリもわからん</title><link>https://raahii.github.io/</link><description>Recent content on 1ミリもわからん</description><generator>Hugo -- gohugo.io</generator><language>ja-JP</language><lastBuildDate>Fri, 30 Dec 2022 23:50:00 +0900</lastBuildDate><atom:link href="https://raahii.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>2022年の振り返り</title><link>https://raahii.github.io/posts/retrospective-2022/</link><pubDate>Fri, 30 Dec 2022 23:50:00 +0900</pubDate><guid>https://raahii.github.io/posts/retrospective-2022/</guid><description>目次 エンジニアリング 仕事 高度試験 個人開発 服 G.H.BASS / 厚底ローファー New Balance / M991 Grey New Balance / M991 UKF Steven Alan Barbour / Transport Jacket コーヒー サウナ 料理 スパイスカレー 麻婆豆腐 さいごに エンジニアリング 仕事 これについては書くか迷ったのだけど一応。
+2020年に就職してきちんとしたサービスのコードに関わるようになってから丸2年ということろだが、2021年は色々新しいこと、大きめのプロジェクトに関われた年であったのに対し、今年はプロダクトに新機能の開発がほとんどなく、ずっとリファクタリングしていたような年だった。
+（詳しく書き始めたら長くなってしまったので割愛）
+個人的にはそろそろ変化を求める時期かなぁという感じ。体外発表とかも全くできていないので、来年は新しいことをやる→アウトプットするの循環を良くしていきたいところ。
+高度試験 これはエンジニアリングではないが、技術的な話として。
+今年は業務で触れる領域について一通り基本を習得したい気持ちがあり、IPA の高度試験を受けた。
+春に ネットワークスペシャリスト（ネスペ）、秋に データベーススペシャリスト（デスペ） を受けて両方とも合格した。どちらも国家資格というだけあって簡単ということはなく、ネスペは100時間ほど、デスペは50時間ほどの準備が必要だった。
+資格勉強というのは、合格のための対策と、業務にもつながるように知識を掘り下げることのバランスを取るのが難しいのだが、ひとまずこうしてまとまったインプットができたのは良かったと思う。試験当日は緊張感もあってピシッとするので、たまには良いなと思えるイベントだった。 （この辺の受験記も記事にしようと思って結局やらずじまい…）
+特にネットワークスペシャリストは学びが多く、知らないことだらけだったことを痛感した。流石にL1、L2レベルの話を業務で触れることはほぼないが、L3〜くらいの知識はかなり生きると感じる。バックエンドエンジニアとしてはネットワークスペシャリストは学習の題材として良いと思う。
+ちなみに自分は基本情報も応用情報も持っておらず、初回のネットワークスペシャリストでは午前1 から受けたのだが 圧倒的に退屈・虚無だった ので、午前免除があるうちにセキュリティ系の資格も取ろうかな、と考えている。
+ネットワーク・データーベース・セキュリティを押さえればウェブエンジニアの足回りとしては一通り良さそう。
+個人開発 haraiai という LINE Bot を作った。</description></item><item><title>「働くことについての本当に大切なこと」を読んだ</title><link>https://raahii.github.io/posts/meaning-of-work-for-you/</link><pubDate>Sun, 06 Nov 2022 12:30:00 +0900</pubDate><guid>https://raahii.github.io/posts/meaning-of-work-for-you/</guid><description>「『働く』ことについての本当に大切なこと」を再読した。就活のときに一度読んでおり、2019年だったと思うのでなんと3年ぶりになる、もうそんなに時間が経ったのか…。
 ソフトウェアエンジニアとして働き始めてからは2年が経って、もはや働くのは日常になった。徐々に惰性の要素が増えていきている気がして、そもそも自分は何を目指して働いているのか見直したくなった。
 全体をパラパラと読みつつも、主には1章をヒントにして自分にとっての働く意味について考えていた。結論として、一言で書くと自己実現というところに落ち着いた気がする。
 ちなみに本書の1章で紹介されている働く意味は、次の3つだった。
