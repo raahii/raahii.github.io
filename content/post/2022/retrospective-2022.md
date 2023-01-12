@@ -5,7 +5,7 @@ date = 2022-12-30T23:50:00+09:00
 categories = ["振り返り"] # 技術, 研究, 読書, レビュー, 旅行
 images = ["https://images-na.ssl-images-amazon.com/images/I/61l-Ez-KYPL.jpg"]
 keywords = ["2022", "振り返り", "サウナ", "コーヒー", "ファッション"]
-draft = false
+draft = true
 +++
 
 {{< toc >}}
