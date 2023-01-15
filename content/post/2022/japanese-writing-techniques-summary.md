@@ -7,6 +7,7 @@ images = ["https://images-na.ssl-images-amazon.com/images/I/71qGRRfnw5L.jpg"]
 keywords = ["日本語の作文技術", "本田勝一", "修飾する側とされる側", "修飾の順序", "句読点のうちかた"]
 description = "本田勝一「日本語の作文技術」のまとめ"
 draft = false
+canonicalUrl = "https://raahii.me/posts/japanese-writing-techniques-summary"
 +++
 
 {{< image src="https://images-na.ssl-images-amazon.com/images/I/71qGRRfnw5L.jpg" width="200px" link="https://www.amazon.co.jp/dp/B01MYXH4J1" alt="本田勝一「日本語の作文技術」" >}}

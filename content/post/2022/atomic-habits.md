@@ -7,7 +7,7 @@ images = ["https://images-na.ssl-images-amazon.com/images/I/61l-Ez-KYPL.jpg"]
 keywords = ["複利で伸びる1つの習慣", "ジェームズ・クリアー", "習慣形成"]
 description = "習慣形成のプロセスと本を読んだ感想"
 draft = false
-
+canonicalUrl = "https://raahii.me/posts/atomic-habits"
 +++
 
 

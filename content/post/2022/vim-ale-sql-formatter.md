@@ -7,6 +7,7 @@ images = ["https://user-images.githubusercontent.com/3518142/59195920-2c339500-8
 keywords = ["Neovim", "sql-formatter", "vim", "ALE", "フォーマッター"]
 description = "Vim ALE と sql-formatter で SQL を整形する"
 draft = false
+canonicalUrl = "https://raahii.me/posts/vim-ale-sql-formatter"
 +++
 
 

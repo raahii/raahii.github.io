@@ -6,6 +6,7 @@ images = ["https://images-na.ssl-images-amazon.com/images/I/61l-Ez-KYPL.jpg"]
 keywords = ["選択の科学", "シーナ アイエンガー", "コロンビア大学ビジネススクール特別講義"]
 description = "シーナ アイエンガー「選択の科学」を読んだ"
 draft = false
+canonicalUrl = "https://raahii.me/posts/the-art-of-choosing"
 +++
 
 

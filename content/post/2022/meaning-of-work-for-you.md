@@ -7,7 +7,7 @@ images = ["https://images-na.ssl-images-amazon.com/images/I/71qGRRfnw5L.jpg"]
 keywords = ["働く意味","キャリア"]
 description = "古野 庸一「『働く』ことについての本当に大切なこと」を読んだ"
 draft = false
-
+canonicalUrl = "https://raahii.me/posts/meaning-of-work-for-you"
 +++
 
 {{< image src="https://m.media-amazon.com/images/P/B0874FHY9C.01._SCLZZZZZZZ_SX500_.jpg" width="200px" link="https://www.amazon.co.jp/dp/4561217266" alt="古野 庸一「『働く』ことについての本当に大切なこと」" >}}
