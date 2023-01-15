@@ -1,4 +1,4 @@
 [submodule "themes/hugo-lithium-theme"]
 	path = themes/hugo-lithium-theme
 	url = https://github.com/raahii/hugo-lithium-theme.git
-	branch = master
+	branch = main
