@@ -7,7 +7,7 @@ images = ["https://raahii.github.io/images/2022/haraiai-line/ogp.jpg"]
 keywords = ["個人開発"]
 description = "LINE上で手軽に割り勘できるサービスを作った"
 draft = false
-canonicalUrl = "https://raahii.me/posts/haraiai-line"
+canonicalUrl = "https://raahii.me/posts/haraiai-line/"
 +++
 
 
