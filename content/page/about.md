@@ -1,6 +1,7 @@
 +++
 title = "AboutMe"
 draft = false
+canonicalUrl = "https://raahii.me/"
 +++
 
 # About Me
