@@ -524,3 +524,16 @@ p + .highlight {
     font-size: inherit;
   }
 }
+
+.deprecated-notice {
+  background-color: rgb(255, 244, 229);
+  color: rgb(102, 60, 0);
+  width: 100%;
+  padding: 8px 16px;
+}
+
+.deprecated-notice a {
+  color: rgb(102, 60, 0);
+  font-style: bold;
+  text-decoration: underline;
+}
