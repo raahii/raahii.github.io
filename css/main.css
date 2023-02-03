@@ -528,7 +528,8 @@ p + .highlight {
 .deprecated-notice {
   background-color: rgb(255, 244, 229);
   color: rgb(102, 60, 0);
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   padding: 8px 16px;
 }
 
