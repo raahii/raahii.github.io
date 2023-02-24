@@ -7,6 +7,7 @@ images = ["https://miro.medium.com/max/900/1*5JgbHNxldQcCocld6mfEkQ.jpeg"]
 keywords = ["mysql", "master slave", "replication", "docker", "docker-compose"]
 description = "MySQLのmaster slave構成をDockerで試す"
 draft = false
+canonicalUrl = "https://raahii.me/posts/docker-mysql-master-slave-replication/"
 +++
 
 

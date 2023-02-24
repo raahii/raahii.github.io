@@ -7,6 +7,7 @@ images = [""]
 keywords = ["coc.nvim", "golint", "LSP", "Language Server", "coc-diagnostic", "configuration", "設定"]
 description = "coc.nvimでgolintを使えるようにする"
 draft = false
+canonicalUrl = "https://raahii.me/posts/setup-golint-coc-nvim/"
 +++
 
 

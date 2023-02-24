@@ -7,7 +7,7 @@ images = ["https://i.ytimg.com/vi/xBYzglyidIc/maxresdefault.jpg"]
 keywords = ["オプショナル引数", "デフォルト引数", "オプショナルパラメータ", "オプショナル引数", "関数オプション引数", "Functional Options", "Functional Option Pattern", "Go", "golang"]
 description = "Goのオプショナル引数の実装パターン"
 draft = false
-
+canonicalUrl = "https://raahii.me/posts/optional-parameters-in-go/"
 +++
 
 

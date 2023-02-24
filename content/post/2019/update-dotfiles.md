@@ -6,6 +6,7 @@ tags = ["dotfile", "golang", "インターン"]
 draft = false
 description = "デフォルトシェルをfishに変えて，makefileで自動インストールできるようにdotfileを改善した"
 aliases = ["/2019/02/13/update-dotfiles", "/2019/02/update-dotfiles"]
+canonicalUrl = "https://raahii.me/posts/update-dotfiles/"
 +++
 
 

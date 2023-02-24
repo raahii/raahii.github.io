@@ -7,6 +7,7 @@ images = ["https://raahii.github.io/images/2019/aircon/thumb.jpg"]
 keywords = ["エアコン", "タイマー", "Nature Remo", "エアコンタイマー", "Google Home", "スマートスピーカー", "入タイマー"]
 description = "Google HomeとNature Remoを活用してエアコンの入タイマーをかんたんに設定する"
 draft = false
+canonicalUrl = "https://raahii.me/posts/aircon-timer-with-google-home-and-nature-remo/"
 +++
 
 

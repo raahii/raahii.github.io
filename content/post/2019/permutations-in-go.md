@@ -6,6 +6,7 @@ tags = ["golang", "競プロ"]
 draft = false
 description = "golangによる配列要素の並び替えパターンの列挙の実装"
 aliases = ["/2019/04/07/permutations-in-go", "/2019/04/permutations-in-go"]
+canonicalUrl = "https://raahii.me/posts/permutations-in-go/"
 +++
 
 

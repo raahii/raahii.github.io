@@ -6,6 +6,7 @@ tags = ["python", "機械学習", "backend", "http"]
 draft = false
 description = "画像データをサーバーにPOSTする"
 aliases = ["/2019/08/04/files-upload", "/2019/08/files-upload"]
+canonicalUrl = "https://raahii.me/posts/files-upload/"
 +++
 
 機械学習を使ったサービス/アプリを開発しているとクライアントから画像をサーバーに送って推論して結果を返す，ということをよくやるのでメモ．

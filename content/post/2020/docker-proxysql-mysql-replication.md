@@ -9,11 +9,7 @@ description = "ProxySQLでMySQLを負荷分散する "
 draft = false
 toc = true
 thumbnail = true
-tldr = [
-  "Docker上にProxySQLとMySQL（構成: master1 + slave2）を構築",
-  "sysbenchを使ってリクエストを送り、負荷分散されることを確認",
-  "様子を Prometheus + Grafana を使ってモニタリングしてみる"
-  ]
+canonicalUrl = "https://raahii.me/posts/docker-proxysql-mysql-replication/"
 +++
 
 ## はじめに
